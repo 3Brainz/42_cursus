@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libft.a
+NAME = libprintf.a
 
 CC = gcc
 
@@ -22,7 +22,12 @@ RAN = ranlib
 
 SEPARATOR = "---------------------------------------------------------------"
 
-SRCS =		ft_memset.c \
+PRINTF_SRCS =	ft_printf.c \
+				ft_is_arg.c
+
+LIBFT_DIR = ../libft/
+
+LIBFT_SRCS =ft_memset.c \
 			ft_bzero.c \
 			ft_memcpy.c \
 			ft_memccpy.c \
@@ -55,9 +60,8 @@ SRCS =		ft_memset.c \
 			ft_putchar_fd.c \
 			ft_putendl_fd.c \
 			ft_putstr_fd.c \
-			ft_putnbr_fd.c 
-
-BNS_SRCS =	ft_lstnew.c \
+			ft_putnbr_fd.c \
+			ft_lstnew.c \
 			ft_lstadd_front.c \
 			ft_lstsize.c \
 			ft_lstlast.c \
@@ -66,8 +70,13 @@ BNS_SRCS =	ft_lstnew.c \
 			ft_lstclear.c \
 			ft_lstiter.c \
 			ft_lstmap.c
+BNS_SRCS =	
 
-OBJS = ${SRCS:.c=.o}
+OBJS = ${PRINTF_SRCS:.c=.o}
+
+LIBFT_DIRSRCS = $(addprefix ${LIBFT_DIR}, ${LIBFT_SRCS})
+
+LIBFT_OBJS = ${LIBFT_DIRSRCS:%.c=%.o}
 
 BNS_OBJS = $(BNS_SRCS:%.c=%.o)
 
@@ -77,7 +86,8 @@ RM = rm -f
 	${CC} ${FLAGS} $<
 
 $(NAME): ${OBJS}
-	${AR} ${NAME} ${OBJS}
+	${CC} ${FLAGS} ${LIBFT_DIR}${LIBFT_SRCS}
+	${AR} ${NAME} ${OBJS} ${LIBFT_OBJS}
 	${RAN} ${NAME}
 
 bonus: $(NAME)
@@ -93,6 +103,9 @@ fclean: clean
 	${RM} ${NAME}
 
 re: fclean all
+
+aaa :
+	echo ${LIBFT_OBJS}
 
 karen:
 	@echo "Karen is judging your header ${SEPARATOR}"

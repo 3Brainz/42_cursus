@@ -15,8 +15,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdarg.h>
-# define CONVERSION_VALUES "cspdiuxX%"
-# define FLAGS "-+ #0"
 
 typedef unsigned char	t_uc;
 typedef struct	s_list
@@ -24,18 +22,6 @@ typedef struct	s_list
 	void *content;
 	void *next;
 }				t_list;
-
-typedef struct s_flags
-{
-    int flag_minus;
-    int flag_zero;
-    int width;
-    int dot;	     // to know if there is precision
-    int precision;   // initially set as -1 instead of 0
-    int flag_pre_va; // if precision is a variable argument
-    int num_m;	     // is number negative?
-    char type;
-}              t_flags;
 
 void			ft_bzero(void *s, size_t n);
 void			*ft_memcpy(void *dst, const void *src, size_t n);
@@ -80,7 +66,5 @@ void			ft_lstdelone(t_list *lst, void (*del)(void *));
 void			ft_lstclear(t_list **lst, void (*del)(void *));
 void			ft_lstiter(t_list *lst, void (*f)(void *));
 t_list			*ft_lstmap(t_list *l, void *(*f)(void *), void (*del)(void *));
-int				ft_is_conversion(char c);
-int				is_in_charset(char c, char *charset);
 
 #endif
