@@ -14,7 +14,7 @@ NAME = libprintf.a
 
 CC = gcc
 
-FLAGS = -Wall -Wextra -Werror -c
+CFLAGS = -Wall -Wextra -Werror -c -g
 
 AR = ar -rc
 
@@ -76,36 +76,34 @@ OBJS = ${PRINTF_SRCS:.c=.o}
 
 LIBFT_DIRSRCS = $(addprefix ${LIBFT_DIR}, ${LIBFT_SRCS})
 
-LIBFT_OBJS = ${LIBFT_DIRSRCS:%.c=%.o}
+LIBFT_OBJS = ${LIBFT_DIRSRCS:.c=.o}
 
-BNS_OBJS = $(BNS_SRCS:%.c=%.o)
+BNS_OBJS = $(BNS_SRCS:.c=.o)
 
 RM = rm -f
 
-%.o: %.c
-	${CC} ${FLAGS} $<
+.o.c: ${CC} ${CFLAGS} $<
 
-$(NAME): ${OBJS}
-	${CC} ${FLAGS} ${LIBFT_DIR}${LIBFT_SRCS}
-	${AR} ${NAME} ${OBJS} ${LIBFT_OBJS}
-	${RAN} ${NAME}
+$(NAME): ${OBJS} ${LIBFT_OBJS}
+	@${AR} ${NAME} ${OBJS} ${LIBFT_OBJS}
+	@${RAN} ${NAME}
 
 bonus: $(NAME)
-	gcc $(FLAGS) -c $(BNS_SRCS) -I ./
-	ar rc $(NAME) $(BNS_OBJS)
+	@ gcc $(CFLAGS) -c $(BNS_SRCS) -I ./
+	@ ar rc $(NAME) $(BNS_OBJS)
 
 all: ${NAME}
 
 clean:
-	${RM} ${OBJS} $(BNS_OBJS)
+	@${RM} ${OBJS} $(BNS_OBJS) ${LIBFT_OBJS}
 
 fclean: clean
-	${RM} ${NAME}
+	@${RM} ${NAME}
 
 re: fclean all
 
-aaa :
-	echo ${LIBFT_OBJS}
+c: fclean all
+	@make clean
 
 karen:
 	@echo "Karen is judging your header ${SEPARATOR}"

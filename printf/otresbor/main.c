@@ -1,13 +1,11 @@
 #include "libprintf.h"
 #include <stdio.h>
-
+/*%[flags][width][.precision][length]specifier*/
 int main()
 {
-  //  ft_printf("s i i",  "comme" , "va");
-    t_flags flags;
-    //flags = flags_analyzer("");
-    //printf("%i",flags.width);
-    flags = new_flag();
-	flag_cleaner(&flags);
-    printf("%i", ft_is_conversion('c'));
+   // t_flags flags;
+
+    ////flags = new_flag();
+	//flag_cleaner(&flags);
+	int a = ft_printf("%%%%");
 }

@@ -3,17 +3,19 @@
 //%[flags][width][.precision][length]specifier
 //-0.*
 /*
-typedef struct s_flags
+typedef struct	s_flags
 {
 	int flag_minus;
 	int flag_zero;
+	int star_width;
 	int width;
-	int dot;		 // to know if there is precision
-	int precision;   // initially set as -1 instead of 0
-	int flag_pre_va; // if precision is a variable argument
-	int num_m;		 // is number negative?
+	int star_dot;
+	int dot;			// to know if there is precision
+	int precision;		// initially set as -1 instead of 0
+	int flag_pre_va;	// if precision is a variable argument
+	int num_m;			// is number negative?
 	char type;
-}			  t_flags;
+}				t_flags;
 */
 /*pulisce una flag inserita*/
 void flag_cleaner(t_flags *flags)
@@ -22,9 +24,9 @@ void flag_cleaner(t_flags *flags)
 	flags->flag_zero = 0;
 	flags->star_width = 0;
 	flags->width = 0;
+	flags->star_dot = 0;
 	flags->dot = 0;
 	flags->precision = 0;
-	flags->flag_pre_va = 0;
     flags->num_m = 0;
     flags->type = 0;
 }
@@ -75,7 +77,7 @@ int ft_is_width(char c)
 /*char to integer*/
 int ft_ctoi(char c)
 {
-	return (c + '0');
+	return (c - '0');
 }
 /*manager per la width/*/
 void ft_width_handler(t_flags *flags, char c, va_list list)
@@ -90,19 +92,48 @@ void ft_width_handler(t_flags *flags, char c, va_list list)
 	else if(ft_isdigit(c))
 		flags->width = (flags->width * 10) + ft_ctoi(c);
 }
+/*manager per la precision*/
+void ft_precision_handler(t_flags *flags, char c, va_list list)
+{
+	if (flags->star_dot)
+		return;
+	if (c == '*')
+	{
+		flags->precision = va_arg(list, int);
+		flags->star_dot = 1;
+	}
+	else if(ft_isdigit(c))
+		flags->precision = (flags->precision * 10) + ft_ctoi(c);
+}
+/*manager del tipo*/
+void ft_type_handler(t_flags *flags, char c)
+{
+	if (ft_is_conversion(c))
+		flags->type = c;
+}
 /*riempie la struttura flags di una chiamata*/
 size_t flag_filler(char *str, t_flags *flags, va_list list)
 {
 	size_t flag_index;
 
 	flag_index = 0;
-	while (ft_is_flag(str[flag_index++]))
-		ft_flagger(flags, str[flag_index]);
-	while (ft_is_width(str[flag_index++]))
-		ft_width_handler(flags,str[flag_index], list);
+	while (ft_is_flag(str[flag_index]))
+		ft_flagger(flags, str[flag_index++]);
+	while (ft_is_width(str[flag_index]))
+		ft_width_handler(flags,str[flag_index++], list);
+	if (str[flag_index] == '.')
+	{
+		flag_index++;
+		while (ft_is_width(str[flag_index]))
+			ft_precision_handler(flags, str[flag_index++], list);
+	}
+	ft_type_handler(flags, str[flag_index]);
+	if(flags->type)
+		flag_index++;
 	return (flag_index);
 }
 
+/*
 t_flags new_flag(void)
 {
 	t_flags flag;
@@ -117,4 +148,4 @@ t_flags new_flag(void)
 	flag.num_m = 0;
 	flag.type = 0;
 	return (flag);
-}
+}*/
