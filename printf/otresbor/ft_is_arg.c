@@ -1,4 +1,5 @@
-#include "libprintf.h"
+#include "libftprintf.h"
+#include <stdio.h>
 
 void	flag_cleaner(t_flags *flags)
 {
@@ -165,12 +166,13 @@ void	ft_put_series_fd(char c, size_t len,int fd)
 	}
 }
 
-void	ft_integer_positioner(char *str, t_flags *flags)
+size_t	ft_integer_positioner(char *str, t_flags *flags)
 {
 	size_t len;
 	size_t g_index;
 	size_t g_len;
 
+	g_len = 0;
 	g_index = 0;
 	len = ft_strlen(str);
 	if (is_integer_specifier(flags->type))
@@ -203,6 +205,7 @@ void	ft_integer_positioner(char *str, t_flags *flags)
 		else
 			ft_putstr_fd(str, 1);
 	}
+	return (len + g_len + (size_t)(flags->num_m));
 }
 
 void	char_printer(t_flags *flags, va_list list)
@@ -217,23 +220,27 @@ void	char_printer(t_flags *flags, va_list list)
 	free (str);
 }
 
-void	dio_printer(t_flags *flags, va_list list)
+size_t	dio_printer(t_flags *flags, va_list list)
 {
-	int i;
-	char *str;
+	int		i;
+	char	*str;
+	size_t	r_val;
 
 	i = va_arg(list, int);
 	if (i < 0)
 		flags->num_m = 1;
 	str = ft_itoa(i);
-	ft_integer_positioner(str, flags);
+	r_val = ft_integer_positioner(str, flags);
 	free (str);
+	printf ("|%zu|", r_val);
+	return (r_val);
 }
 
-void	type_manager(t_flags *flags, va_list list)
+size_t	type_manager(t_flags *flags, va_list list)
 {
 	if (flags->type == 'c')
-		char_printer(flags, list);
+		(char_printer(flags, list));
 	if (flags->type == 'i')
-		dio_printer(flags, list);
+		return (dio_printer(flags, list));
+	return (0);
 }

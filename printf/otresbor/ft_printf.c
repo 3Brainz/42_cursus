@@ -1,4 +1,4 @@
-#include "libprintf.h"
+#include "libftprintf.h"
 
 int	ft_printf(const char *string, ...)
 {
@@ -6,7 +6,9 @@ int	ft_printf(const char *string, ...)
 	va_list	list_v;
 	size_t	index;
 	size_t	flag_size;
+	size_t	added;
 
+	added = 0;
 	index = 0;
 	flag_size = 0;
 	flag_cleaner(&flags);
@@ -18,16 +20,17 @@ int	ft_printf(const char *string, ...)
 			index++;
 			flag_size = flag_filler((char *)&string[index], &flags, list_v);
 			if (flags.type)
-				type_manager(&flags, list_v);
+				added += type_manager(&flags, list_v);
+		}
+		else
+		{
+			write(1, &string[index], 1);
+			added++;
 		}
 		index += flag_size;
 		flag_size = 0;
-		if (string[index] != '%')
-		{
-			write(1, &string[index], 1);
-			index++;
-		}
+		index++;
 	}
 	va_end(list_v);
-	return (1);
+	return (added);
 }
