@@ -17,6 +17,8 @@ int	ft_printf(const char *string, ...)
 		{
 			index++;
 			flag_size = flag_filler((char *)&string[index], &flags, list_v);
+			if (flags.type)
+				type_manager(&flags, list_v);
 		}
 		index += flag_size;
 		flag_size = 0;

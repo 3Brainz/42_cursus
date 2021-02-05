@@ -105,6 +105,7 @@ re: fclean all
 c: 
 	@make re &> /dev/null
 	@make clean &> /dev/null
+	@say -v Kyoko センパイを走らせて
 
 karen:
 	@echo "Karen is judging your header ${SEPARATOR}"
