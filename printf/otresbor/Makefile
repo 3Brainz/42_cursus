@@ -102,8 +102,9 @@ fclean: clean
 
 re: fclean all
 
-c: fclean all
-	@make clean
+c: 
+	@make re &> /dev/null
+	@make clean &> /dev/null
 
 karen:
 	@echo "Karen is judging your header ${SEPARATOR}"
