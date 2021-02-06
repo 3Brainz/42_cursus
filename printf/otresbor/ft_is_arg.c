@@ -232,19 +232,52 @@ char	*ft_integer_positioner(char **str, t_flags *flags)
 	return (temp);
 }
 
+void	ft_print_also_null(char *str, size_t len)
+{
+	size_t index;
+
+	index = 0;
+	while (index < len)
+		ft_putchar_fd(str[index++], 1);
+}
+
+char	*appendixer_char(t_flags *flags, size_t *r_val, char c)
+{
+	char	*res;
+	char	*appendix;
+
+	appendix = appendix_creator(' ', flags->width, 0);
+	if (flags->flag_minus)
+		appendix[0] = c;
+	else
+		appendix[flags->width - 1] = c;
+	res = appendix;
+	*r_val = flags->width;
+	return (res);
+}
+
 size_t	char_printer(t_flags *flags, va_list list)
 {
 	char	c;
-	char 	*str;
+	char	*str;
 	char	*res;
+	char	*appendix;
 	size_t	r_val;
 
+	appendix = NULL;
 	c = va_arg(list, int);
 	str = ft_calloc(sizeof(char), 2);
 	str[0] = c;
-	res = ft_integer_positioner(&str, flags);
-	ft_putstr_fd(res, 1);
-	r_val = ft_strlen(res);
+	if (flags->width > 1)
+		res = appendixer_char(flags , &r_val, c);
+	else
+	{
+		res = ft_strdup(str);
+		r_val = ft_strlen(res);
+	}
+	if (r_val == 0)
+		r_val = 1;
+	ft_print_also_null(res, r_val);
 	free(res);
 	free(str);
 	return (r_val);

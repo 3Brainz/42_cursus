@@ -23,6 +23,7 @@ int	ft_printf(const char *string, ...)
 			if (flags.type)
 				added += type_manager(&flags, list_v);
 			index += flag_size - 1;
+			flag_cleaner (&flags);
 		}
 		else
 		{
