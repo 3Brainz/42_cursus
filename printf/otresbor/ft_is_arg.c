@@ -269,7 +269,7 @@ size_t	char_printer(t_flags *flags, va_list list)
 	str = ft_calloc(sizeof(char), 2);
 	str[0] = c;
 	if (flags->width > 1)
-		res = appendixer_char(flags , &r_val, c);
+		res = appendixer_char(flags, &r_val, c);
 	else
 	{
 		res = ft_strdup(str);
@@ -345,6 +345,53 @@ size_t	unsigned_base_printer(t_flags *flags, va_list list, char *base)
 	return (r_val);
 }
 
+char	*ft_string_positioner(t_flags *flags,char *str)
+{
+	char *res;
+	char *temp;
+	char *appendix;
+	size_t	len;
+	if (flags->dot)
+		res = ft_substr(str, 0, flags->precision);
+	else
+		res = ft_strdup(str);
+	len = ft_strlen(res); 
+	if (flags->width > len)
+	{
+		appendix = appendix_creator(' ', flags->width - len, 0);
+		if (flags->flag_minus)
+			temp = ft_strjoin(res, appendix);
+		else
+			temp = ft_strjoin(appendix, res);
+		free(res);
+		free(appendix);
+		res = temp;
+	}
+	return (res);
+}
+
+size_t	string_printer(t_flags *flags, va_list list)
+{
+	char	*str;
+	char	*res;
+	int		allocated;
+	size_t	r_val;
+
+	allocated = 0;
+	if(!(str = va_arg(list, char*)))
+	{
+		str = ft_calloc(sizeof(char), 1);
+		allocated = 1;
+	}
+	res = ft_string_positioner(flags, str);
+	ft_putstr_fd(res, 1);
+	r_val = ft_strlen(res);
+	free(res);
+	if (allocated)
+		free (str);
+	return (r_val);
+}
+
 size_t	type_manager(t_flags *flags, va_list list)
 {
 	if (flags->type == 'c')
@@ -357,5 +404,7 @@ size_t	type_manager(t_flags *flags, va_list list)
 		return (unsigned_base_printer(flags, list, "0123456789abcdef"));
 	if (flags->type == 'X')
 		return (unsigned_base_printer(flags, list, "0123456789ABCDEF"));
+	if (flags->type == 's')
+		return (string_printer(flags, list));
 	return (0);
 }

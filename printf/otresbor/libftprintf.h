@@ -58,9 +58,11 @@ void			ft_put_series_fd(char c, size_t len,int fd);
 char			*appendix_creator(char fill, size_t len, int with_minus);
 char			*appendixer(char **str, size_t g_len, t_flags *flags);
 char			*ft_integer_positioner(char **str, t_flags *flags);
+void			ft_print_also_null(char *str, size_t len);
+char			*appendixer_char(t_flags *flags, size_t *r_val, char c);
 size_t			type_manager(t_flags *flags, va_list list);
-size_t			char_printer(t_flags *flags, va_list list);
-void			string_printer(t_flags *flags, va_list list);
+size_t			char_printer(t_flags *flags, va_list list);/*✅*/
+size_t			string_printer(t_flags *flags, va_list list);
 void			pointer_printer(t_flags *flags, va_list list);
 size_t			dio_printer(t_flags *flags, va_list list); /*✅*/
 size_t			unsigned_printer(t_flags *flags, va_list list); /*✅*/
