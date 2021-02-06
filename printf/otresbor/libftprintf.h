@@ -13,6 +13,7 @@
 #ifndef LIBFTPRINTF_H
 # define LIBFTPRINTF_H
 # include "../libft/libft.h"
+# include <stdio.h>
 # define CONVERSION_VALUES "cspdiuxX%"
 # define FLAGS "-+ #0"
 # define INTEGER_SPECIFIERS "diouxX"
@@ -49,16 +50,20 @@ size_t			flag_filler(char *str, t_flags *flags, va_list list);
 /*
 **Printers
 */
+char			*ft_itoa_base(unsigned n, char *charset);
 int				is_integer_specifier(char c);
 char			*zero_filled_string(size_t len, int with_minus);
 void			integer_precisioner(char **str, t_flags *flags);
 void			ft_put_series_fd(char c, size_t len,int fd);
+char			*appendix_creator(char fill, size_t len, int with_minus);
+char			*appendixer(char **str, size_t g_len, t_flags *flags);
 char			*ft_integer_positioner(char **str, t_flags *flags);
 size_t			type_manager(t_flags *flags, va_list list);
 void			char_printer(t_flags *flags, va_list list);
 void			string_printer(t_flags *flags, va_list list);
 void			pointer_printer(t_flags *flags, va_list list);
 size_t			dio_printer(t_flags *flags, va_list list); /*✅*/
+size_t			unsigned_printer(t_flags *flags, va_list list); /*✅*/
 void			hex_printer(t_flags *flags, va_list list);
 void			percentage_printer(t_flags *flags, va_list list);
 /*

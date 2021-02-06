@@ -23,7 +23,8 @@ RAN = ranlib
 SEPARATOR = "---------------------------------------------------------------"
 
 PRINTF_SRCS =	ft_printf.c \
-				ft_is_arg.c
+				ft_is_arg.c \
+				ft_itoa_base.c
 
 LIBFT_DIR = ../libft/
 

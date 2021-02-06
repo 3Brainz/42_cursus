@@ -66,3 +66,22 @@ char			*ft_itoa(int n)
 	ft_write_num(&num_s[sign], (long)n, num_len);
 	return (num_s);
 }
+
+char			*ft_uitoa(unsigned int n)
+{
+	char	*num_s;
+	int		sign;
+	int		num_len;
+
+	sign = 0;
+	num_len = ft_num_size(n);
+	if (n < 0)
+		sign = 1;
+	num_s = ft_calloc(num_len + sign + 1, sizeof(char));
+	if (!num_s)
+		return (0);
+	if (sign == 1)
+		num_s[0] = '-';
+	ft_write_num(&num_s[sign], (long)n, num_len);
+	return (num_s);
+}

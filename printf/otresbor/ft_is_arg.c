@@ -127,8 +127,8 @@ int		is_integer_specifier(char c)
 
 char	*zero_filled_string(size_t len, int with_minus)
 {
-	char *str;
-	size_t index;
+	char	*str;
+	size_t	index;
 
 	index = 0;
 	str = (char *)ft_calloc(sizeof(char), len + 1 + with_minus);
@@ -150,14 +150,15 @@ void	integer_precisioner(char **str, t_flags *flags)
 		return ;
 	else
 	{
-		zeros = zero_filled_string((flags->precision) - ft_strlen(*str) + is_negative, is_negative);
+		zeros = zero_filled_string((flags->precision) - ft_strlen(*str) +
+									is_negative, is_negative);
 		temp = ft_strjoin(zeros, *str + is_negative);
 		free(zeros);
 		*str = temp;
 	}
 }
 
-void	ft_put_series_fd(char c, size_t len,int fd)
+void	ft_put_series_fd(char c, size_t len, int fd)
 {
 	while (len)
 	{
@@ -183,12 +184,38 @@ char	*appendix_creator(char fill, size_t len, int with_minus)
 	return (appendix);
 }
 
+char	*appendixer(char **str, size_t g_len, t_flags *flags)
+{
+	char *appendix;
+	char *temp;
+
+	if (flags->flag_minus)
+	{
+		appendix = appendix_creator(' ', g_len, 0);
+		temp = ft_strjoin(*str, appendix);
+	}
+	else if (flags->flag_zero && !flags->dot)
+	{
+		if (flags->num_m)
+			appendix = appendix_creator('0', g_len + 1, 1);
+		else
+			appendix = appendix_creator('0', g_len, 0);
+		temp = ft_strjoin(appendix, *str + flags->num_m);
+	}
+	else
+	{
+		appendix = appendix_creator(' ', g_len, 0);
+		temp = ft_strjoin(appendix, *str);
+	}
+	free(appendix);
+	return (temp);
+}
+
 char	*ft_integer_positioner(char **str, t_flags *flags)
 {
 	size_t	len;
 	size_t	g_index;
 	size_t	g_len;
-	char	*appendix;
 	char	*temp;
 
 	g_len = 0;
@@ -198,25 +225,7 @@ char	*ft_integer_positioner(char **str, t_flags *flags)
 	if (flags->width > len)
 	{
 		g_len = flags->width - len;
-		if (flags->flag_minus)
-		{
-			appendix = appendix_creator(' ', g_len, 0);
-			temp = ft_strjoin(*str, appendix);
-		}
-		else if (flags -> flag_zero && !flags->dot)
-		{
-			if (flags->num_m)
-				appendix = appendix_creator('0', g_len, 1);
-			else
-				appendix = appendix_creator('0', g_len, 0);
-			temp = ft_strjoin(appendix, *str + flags->num_m);
-		}
-		else
-		{
-			appendix = appendix_creator(' ', g_len, 0);
-			temp = ft_strjoin(appendix, *str);
-		}
-		free (appendix);
+		temp = appendixer(str, g_len, flags);
 	}
 	else
 		temp = ft_strdup(*str);
@@ -232,7 +241,7 @@ void	char_printer(t_flags *flags, va_list list)
 	str = ft_calloc(sizeof(char), 2);
 	str[0] = c;
 	ft_integer_positioner(&str, flags);
-	free (str);
+	free(str);
 }
 
 size_t	dio_printer(t_flags *flags, va_list list)
@@ -245,12 +254,37 @@ size_t	dio_printer(t_flags *flags, va_list list)
 	i = va_arg(list, int);
 	if (i < 0)
 		flags->num_m = 1;
-	str = ft_itoa(i);
+	if (!(flags->dot && i == 0))
+		str = ft_itoa(i);
+	else
+		str = ft_strdup("");
 	res = ft_integer_positioner(&str, flags);
 	ft_putstr_fd(res, 1);
 	r_val = ft_strlen(res);
-	free (res);
-	free (str);
+	free(res);
+	free(str);
+	return (r_val);
+}
+
+size_t	unsigned_printer(t_flags *flags, va_list list)
+{
+	unsigned	i;
+	char		*str;
+	char		*res;
+	size_t		r_val;
+
+	i = va_arg(list, unsigned);
+	if (i < 0)
+		flags->num_m = 1;
+	if (!(flags->dot && i == 0))
+		str = ft_uitoa(i);
+	else
+		str = ft_strdup("");
+	res = ft_integer_positioner(&str, flags);
+	ft_putstr_fd(res, 1);
+	r_val = ft_strlen(res);
+	free(res);
+	free(str);
 	return (r_val);
 }
 
@@ -258,7 +292,9 @@ size_t	type_manager(t_flags *flags, va_list list)
 {
 	if (flags->type == 'c')
 		(char_printer(flags, list));
-	if (flags->type == 'i')
+	if (flags->type == 'i' || flags->type == 'd')
 		return (dio_printer(flags, list));
+	if (flags->type == 'u')
+		return (unsigned_printer(flags, list));
 	return (0);
 }
