@@ -166,45 +166,55 @@ void	ft_put_series_fd(char c, size_t len,int fd)
 	}
 }
 
-size_t	ft_integer_positioner(char *str, t_flags *flags)
+char	*appendix_creator(char fill, size_t len, int with_minus)
 {
-	size_t len;
-	size_t g_index;
-	size_t g_len;
+	char	*appendix;
+	size_t	index;
+
+	index = 0;
+	appendix = ft_calloc(sizeof(char), len + 1);
+	while (index < len)
+		appendix[len] = fill;
+	if (with_minus)
+		appendix[0] = '-';
+	return (appendix);
+}
+
+size_t	ft_integer_positioner(char **str, t_flags *flags)
+{
+	size_t	len;
+	size_t	g_index;
+	size_t	g_len;
+	char	*appendix;
+	char	*temp;
 
 	g_len = 0;
 	g_index = 0;
-	len = ft_strlen(str);
-	if (is_integer_specifier(flags->type))
+	integer_precisioner(*str, flags);
+	len = ft_strlen(*str);
+	if (flags->width > len)
 	{
-		//if (ft_atoi(str) == 0)
-		//{}
-		integer_precisioner(&str, flags);
-		len = ft_strlen(str);
-		if (flags->width > len)
+		g_len = flags->width - len;
+		if (flags->flag_minus)
 		{
-			g_len = flags->width - len;
-			if (flags->flag_minus)
-			{
-				ft_putstr_fd(str, 1);
-				ft_put_series_fd(' ', g_len, 1);
-			}
-			else if (flags -> flag_zero && !flags->dot)
-			{
-				if (flags->num_m)
-					ft_putchar_fd('-', 1);
-				ft_put_series_fd('0', g_len, 1);
-				ft_putstr_fd(str + flags->num_m, 1);
-			}
-			else
-			{
-				ft_put_series_fd(' ', g_len, 1);
-				ft_putstr_fd(str, 1);
-			}
+			appendix = appendix_creator(' ', g_len, 0);
+			temp = ft_strjoin(*str, appendix);
+		}
+		else if (flags -> flag_zero && !flags->dot)
+		{
+			if (flags->num_m)
+				ft_putchar_fd('-', 1);
+			ft_put_series_fd('0', g_len, 1);
+			ft_putstr_fd(str + flags->num_m, 1);
 		}
 		else
+		{
+			ft_put_series_fd(' ', g_len, 1);
 			ft_putstr_fd(str, 1);
+		}
 	}
+	else
+		ft_putstr_fd(str, 1);
 	return (len + g_len + (size_t)(flags->num_m));
 }
 
