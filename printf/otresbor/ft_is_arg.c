@@ -232,16 +232,22 @@ char	*ft_integer_positioner(char **str, t_flags *flags)
 	return (temp);
 }
 
-void	char_printer(t_flags *flags, va_list list)
+size_t	char_printer(t_flags *flags, va_list list)
 {
-	char c;
-	char *str;
+	char	c;
+	char 	*str;
+	char	*res;
+	size_t	r_val;
 
 	c = va_arg(list, int);
 	str = ft_calloc(sizeof(char), 2);
 	str[0] = c;
-	ft_integer_positioner(&str, flags);
+	res = ft_integer_positioner(&str, flags);
+	ft_putstr_fd(res, 1);
+	r_val = ft_strlen(res);
+	free(res);
 	free(str);
+	return (r_val);
 }
 
 size_t	dio_printer(t_flags *flags, va_list list)
@@ -274,10 +280,28 @@ size_t	unsigned_printer(t_flags *flags, va_list list)
 	size_t		r_val;
 
 	i = va_arg(list, unsigned);
-	if (i < 0)
-		flags->num_m = 1;
 	if (!(flags->dot && i == 0))
 		str = ft_uitoa(i);
+	else
+		str = ft_strdup("");
+	res = ft_integer_positioner(&str, flags);
+	ft_putstr_fd(res, 1);
+	r_val = ft_strlen(res);
+	free(res);
+	free(str);
+	return (r_val);
+}
+
+size_t	unsigned_base_printer(t_flags *flags, va_list list, char *base)
+{
+	unsigned	i;
+	char		*str;
+	char		*res;
+	size_t		r_val;
+
+	i = va_arg(list, unsigned);
+	if (!(flags->dot && i == 0))
+		str = ft_itoa_base(i, base);
 	else
 		str = ft_strdup("");
 	res = ft_integer_positioner(&str, flags);
@@ -291,10 +315,14 @@ size_t	unsigned_printer(t_flags *flags, va_list list)
 size_t	type_manager(t_flags *flags, va_list list)
 {
 	if (flags->type == 'c')
-		(char_printer(flags, list));
+		return (char_printer(flags, list));
 	if (flags->type == 'i' || flags->type == 'd')
 		return (dio_printer(flags, list));
 	if (flags->type == 'u')
 		return (unsigned_printer(flags, list));
+	if (flags->type == 'x')
+		return (unsigned_base_printer(flags, list, "0123456789abcdef"));
+	if (flags->type == 'X')
+		return (unsigned_base_printer(flags, list, "0123456789ABCDEF"));
 	return (0);
 }
