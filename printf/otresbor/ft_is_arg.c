@@ -172,15 +172,18 @@ char	*appendix_creator(char fill, size_t len, int with_minus)
 	size_t	index;
 
 	index = 0;
-	appendix = ft_calloc(sizeof(char), len + 1);
+	appendix = (char *)ft_calloc(sizeof(char), len + 1);
 	while (index < len)
-		appendix[len] = fill;
+	{
+		appendix[index] = fill;
+		index++;
+	}
 	if (with_minus)
 		appendix[0] = '-';
 	return (appendix);
 }
 
-size_t	ft_integer_positioner(char **str, t_flags *flags)
+char	*ft_integer_positioner(char **str, t_flags *flags)
 {
 	size_t	len;
 	size_t	g_index;
@@ -190,7 +193,7 @@ size_t	ft_integer_positioner(char **str, t_flags *flags)
 
 	g_len = 0;
 	g_index = 0;
-	integer_precisioner(*str, flags);
+	integer_precisioner(str, flags);
 	len = ft_strlen(*str);
 	if (flags->width > len)
 	{
@@ -203,19 +206,21 @@ size_t	ft_integer_positioner(char **str, t_flags *flags)
 		else if (flags -> flag_zero && !flags->dot)
 		{
 			if (flags->num_m)
-				ft_putchar_fd('-', 1);
-			ft_put_series_fd('0', g_len, 1);
-			ft_putstr_fd(str + flags->num_m, 1);
+				appendix = appendix_creator('0', g_len, 1);
+			else
+				appendix = appendix_creator('0', g_len, 0);
+			temp = ft_strjoin(appendix, *str + flags->num_m);
 		}
 		else
 		{
-			ft_put_series_fd(' ', g_len, 1);
-			ft_putstr_fd(str, 1);
+			appendix = appendix_creator(' ', g_len, 0);
+			temp = ft_strjoin(appendix, *str);
 		}
+		free (appendix);
 	}
 	else
-		ft_putstr_fd(str, 1);
-	return (len + g_len + (size_t)(flags->num_m));
+		temp = ft_strdup(*str);
+	return (temp);
 }
 
 void	char_printer(t_flags *flags, va_list list)
@@ -226,7 +231,7 @@ void	char_printer(t_flags *flags, va_list list)
 	c = va_arg(list, int);
 	str = ft_calloc(sizeof(char), 2);
 	str[0] = c;
-	ft_integer_positioner(str, flags);
+	ft_integer_positioner(&str, flags);
 	free (str);
 }
 
@@ -234,15 +239,18 @@ size_t	dio_printer(t_flags *flags, va_list list)
 {
 	int		i;
 	char	*str;
+	char	*res;
 	size_t	r_val;
 
 	i = va_arg(list, int);
 	if (i < 0)
 		flags->num_m = 1;
 	str = ft_itoa(i);
-	r_val = ft_integer_positioner(str, flags);
+	res = ft_integer_positioner(&str, flags);
+	ft_putstr_fd(res, 1);
+	r_val = ft_strlen(res);
+	free (res);
 	free (str);
-	printf ("|%zu|", r_val);
 	return (r_val);
 }
 

@@ -53,7 +53,7 @@ int				is_integer_specifier(char c);
 char			*zero_filled_string(size_t len, int with_minus);
 void			integer_precisioner(char **str, t_flags *flags);
 void			ft_put_series_fd(char c, size_t len,int fd);
-size_t			ft_integer_positioner(char *str, t_flags *flags);
+char			*ft_integer_positioner(char **str, t_flags *flags);
 size_t			type_manager(t_flags *flags, va_list list);
 void			char_printer(t_flags *flags, va_list list);
 void			string_printer(t_flags *flags, va_list list);

@@ -1,4 +1,5 @@
 #include "libftprintf.h"
+#include <stdio.h>
 
 int	ft_printf(const char *string, ...)
 {
@@ -21,13 +22,13 @@ int	ft_printf(const char *string, ...)
 			flag_size = flag_filler((char *)&string[index], &flags, list_v);
 			if (flags.type)
 				added += type_manager(&flags, list_v);
+			index += flag_size - 1;
 		}
 		else
 		{
 			write(1, &string[index], 1);
 			added++;
 		}
-		index += flag_size;
 		flag_size = 0;
 		index++;
 	}

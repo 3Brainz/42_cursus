@@ -1,7 +1,7 @@
 #include "libftprintf.h"
 #include <stdio.h>
-#define PARSER "|%010.16i|\n"
-#define VARS 0
+#define PARSER "|%10.8i|\n"
+#define VARS 10
 /*%[flags][width][.precision][length]specifier*/
 /*FLAGS "-+ #0"*/
 /*"cspdiuxX%"*/
