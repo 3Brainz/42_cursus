@@ -170,6 +170,7 @@ void	integer_precisioner(char **str, t_flags *flags)
 									is_negative, is_negative);
 		temp = ft_strjoin(zeros, *str + is_negative);
 		free(zeros);
+		free(*str);
 		*str = temp;
 	}
 }
