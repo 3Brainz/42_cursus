@@ -64,11 +64,19 @@ int		ft_ctoi(char c)
 
 void	ft_width_handler(t_flags *flags, char c, va_list list)
 {
+	int width;
+
 	if (flags->star_width)
 		return ;
 	if (c == '*')
 	{
-		flags->width = va_arg(list, int);
+		width = va_arg(list, long int);
+		if (width < 0)
+		{
+			flags->flag_minus = 1;
+			width *= -1;
+		}
+		flags->width = width;
 		flags->star_width = 1;
 	}
 	else if (ft_isdigit(c))
@@ -77,11 +85,19 @@ void	ft_width_handler(t_flags *flags, char c, va_list list)
 
 void	ft_precision_handler(t_flags *flags, char c, va_list list)
 {
+	int precision;
+
 	if (flags->star_dot)
 		return ;
 	if (c == '*')
 	{
-		flags->precision = va_arg(list, int);
+		precision = va_arg(list, long int);
+		if (precision < 0)
+			{
+				flags->dot = 0;
+				return ;
+			}
+		flags->precision = precision;
 		flags->star_dot = 1;
 	}
 	else if (ft_isdigit(c))
@@ -211,7 +227,7 @@ char	*appendixer(char **str, size_t g_len, t_flags *flags)
 	return (temp);
 }
 
-char	*ft_integer_positioner(char **str, t_flags *flags)
+char	*ft_integer_positioner(char **str, t_flags *flags, char *prefix)
 {
 	size_t	len;
 	size_t	g_index;
@@ -221,6 +237,12 @@ char	*ft_integer_positioner(char **str, t_flags *flags)
 	g_len = 0;
 	g_index = 0;
 	integer_precisioner(str, flags);
+	if (prefix)
+	{
+		temp = ft_strjoin(prefix, *str);
+		free(*str);
+		*str = temp;
+	}
 	len = ft_strlen(*str);
 	if (flags->width > len)
 	{
@@ -297,7 +319,7 @@ size_t	dio_printer(t_flags *flags, va_list list)
 		str = ft_itoa(i);
 	else
 		str = ft_strdup("");
-	res = ft_integer_positioner(&str, flags);
+	res = ft_integer_positioner(&str, flags, NULL);
 	ft_putstr_fd(res, 1);
 	r_val = ft_strlen(res);
 	free(res);
@@ -317,7 +339,7 @@ size_t	unsigned_printer(t_flags *flags, va_list list)
 		str = ft_uitoa(i);
 	else
 		str = ft_strdup("");
-	res = ft_integer_positioner(&str, flags);
+	res = ft_integer_positioner(&str, flags, NULL);
 	ft_putstr_fd(res, 1);
 	r_val = ft_strlen(res);
 	free(res);
@@ -337,7 +359,7 @@ size_t	unsigned_base_printer(t_flags *flags, va_list list, char *base)
 		str = ft_itoa_base(i, base);
 	else
 		str = ft_strdup("");
-	res = ft_integer_positioner(&str, flags);
+	res = ft_integer_positioner(&str, flags, NULL);
 	ft_putstr_fd(res, 1);
 	r_val = ft_strlen(res);
 	free(res);
@@ -380,7 +402,7 @@ size_t	string_printer(t_flags *flags, va_list list)
 	allocated = 0;
 	if(!(str = va_arg(list, char*)))
 	{
-		str = ft_calloc(sizeof(char), 1);
+		str = ft_strdup("(null)");
 		allocated = 1;
 	}
 	res = ft_string_positioner(flags, str);
@@ -389,6 +411,41 @@ size_t	string_printer(t_flags *flags, va_list list)
 	free(res);
 	if (allocated)
 		free (str);
+	return (r_val);
+}
+
+size_t percentage_printer(t_flags *flags)
+{
+	char	*str;
+	char	*res;
+	size_t	r_val;
+
+	str = ft_strdup("%");
+	res = ft_integer_positioner(&str, flags, NULL);
+	ft_putstr_fd(res, 1);
+	r_val = ft_strlen(res);
+	free(res);
+	free (str);
+	return (r_val);
+}
+
+size_t	pointer_base_printer(t_flags *flags, va_list list, char *base)
+{
+	size_t		i;
+	char		*str;
+	char		*res;
+	size_t		r_val;
+
+	i = va_arg(list, size_t);
+	if (!(flags->dot && i == 0))
+		str = ft_itoa_base(i, base);
+	else
+		str = ft_strdup("");
+	res = ft_integer_positioner(&str, flags, "0x");
+	ft_putstr_fd(res, 1);
+	r_val = ft_strlen(res);
+	free(res);
+	free(str);
 	return (r_val);
 }
 
@@ -406,5 +463,9 @@ size_t	type_manager(t_flags *flags, va_list list)
 		return (unsigned_base_printer(flags, list, "0123456789ABCDEF"));
 	if (flags->type == 's')
 		return (string_printer(flags, list));
+	if (flags->type == '%')
+		return (percentage_printer(flags));
+	if (flags->type == 'p')
+		return (pointer_base_printer(flags, list, "0123456789abcdef"));
 	return (0);
 }

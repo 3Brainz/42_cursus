@@ -1,6 +1,6 @@
 #include "libftprintf.h"
 
-static size_t	ft_num_size(long unsigned int num , size_t charset_len)
+static size_t	ft_num_size(size_t  num , size_t charset_len)
 {
 	long int	divider;
 	size_t		len;
@@ -19,7 +19,7 @@ static size_t	ft_num_size(long unsigned int num , size_t charset_len)
 	return (1);
 }
 
-static void		ft_write_num(char *string, long num, size_t len, char *charset)
+static void		ft_write_num(char *string, size_t num, size_t len, char *charset)
 {
 	int multi;
 	size_t charset_len;
@@ -36,15 +36,15 @@ static void		ft_write_num(char *string, long num, size_t len, char *charset)
 	}
 }
 
-char	*ft_itoa_base(unsigned n, char *charset)
+char	*ft_itoa_base(size_t n, char *charset)
 {
 	char	*num_s;
-	int		num_len;
+	size_t		num_len;
 
 	num_len = ft_num_size(n, ft_strlen(charset));
 	num_s = ft_calloc(num_len + 1, sizeof(char));
 	if (!num_s)
 		return (0);
-	ft_write_num(num_s, (long)n, num_len, charset);
+	ft_write_num(num_s, n, num_len, charset);
 	return (num_s);
 }
