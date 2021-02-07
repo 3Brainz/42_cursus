@@ -93,10 +93,10 @@ void	ft_precision_handler(t_flags *flags, char c, va_list list)
 	{
 		precision = va_arg(list, long int);
 		if (precision < 0)
-			{
-				flags->dot = 0;
-				return ;
-			}
+		{
+			flags->dot = 0;
+			return ;
+		}
 		flags->precision = precision;
 		flags->star_dot = 1;
 	}
@@ -367,24 +367,32 @@ size_t	unsigned_base_printer(t_flags *flags, va_list list, char *base)
 	return (r_val);
 }
 
-char	*ft_string_positioner(t_flags *flags,char *str)
+char	*ft_string_positioner(t_flags *flags, char *str)
 {
-	char *res;
-	char *temp;
-	char *appendix;
+	char	*res;
+	char	*temp;
+	char	*appendix;
 	size_t	len;
+
 	if (flags->dot)
 		res = ft_substr(str, 0, flags->precision);
 	else
 		res = ft_strdup(str);
-	len = ft_strlen(res); 
+	len = ft_strlen(res);
 	if (flags->width > len)
 	{
 		appendix = appendix_creator(' ', flags->width - len, 0);
 		if (flags->flag_minus)
 			temp = ft_strjoin(res, appendix);
 		else
+		{
+			if (flags->flag_zero)
+			{
+				free(appendix);
+				appendix = appendix_creator('0', flags->width - len, 0);
+			}
 			temp = ft_strjoin(appendix, res);
+		}
 		free(res);
 		free(appendix);
 		res = temp;
@@ -400,7 +408,7 @@ size_t	string_printer(t_flags *flags, va_list list)
 	size_t	r_val;
 
 	allocated = 0;
-	if(!(str = va_arg(list, char*)))
+	if (!(str = va_arg(list, char*)))
 	{
 		str = ft_strdup("(null)");
 		allocated = 1;
@@ -410,11 +418,11 @@ size_t	string_printer(t_flags *flags, va_list list)
 	r_val = ft_strlen(res);
 	free(res);
 	if (allocated)
-		free (str);
+		free(str);
 	return (r_val);
 }
 
-size_t percentage_printer(t_flags *flags)
+size_t	percentage_printer(t_flags *flags)
 {
 	char	*str;
 	char	*res;
@@ -425,7 +433,7 @@ size_t percentage_printer(t_flags *flags)
 	ft_putstr_fd(res, 1);
 	r_val = ft_strlen(res);
 	free(res);
-	free (str);
+	free(str);
 	return (r_val);
 }
 
