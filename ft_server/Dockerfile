@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-FROM debian:buster
+FROM debian:buster-slim
 
 RUN apt update\
 	&&  apt-get upgrade -y\
@@ -19,13 +19,17 @@ RUN apt update\
 	&& apt install -y mariadb-server\
 	&& apt-get -y install php7.3 php-mysql php-fpm php-pdo php-gd php-cli php-mbstring\
 	&& rm -f /etc/nginx/sites-available/default\
-	&& wget https://files.phpmyadmin.net/phpMyAdmin/5.0.1/phpMyAdmin-5.0.1-all-languages.tar.gz && tar -zxvf phpMyAdmin-5.0.1-all-languages.tar.gz && mv phpMyAdmin-5.0.1-all-languages /var/www/html/phpmyadmin
+	&& wget https://files.phpmyadmin.net/phpMyAdmin/5.0.1/phpMyAdmin-5.0.1-all-languages.tar.gz && tar -zxvf phpMyAdmin-5.0.1-all-languages.tar.gz && mv phpMyAdmin-5.0.1-all-languages /var/www/html/phpmyadmin\
+	&& chmod -R 755 /var/www/*\
+	&& rm -f var/www/html/phpmyadmin/config.sample.inc.php\
+    && chown -R www-data:www-data /var/www/*
 
 COPY srcs/start.sh .
 COPY srcs/autoindex ./bin
 COPY srcs/univers/* var/www/html/
 COPY srcs/default /etc/nginx/sites-available
+COPY srcs/config.php /var/html/phpmyadmin
 
 RUN chmod 777 bin/autoindex
 
-CMD ./start.shcd 
+CMD ./start.sh
