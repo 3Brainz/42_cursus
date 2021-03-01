@@ -1,27 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   map_utilities.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppunzo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/27 11:32:07 by ppunzo            #+#    #+#             */
-/*   Updated: 2021/02/27 11:32:09 by ppunzo           ###   ########.fr       */
+/*   Created: 2021/03/01 17:31:14 by ppunzo            #+#    #+#             */
+/*   Updated: 2021/03/01 17:31:21 by ppunzo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub/libcub.h"
+#include "libcub.h"
 
-int main(int argc, char **argv)
-{
-	
-	t_map map;
 
-	if (argc == 2)
-		printf("%s", argv[1]);
-	map_cleaner(&map);
-	map_filler(&map, "./map.cub");
-
-	write(1, "i'm thhe breakpoint", 15);
-	return (0);
-}

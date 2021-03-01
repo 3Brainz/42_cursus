@@ -22,7 +22,8 @@ RAN = ranlib
 
 SEPARATOR = "---------------------------------------------------------------"
 
-CUB_SRCS =	map_reader.c
+CUB_SRCS =	map_reader.c \
+			map_utilities.c
 
 LIBFT_DIR = libft/
 
@@ -74,9 +75,9 @@ LIBFT_SRCS =ft_memset.c \
 			ft_lstmap.c
 BNS_SRCS =	
 
-CUB_DIRSRCS = $(addprefix ${PRINTF_DIR}, ${CUB_SRCS})
+CUB_DIRSRCS = $(addprefix ${CUB_DIR}, ${CUB_SRCS})
 
-OBJS = ${PRINTF_DIRSRCS:.c=.o}
+OBJS = ${CUB_DIRSRCS:.c=.o}
 
 LIBFT_DIRSRCS = $(addprefix ${LIBFT_DIR}, ${LIBFT_SRCS})
 
@@ -91,7 +92,8 @@ RM = rm -f
 $(NAME): ${OBJS} ${LIBFT_OBJS}
 	@${AR} ${NAME} ${OBJS} ${LIBFT_OBJS}
 	@${RAN} ${NAME}
-	@gcc -Werror -Wextra -Wall ${NAME} main.c -o cub3d
+	@mv ${NAME} cub
+	@gcc -Werror -Wextra -Wall ./cub/${NAME} main.c -o cub3d
 
 bonus: $(NAME)
 	@ gcc $(CFLAGS) -c $(BNS_SRCS) -I ./
@@ -103,7 +105,7 @@ clean:
 	@${RM} ${OBJS} $(BNS_OBJS) ${LIBFT_OBJS}
 
 fclean: clean
-	@${RM} ${NAME}
+	@${RM} ./cub/${NAME}
 	@${RM} cub3d
 
 re: fclean all
