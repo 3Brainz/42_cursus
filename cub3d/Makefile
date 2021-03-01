@@ -22,7 +22,7 @@ RAN = ranlib
 
 SEPARATOR = "---------------------------------------------------------------"
 
-CUB_SRCS =	
+CUB_SRCS =	map_reader.c
 
 LIBFT_DIR = libft/
 
@@ -70,6 +70,7 @@ LIBFT_SRCS =ft_memset.c \
 			ft_lstdelone.c \
 			ft_lstclear.c \
 			ft_lstiter.c \
+			get_next_line.c \
 			ft_lstmap.c
 BNS_SRCS =	
 

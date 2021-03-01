@@ -15,6 +15,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdarg.h>
+# define BUFFER_SIZE 1
+# define MAX_OPEN 256
 
 typedef unsigned char	t_uc;
 typedef struct	s_list
@@ -67,5 +69,6 @@ void			ft_lstclear(t_list **lst, void (*del)(void *));
 void			ft_lstiter(t_list *lst, void (*f)(void *));
 t_list			*ft_lstmap(t_list *l, void *(*f)(void *), void (*del)(void *));
 char			*ft_uitoa(unsigned int n);
+int				get_next_line(const int fd, char **line);
 
 #endif
