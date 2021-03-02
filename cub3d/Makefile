@@ -25,7 +25,8 @@ SEPARATOR = "---------------------------------------------------------------"
 CUB_SRCS =	game_v_reader.c \
 			game_v_utilities.c \
 			string_utilities.c \
-			game_v_checks.c
+			game_v_checks.c \
+			map_filler.c
 
 LIBFT_DIR = libft/
 
