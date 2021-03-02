@@ -27,7 +27,7 @@ typedef struct	s_color
 	char		*green;
 }				t_color;
 
-typedef struct	s_map
+typedef struct	s_game_v
 {
 	char		*res_w;
 	char		*res_h;
@@ -39,28 +39,35 @@ typedef struct	s_map
 	t_color		floor_color;
 	t_color		ceiling_color;
 	char		**map;
-}				t_map;
+}				t_game_v;
 
 /*
 ** String_utilities
 */
 
-int		ft_numlen(char **str);
-void	ft_jump_spaces(char **str);
+int				ft_numlen(char **str);
+void			ft_jump_spaces(char **str);
 
 /*
-** Map_utils_functions
+** Game_v_utils_functions
 */
 
-void	map_cleaner(t_map *map);
-void	color_cleaner(t_color *color);
-char	*take_value_s_cub_parser(char **str, int offset);
-void	fill_color(char **str, int offset, t_color *color);
+void			game_v_cleaner(t_game_v *game_v);
+void			color_cleaner(t_color *color);
+char			*take_value_s_cub_parser(char **str, int offset);
+void			fill_color(char **str, int offset, t_color *color);
 
 /*
-** Map_reader_functions
+** Game_v_checks
 */
 
-int		map_filler(t_map *map, char *file_path);
+int				is_color_filled(t_color *color);
+int 	is_map_moment(t_game_v *game_v);
+
+/*
+** game_v_reader_functions
+*/
+
+int				game_v_filler(t_game_v *game_v, char *file_path);
 
 #endif

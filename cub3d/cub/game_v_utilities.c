@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_utilities.c                                    :+:      :+:    :+:   */
+/*   game_v_utilities.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppunzo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,18 +12,18 @@
 
 #include "libcub.h"
 
-void	map_cleaner(t_map *map)
+void	game_v_cleaner(t_game_v *game_v)
 {
-	map->res_w = 0;
-	map->res_h = 0;
-	map->no_texture = 0;
-	map->so_texture = 0;
-	map->ea_texture = 0;
-	map->we_texture = 0;
-	map->sprite_texture = 0;
-	color_cleaner(&map->ceiling_color);
-	color_cleaner(&map->floor_color);
-	map->map = 0;
+	game_v->res_w = 0;
+	game_v->res_h = 0;
+	game_v->no_texture = 0;
+	game_v->so_texture = 0;
+	game_v->ea_texture = 0;
+	game_v->we_texture = 0;
+	game_v->sprite_texture = 0;
+	color_cleaner(&game_v->ceiling_color);
+	color_cleaner(&game_v->floor_color);
+	game_v->map = 0;
 }
 
 void	color_cleaner(t_color *color)

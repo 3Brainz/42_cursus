@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string_utilities.c                                 :+:      :+:    :+:   */
+/*   game_v_checks.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppunzo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/02 10:11:37 by ppunzo            #+#    #+#             */
-/*   Updated: 2021/03/02 10:11:39 by ppunzo           ###   ########.fr       */
+/*   Created: 2021/03/02 11:09:07 by ppunzo            #+#    #+#             */
+/*   Updated: 2021/03/02 11:09:08 by ppunzo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libcub.h"
 
-int		ft_numlen(char **str)
+int		is_color_filled(t_color *color)
 {
-	int index;
-
-	index = 0;
-	while (ft_isdigit(**str))
-	{
-		*str += 1;
-		index++;
-	}
-	return (index);
+	if(color->red && color->green && color->blue)
+		return (1);
+	return (0);
 }
 
-void	ft_jump_spaces(char **str)
+int 	is_map_moment(t_game_v *game_v)
 {
-	while (**str == ' ' && **str)
-		*str += 1;
+	if(game_v->res_h && game_v->res_w &&
+		game_v->no_texture && game_v->so_texture &&
+		game_v->we_texture && game_v->ea_texture &&
+		game_v->sprite_texture &&
+		is_color_filled(&game_v->floor_color) &&
+		is_color_filled(&game_v->ceiling_color))
+		return (1);
+	return (0);
 }

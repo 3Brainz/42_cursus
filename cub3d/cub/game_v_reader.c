@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_reader.c                                       :+:      :+:    :+:   */
+/*   game_v_reader.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppunzo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,38 +12,22 @@
 
 #include "libcub.h"
 
-/*
-**typedef struct	s_map
-**{
-**	char		*res_w;
-**	char		*res_h;
-**	char		*no_texture;
-**	char		*so_texture;
-**	char		*ea_texture;
-**	char		*we_texture;
-**	char		*sprite_texture;
-**	char		*floor_color;
-**	char		*ceiling_color;
-**	char		**map;
-**}				t_map;
-*/
-
-static void	line_texture_analizer(char *str, t_map *map)
+static void	line_texture_analizer(char *str, t_game_v *game_v)
 {
 	ft_jump_spaces(&str);
 	if (*str == 'N' && str[1] == 'O')
-		map->no_texture = take_value_s_cub_parser(&str, 2);
+		game_v->no_texture = take_value_s_cub_parser(&str, 2);
 	else if (*str == 'S' && str[1] == 'O')
-		map->so_texture = take_value_s_cub_parser(&str, 2);
+		game_v->so_texture = take_value_s_cub_parser(&str, 2);
 	else if (*str == 'W' && str[1] == 'E')
-		map->we_texture = take_value_s_cub_parser(&str, 2);
+		game_v->we_texture = take_value_s_cub_parser(&str, 2);
 	else if (*str == 'E' && str[1] == 'A')
-		map->ea_texture = take_value_s_cub_parser(&str, 2);
+		game_v->ea_texture = take_value_s_cub_parser(&str, 2);
 	else if (*str == 'S')
-		map->sprite_texture = take_value_s_cub_parser(&str, 1);
+		game_v->sprite_texture = take_value_s_cub_parser(&str, 1);
 }
 
-static void	line_measures_analizer(char *str, t_map *map)
+static void	line_measures_analizer(char *str, t_game_v *game_v)
 {
 	ft_jump_spaces(&str);
 	if (*str == 'R')
@@ -51,39 +35,39 @@ static void	line_measures_analizer(char *str, t_map *map)
 		str++;
 		ft_jump_spaces(&str);
 		if (ft_isdigit(*str))
-			map->res_w = ft_substr(str, 0, ft_numlen(&str));
+			game_v->res_w = ft_substr(str, 0, ft_numlen(&str));
 		else
 			return ;
 		ft_jump_spaces(&str);
 		if (ft_isdigit(*str))
-			map->res_h = ft_substr(str, 0, ft_numlen(&str));
+			game_v->res_h = ft_substr(str, 0, ft_numlen(&str));
 		else
 			return ;
 	}
 }
 
-static void	line_colors_analizer(char *str, t_map *map)
+static void	line_colors_analizer(char *str, t_game_v *game_v)
 {
 	ft_jump_spaces(&str);
 	if (*str == 'C')
-		fill_color(&str, 1, &map->ceiling_color);
+		fill_color(&str, 1, &game_v->ceiling_color);
 	else if (*str == 'F')
-		fill_color(&str, 1, &map->floor_color);
+		fill_color(&str, 1, &game_v->floor_color);
 }
 
-int			map_filler(t_map *map, char *file_path)
+int			game_v_filler(t_game_v *game_v, char *file_path)
 {
-	int		map_fd;
+	int		game_v_fd;
 	char	*line;
 
 	line = 0;
-	map->res_h = 0;
-	map_fd = open(file_path, 00);
-	while (get_next_line(map_fd, &line))
+	game_v_fd = open(file_path, 00);
+	while (get_next_line(game_v_fd, &line))
 	{
-		line_texture_analizer(line, map);
-		line_measures_analizer(line, map);
-		line_colors_analizer(line, map);
+		line_texture_analizer(line, game_v);
+		line_measures_analizer(line, game_v);
+		line_colors_analizer(line, game_v);
+		printf("%i\n",is_map_moment(game_v));
 		free(line);
 	}
 	return (0);

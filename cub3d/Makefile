@@ -22,9 +22,10 @@ RAN = ranlib
 
 SEPARATOR = "---------------------------------------------------------------"
 
-CUB_SRCS =	map_reader.c \
-			map_utilities.c \
-			string_utilities.c
+CUB_SRCS =	game_v_reader.c \
+			game_v_utilities.c \
+			string_utilities.c \
+			game_v_checks.c
 
 LIBFT_DIR = libft/
 
