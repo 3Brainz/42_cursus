@@ -23,7 +23,8 @@ RAN = ranlib
 SEPARATOR = "---------------------------------------------------------------"
 
 CUB_SRCS =	map_reader.c \
-			map_utilities.c
+			map_utilities.c \
+			string_utilities.c
 
 LIBFT_DIR = libft/
 
@@ -93,7 +94,7 @@ $(NAME): ${OBJS} ${LIBFT_OBJS}
 	@${AR} ${NAME} ${OBJS} ${LIBFT_OBJS}
 	@${RAN} ${NAME}
 	@mv ${NAME} cub
-	@gcc -Werror -Wextra -Wall ./cub/${NAME} main.c -o cub3d
+	@gcc -Werror -Wextra -Wall -g ./cub/${NAME} main.c -o cub3d
 
 bonus: $(NAME)
 	@ gcc $(CFLAGS) -c $(BNS_SRCS) -I ./

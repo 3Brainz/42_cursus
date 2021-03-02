@@ -16,6 +16,17 @@
 # include <stdio.h>
 # include <fcntl.h>
 
+/*
+** Structures
+*/
+
+typedef struct	s_color
+{
+	char		*red;
+	char		*blue;
+	char		*green;
+}				t_color;
+
 typedef struct	s_map
 {
 	char		*res_w;
@@ -25,12 +36,31 @@ typedef struct	s_map
 	char		*ea_texture;
 	char		*we_texture;
 	char		*sprite_texture;
-	char		*floor_color;
-	char		*ceiling_color;
+	t_color		floor_color;
+	t_color		ceiling_color;
 	char		**map;
 }				t_map;
 
+/*
+** String_utilities
+*/
+
+int		ft_numlen(char **str);
+void	ft_jump_spaces(char **str);
+
+/*
+** Map_utils_functions
+*/
+
 void	map_cleaner(t_map *map);
-void	map_filler(t_map *map, char *file_path);
+void	color_cleaner(t_color *color);
+char	*take_value_s_cub_parser(char **str, int offset);
+void	fill_color(char **str, int offset, t_color *color);
+
+/*
+** Map_reader_functions
+*/
+
+int		map_filler(t_map *map, char *file_path);
 
 #endif
