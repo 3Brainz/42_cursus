@@ -41,7 +41,7 @@
 **   call: ft_printf("Hexadecimal for %d is %x\n", 42, 42);
 **   out:Hexadecimal for 42 is 2a$
 */
-
+/*
 typedef	struct	s_flags
 {
 		int		dot;
@@ -177,8 +177,35 @@ int ft_printf(const char *string, ... )
 		string++;
 	}
 }
+*/
+
+void ft_putnumber_base(long nu, char *base, int base_len)
+{
+	if (nu < 0)
+	{
+		write(1, "-", 1);
+		ft_putnumber_base(-nu, base, base_len);
+	}
+	else if (nu >= base_len)
+	{
+		ft_putnumber_base(nu/base_len, base, base_len);
+		ft_putnumber_base(nu%base_len, base, base_len);
+	}
+	else
+		write(1, &base[nu], 1);
+}
+
+ft_put(long nu, char *base, int base_len)
+{
+	if nu >= base
+	ft_putnumber_base
+	ft_putnumber_base
+	else
+		write(1, )
+}
 
 int main()
 {
-	ft_printf("%1234.123d");
+	//ft_printf("%1234.123d");
+	ft_putnumber_base(-156, "0123456879abcdef", 16);
 }
