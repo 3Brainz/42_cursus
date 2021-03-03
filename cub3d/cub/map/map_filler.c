@@ -17,7 +17,7 @@ void	copy_mat(char **dest, char **src)
 	size_t index_y;
 
 	index_y = 0;
-	if(!src)
+	if (!src)
 		return ;
 	while (src[index_y])
 	{
@@ -31,7 +31,7 @@ size_t	mat_len(char **mat)
 	size_t index;
 
 	index = 0;
-	if(mat)
+	if (mat)
 	{
 		while (mat[index])
 			index++;
@@ -63,4 +63,3 @@ void	add_string_to_mat(char ***mat, char *str)
 	free(*mat);
 	*mat = temp_mat;
 }
-

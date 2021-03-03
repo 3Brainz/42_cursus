@@ -50,3 +50,16 @@ char	*ft_strjoin_new_line(char const *s1, char const *s2)
 	ft_strlcpy(&res[ft_strlen(res)], s2, ft_strlen(s2) + 1);
 	return (res);
 }
+
+void	change_char_in_s(char *str, char dest, char substitute)
+{
+	size_t index;
+
+	index = 0;
+	while (str[index])
+	{
+		if (str[index] == dest)
+			str[index] = substitute;
+		index++;
+	}
+}

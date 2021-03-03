@@ -1,28 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gen_utils.c                                        :+:      :+:    :+:   */
+/*   map_checker.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppunzo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/03 15:20:58 by ppunzo            #+#    #+#             */
-/*   Updated: 2021/03/03 15:20:59 by ppunzo           ###   ########.fr       */
+/*   Created: 2021/03/03 16:12:48 by ppunzo            #+#    #+#             */
+/*   Updated: 2021/03/03 16:12:51 by ppunzo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libcub.h"
-
-void	initialize_vars(int vars_number, ...)
+int	is_map_valid(char **map)
 {
-	va_list		list;
-	void		*variable;
-
-	va_start(list, vars_number);
-	while (vars_number > 0)
-	{
-		variable = va_arg(list, void *);
-		*(long long *)variable = 0;
-		vars_number--;
-	}
-	va_end(list);
+	return (0);
 }

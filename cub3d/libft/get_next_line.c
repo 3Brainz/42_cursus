@@ -41,7 +41,7 @@ static int		lettura(char **n_l, char **save, int fd)
 	return (0);
 }
 
-int		get_next_line(const int fd, char **line)
+int				get_next_line(const int fd, char **line)
 {
 	static char *save[MAX_OPEN];
 	char		*n_l;

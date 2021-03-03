@@ -15,8 +15,8 @@
 # include "../libft/libft.h"
 # include <stdio.h>
 # include <fcntl.h>
+# include  <stdarg.h>
 # define MAP_SPACE_VAL 0
-
 
 /*
 ** Structures
@@ -50,6 +50,13 @@ typedef struct	s_game_v
 int				ft_numlen(char **str);
 void			ft_jump_spaces(char **str);
 char			*ft_strjoin_new_line(char const *s1, char const *s2);
+void			change_char_in_s(char *str, char dest, char substitute);
+
+/*
+**Gen_utils
+*/
+
+void			initialize_vars(int vars_number, ...);
 
 /*
 ** Game_v_utils_functions

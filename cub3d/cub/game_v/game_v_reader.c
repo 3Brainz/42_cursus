@@ -55,7 +55,7 @@ static void	line_colors_analizer(char *str, t_game_v *game_v)
 		fill_color(&str, 1, &game_v->floor_color);
 }
 
-static void analizers(char *line, t_game_v *game_v)
+static void	analizers(char *line, t_game_v *game_v)
 {
 	line_texture_analizer(line, game_v);
 	line_measures_analizer(line, game_v);
@@ -75,7 +75,7 @@ int			game_v_filler(t_game_v *game_v, char *file_path)
 	game_v_fd = open(file_path, 00);
 	while (get_next_line(game_v_fd, &line))
 	{
-		analizers(line, game_v)
+		analizers(line, game_v);
 		free(line);
 		if (is_map_moment(game_v))
 			break ;

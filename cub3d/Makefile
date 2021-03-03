@@ -27,7 +27,8 @@ CUB_SRCS =	game_v/game_v_reader.c \
 			utils/string_utilities.c \
 			utils/gen_utils.c \
 			game_v/game_v_checks.c \
-			map/map_filler.c
+			map/map_filler.c \
+			map/map_checker.c
 
 LIBFT_DIR = libft/
 
@@ -117,6 +118,7 @@ re: fclean all
 c: 
 	@make re &> /dev/null
 	@make clean &> /dev/null
+	@${RM} ./cub/${NAME}
 	@say -v Kyoko センパイを走らせて
 
 karen:
