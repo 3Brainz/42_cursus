@@ -15,6 +15,8 @@
 # include "../libft/libft.h"
 # include <stdio.h>
 # include <fcntl.h>
+# define MAP_SPACE_VAL 0
+
 
 /*
 ** Structures
@@ -63,6 +65,12 @@ void			fill_color(char **str, int offset, t_color *color);
 
 int				is_color_filled(t_color *color);
 int 	is_map_moment(t_game_v *game_v);
+
+/*
+** Map_filler
+*/
+
+
 
 /*
 ** game_v_reader_functions
