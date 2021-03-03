@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libcub.h"
+#include "../libcub.h"
 
 int		is_color_filled(t_color *color)
 {

@@ -49,6 +49,7 @@ typedef struct	s_game_v
 
 int				ft_numlen(char **str);
 void			ft_jump_spaces(char **str);
+char			*ft_strjoin_new_line(char const *s1, char const *s2);
 
 /*
 ** Game_v_utils_functions
@@ -70,7 +71,10 @@ int 	is_map_moment(t_game_v *game_v);
 ** Map_filler
 */
 
-
+void			print_mat(char **mat);
+void			copy_mat(char **dest, char **src);
+size_t			mat_len(char **mat);
+void			add_string_to_mat(char ***mat, char *str);
 
 /*
 ** game_v_reader_functions

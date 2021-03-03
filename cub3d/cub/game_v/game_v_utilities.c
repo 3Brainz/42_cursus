@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libcub.h"
+#include "../libcub.h"
 
 void	game_v_cleaner(t_game_v *game_v)
 {

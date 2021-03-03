@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libcub.h"
+#include "../libcub.h"
 
 int		ft_numlen(char **str)
 {
@@ -29,4 +29,24 @@ void	ft_jump_spaces(char **str)
 {
 	while (**str == ' ' && **str)
 		*str += 1;
+}
+
+char	*ft_strjoin_new_line(char const *s1, char const *s2)
+{
+	char *res;
+
+	if (!s1)
+	{
+		if (s2)
+			return (char *)(s2);
+		else
+			return (0);
+	}
+	res = ft_calloc(ft_strlen(s1) + ft_strlen(s2) + 1 + 1, sizeof(char));
+	if (!res)
+		return (0);
+	ft_strlcpy(res, s1, ft_strlen(s1) + 1);
+	res[ft_strlen(s1)] = '\n';
+	ft_strlcpy(&res[ft_strlen(res)], s2, ft_strlen(s2) + 1);
+	return (res);
 }

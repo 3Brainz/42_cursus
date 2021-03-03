@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libcub.h"
+#include "../libcub.h"
 
 static void	line_texture_analizer(char *str, t_game_v *game_v)
 {
@@ -55,20 +55,37 @@ static void	line_colors_analizer(char *str, t_game_v *game_v)
 		fill_color(&str, 1, &game_v->floor_color);
 }
 
+static void analizers(char *line, t_game_v *game_v)
+{
+	line_texture_analizer(line, game_v);
+	line_measures_analizer(line, game_v);
+	line_colors_analizer(line, game_v);
+}
+
 int			game_v_filler(t_game_v *game_v, char *file_path)
 {
 	int		game_v_fd;
 	char	*line;
+	char	*temp1;
+	char	*temp2;
 
 	line = 0;
+	temp1 = 0;
+	temp2 = 0;
 	game_v_fd = open(file_path, 00);
 	while (get_next_line(game_v_fd, &line))
 	{
-		line_texture_analizer(line, game_v);
-		line_measures_analizer(line, game_v);
-		line_colors_analizer(line, game_v);
-		printf("%i\n",is_map_moment(game_v));
+		analizers(line, game_v)
+		free(line);
+		if (is_map_moment(game_v))
+			break ;
+	}
+	while (get_next_line(game_v_fd, &line))
+	{
+		add_string_to_mat(&game_v->map, line);
 		free(line);
 	}
+	add_string_to_mat(&game_v->map, line);
+	free(line);
 	return (0);
 }
