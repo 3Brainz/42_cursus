@@ -63,3 +63,18 @@ void	change_char_in_s(char *str, char dest, char substitute)
 		index++;
 	}
 }
+
+void	free_mat(void **mat)
+{
+	size_t index;
+
+	index = 0;
+	if(mat)
+	{
+		while(mat[index])
+		{
+			free_if_exists(&mat[index]);
+			index++;
+		}
+	}
+}

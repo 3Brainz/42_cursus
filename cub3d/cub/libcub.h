@@ -38,8 +38,8 @@ typedef struct	s_game_v
 	char		*ea_texture;
 	char		*we_texture;
 	char		*sprite_texture;
-	t_color		floor_color;
-	t_color		ceiling_color;
+	t_color		floor_color[1];
+	t_color		ceiling_color[1];
 	char		**map;
 }				t_game_v;
 
@@ -51,12 +51,14 @@ int				ft_numlen(char **str);
 void			ft_jump_spaces(char **str);
 char			*ft_strjoin_new_line(char const *s1, char const *s2);
 void			change_char_in_s(char *str, char dest, char substitute);
+void			free_mat(void **mat);
 
 /*
 **Gen_utils
 */
 
 void			initialize_vars(int vars_number, ...);
+void			free_if_exists(void **var);
 
 /*
 ** Game_v_utils_functions
@@ -66,6 +68,7 @@ void			game_v_cleaner(t_game_v *game_v);
 void			color_cleaner(t_color *color);
 char			*take_value_s_cub_parser(char **str, int offset);
 void			fill_color(char **str, int offset, t_color *color);
+void			free_game_v(t_game_v *game_v);
 
 /*
 ** Game_v_checks
@@ -82,6 +85,12 @@ void			print_mat(char **mat);
 void			copy_mat(char **dest, char **src);
 size_t			mat_len(char **mat);
 void			add_string_to_mat(char ***mat, char *str);
+
+/*
+**Map_c
+*/
+
+int				is_map_valid(char **map);
 
 /*
 ** game_v_reader_functions

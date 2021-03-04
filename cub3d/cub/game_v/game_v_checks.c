@@ -25,15 +25,17 @@ int		is_map_moment(t_game_v *game_v)
 		game_v->no_texture && game_v->so_texture &&
 		game_v->we_texture && game_v->ea_texture &&
 		game_v->sprite_texture &&
-		is_color_filled(&game_v->floor_color) &&
-		is_color_filled(&game_v->ceiling_color))
+		is_color_filled(game_v->floor_color) &&
+		is_color_filled(game_v->ceiling_color))
 		return (1);
 	return (0);
 }
 
 int		are_game_v_ok(t_game_v *game_v)
 {
-	if(is_map_moment(game_v))
+	if(is_map_moment(game_v) && is_map_valid(game_v->map))
 		return (1);
+	else
+
 	return (0);
 }

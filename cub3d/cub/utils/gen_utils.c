@@ -26,3 +26,10 @@ void	initialize_vars(int vars_number, ...)
 	}
 	va_end(list);
 }
+
+void	free_if_exists(void **var)
+{
+	if (*var)
+		free(*var);
+	*var = 0;
+}

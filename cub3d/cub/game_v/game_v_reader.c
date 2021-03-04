@@ -50,9 +50,9 @@ static void	line_colors_analizer(char *str, t_game_v *game_v)
 {
 	ft_jump_spaces(&str);
 	if (*str == 'C')
-		fill_color(&str, 1, &game_v->ceiling_color);
+		fill_color(&str, 1, game_v->ceiling_color);
 	else if (*str == 'F')
-		fill_color(&str, 1, &game_v->floor_color);
+		fill_color(&str, 1, game_v->floor_color);
 }
 
 static void	analizers(char *line, t_game_v *game_v)
@@ -87,5 +87,6 @@ int			game_v_filler(t_game_v *game_v, char *file_path)
 	}
 	add_string_to_mat(&game_v->map, line);
 	free(line);
+	free_game_v(game_v);
 	return (0);
 }

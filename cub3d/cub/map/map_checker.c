@@ -12,5 +12,8 @@
 
 int	is_map_valid(char **map)
 {
+	char **we = map;
+	we = 0;
+	return (1);
 	return (0);
 }
