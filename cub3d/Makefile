@@ -98,7 +98,7 @@ $(NAME): ${OBJS} ${LIBFT_OBJS}
 	@${AR} ${NAME} ${OBJS} ${LIBFT_OBJS}
 	@${RAN} ${NAME}
 	@mv ${NAME} cub
-	@gcc -Werror -Wextra -Wall -g ./cub/${NAME} main.c -o cub3d
+	@gcc -Werror -Wextra -Wall -lmlx -framework OpenGL -framework AppKit -g ./cub/${NAME} main.c -o cub3d
 
 bonus: $(NAME)
 	@ gcc $(CFLAGS) -c $(BNS_SRCS) -I ./

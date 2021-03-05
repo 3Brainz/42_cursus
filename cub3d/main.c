@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "cub/libcub.h"
+#include <mlx.h>
 
 int main(int argc, char **argv)
 {
@@ -18,11 +19,13 @@ int main(int argc, char **argv)
 	t_game_v game_v;
 	int a = 1;
 
+	void *mlx = mlx_init ();
 	if (argc == 2)
 		printf("%s", argv[1]);
 	game_v_cleaner(&game_v);
 	game_v_filler(&game_v, "./map.cub");
-	//write(1, "i'm thhe breakpoint", 15);
+
+	mlx_new_window(mlx, 200, 200, "wewe");
 	while (a == 1)
 		a = 1;
 	return (0);

@@ -1,0 +1,257 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: exam <marvin@42.fr>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/05 10:15:24 by exam              #+#    #+#             */
+/*   Updated: 2021/03/05 10:16:15 by exam             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdarg.h>
+#include <unistd.h>
+#include <stdio.h>
+
+
+int is_in_cset(char c, char *chset)
+{
+    size_t index = 0;
+    
+    while (chset[index])
+    {
+        if(chset[index] == c)
+            return (1);
+        index++;
+    }
+    return (0);
+}
+
+size_t ft_Strlen(char *str)
+{
+    size_t index = 0;
+    
+    while(str[index])
+        index++;
+    return (index);
+}
+
+typedef struct  s_flags
+{
+	int			is_w;
+	int			width;
+	int			dot;
+	int			precision;
+	int			printed;
+	int			is_neg;
+	char		*str;
+	long long	nu;
+	char		type;
+}               t_flags;
+
+void clean_flags(t_flags *flags)
+{
+	flags->is_w = 0;
+	flags->width = 0;
+	flags->dot = 0;
+	flags->str = 0;
+	flags->nu = 0;
+	flags->is_neg = 0;
+	flags->precision = 0;
+	flags->type = 0;
+}
+
+void flagger(const char **str, t_flags *flags)
+{
+	char c;
+	while ((c = *str[0]) && is_in_cset(c, "0123456789"))
+	{
+		flags->width = (flags->width * 10) + c - '0';
+		flags->is_w = 1;
+		*str += 1;
+	}
+	if ((c = *str[0]) && c == '.')
+	{
+		flags->dot = 1;
+		*str += 1;
+	}
+	while ((c = *str[0]) && is_in_cset(c, "0123456789"))
+	{
+		flags->precision = (flags->precision * 10) + c - '0';
+		*str += 1;
+	}
+	if ((c = *str[0]) && is_in_cset(c, "sdx"))
+	{
+		flags->type = c;
+		*str += 1;
+	}
+}
+
+void ft_putnbr_base(long long nu, char *base, t_flags *flags)
+{
+	int len = ft_Strlen(base);
+	
+	if (nu >= len)
+	{
+		ft_putnbr_base(nu / len, base, flags);
+		ft_putnbr_base(nu % len, base, flags);
+	}
+	else
+	{
+		write(1, &base[nu], 1);
+		flags->printed += 1;
+	}
+}
+
+void ft_string_printer(t_flags *flags)
+{
+	int len = ft_Strlen(flags->str);
+	
+	if (flags->dot)
+	{
+		if (len > flags->precision)
+			len = flags->precision;
+	}
+	if (flags->is_w)
+	{
+		while (flags->width - len > 0)
+		{
+			write(1, " ", 1);
+			flags->printed += 1;
+			flags->width -= 1;
+		}
+	}
+	while (len)
+	{
+		write (1, flags->str, 1);
+		flags->str += 1;
+		flags->printed += 1;
+		len--;
+	}
+}
+
+int	to_print_base(long long nu, char *base)
+{
+	int len = ft_Strlen(base);
+	long long clone = nu;
+	int res = 1;
+	
+	while (clone /= len)
+	{
+		res += 1;
+	}
+	return (res);
+}
+
+void ft_num_printer(t_flags *flags, char *base)
+{
+	int to_print = to_print_base(flags->nu, base);
+	int len = to_print_base(flags->nu, base) + flags->is_neg;
+	if (flags->dot)
+	{
+		if (flags->precision > len)
+			to_print = flags->precision -= flags->is_neg;
+	}
+	if (flags->is_w)
+	{
+		while(flags->width > to_print)
+		{
+			write(1, " ",1);
+			flags->printed += 1;
+			flags->width -= 1;
+		}
+	}
+	if (flags->dot)
+	{
+		if(flags->is_neg)
+		{
+			write(1,"-",1);
+			flags->printed += 1;
+			flags->is_neg = 0;
+			to_print -= 1;
+		}
+		while(to_print > len)
+		{
+			write(1, "0", 1);
+			flags->printed += 1;
+			to_print -= 1;
+		}
+	}
+	if (flags->dot && flags->nu == 0)
+	{
+		if(flags->is_w)
+		{
+			write(1, " ",1);
+			flags->printed += 1;
+		}
+	}
+	else
+	{
+		if(flags->is_neg)
+		{
+			write(1,"-",1);
+			flags->printed += 1;
+		}
+		ft_putnbr_base(flags->nu, base, flags);
+	}
+}
+	
+int ft_printf(const char *str, ... )
+{
+	va_list list;
+	t_flags flags;
+	
+	clean_flags(&flags);
+	flags.printed = 0;
+	va_start(list, str);
+	while (*str)
+	{
+		if (*str == '%')
+		{
+			str += 1;
+			flagger(&str, &flags);
+			if (flags.type)
+			{
+				if (flags.type == 's')
+				{
+					flags.str = va_arg(list, char *);
+					ft_string_printer(&flags);
+				}
+				if (flags.type == 'd')
+				{
+					flags.nu = va_arg(list, int);
+					if (flags.nu < 0)
+					{
+						flags.nu *= -1;
+						flags.is_neg = 1;
+					}
+					ft_num_printer(&flags, "0123456789");
+				}
+				if (flags.type == 'x')
+				{
+					flags.nu = va_arg(list, unsigned);
+					ft_num_printer(&flags, "0123456789abcdef");
+				}
+			}
+			clean_flags(&flags);
+		}
+		else
+		{
+			write(1, str, 1);
+			flags.printed += 1;
+			str += 1;
+		}
+	}
+	return (flags.printed);
+}
+/*
+int main()
+{
+	int mio = ft_printf("%.3d\n", -11);
+	int suo = printf("%.3i\n", -11);
+	
+	printf("mio:%i,suo:%i\n", mio, suo);
+}
+*/
+

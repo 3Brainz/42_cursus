@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include  <stdarg.h>
+# include <mlx.h>
 # define MAP_SPACE_VAL 0
 
 /*
@@ -28,6 +29,8 @@ typedef struct	s_color
 	char		*blue;
 	char		*green;
 }				t_color;
+
+
 
 typedef struct	s_game_v
 {
@@ -76,6 +79,7 @@ void			free_game_v(t_game_v *game_v);
 
 int				is_color_filled(t_color *color);
 int 	is_map_moment(t_game_v *game_v);
+int		are_game_v_ok(t_game_v *game_v);
 
 /*
 ** Map_filler
