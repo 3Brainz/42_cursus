@@ -13,20 +13,19 @@
 #include "cub/libcub.h"
 #include <mlx.h>
 
-int main(int argc, char **argv)
+int main()
 {
 	
-	t_game_v game_v;
-	int a = 1;
+	t_game_v	game_v;
+	t_window	window;
+	t_data		image;
 
-	void *mlx = mlx_init ();
-	if (argc == 2)
-		printf("%s", argv[1]);
 	game_v_cleaner(&game_v);
 	game_v_filler(&game_v, "./map.cub");
-
-	mlx_new_window(mlx, 200, 200, "wewe");
-	while (a == 1)
-		a = 1;
+	start_win(&window, &game_v);
+	new_image(&image, &window, 1920, 1080);
+	my_mlx_pixel_put(&image, 0, 0, 0x00FF0000);
+	mlx_put_image_to_window(window.mlx, window.mlx_win, image.img, 0, 0);
+	mlx_loop(window.mlx);
 	return (0);
 }

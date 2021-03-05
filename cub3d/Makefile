@@ -28,7 +28,8 @@ CUB_SRCS =	game_v/game_v_reader.c \
 			utils/gen_utils.c \
 			game_v/game_v_checks.c \
 			map/map_filler.c \
-			map/map_checker.c
+			map/map_checker.c \
+			spell_caster/win_func.c
 
 LIBFT_DIR = libft/
 

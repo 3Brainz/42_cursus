@@ -47,6 +47,23 @@ typedef struct	s_game_v
 }				t_game_v;
 
 /*
+**Structures mlx
+*/
+
+typedef struct  s_data {
+    void        *img;
+    char        *addr;
+    int         bits_per_pixel;
+    int         line_length;
+    int         endian;
+}               t_data;
+
+typedef struct s_window{
+	void		*mlx;
+	void		*mlx_win;
+}				t_window;
+
+/*
 ** String_utilities
 */
 
@@ -101,5 +118,14 @@ int				is_map_valid(char **map);
 */
 
 int				game_v_filler(t_game_v *game_v, char *file_path);
+
+/*
+**Win_func
+*/
+
+void			start_win(t_window *window, t_game_v *game_v);
+void			my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void			new_image(t_data *image, t_window *window, int width, int height);
+
 
 #endif
