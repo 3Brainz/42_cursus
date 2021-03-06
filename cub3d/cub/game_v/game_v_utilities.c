@@ -16,6 +16,8 @@ void	game_v_cleaner(t_game_v *game_v)
 {
 	game_v->res_w = 0;
 	game_v->res_h = 0;
+	game_v->res_w_nu = 0;
+	game_v->res_h_nu = 0;
 	game_v->no_texture = 0;
 	game_v->so_texture = 0;
 	game_v->ea_texture = 0;

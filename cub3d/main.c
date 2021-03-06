@@ -23,8 +23,20 @@ int main()
 	game_v_cleaner(&game_v);
 	game_v_filler(&game_v, "./map.cub");
 	start_win(&window, &game_v);
-	new_image(&image, &window, 1920, 1080);
+	new_image(&image, &window, game_v.res_w_nu, game_v.res_h_nu);
 	my_mlx_pixel_put(&image, 0, 0, 0x00FF0000);
+	int x = 0;
+	int y = 0;
+	while (x < 100)
+	{
+		y = 0;
+		while (y < 100)
+		{
+			my_mlx_pixel_put(&image, x+10, y+10, 0x00FF0000);
+			y++;
+		}
+		x++;
+	}
 	mlx_put_image_to_window(window.mlx, window.mlx_win, image.img, 0, 0);
 	mlx_loop(window.mlx);
 	return (0);

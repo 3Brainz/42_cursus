@@ -35,12 +35,18 @@ static void	line_measures_analizer(char *str, t_game_v *game_v)
 		str++;
 		ft_jump_spaces(&str);
 		if (ft_isdigit(*str))
+		{
 			game_v->res_w = ft_substr(str, 0, ft_numlen(&str));
+			game_v->res_w_nu = ft_atoi(game_v->res_w);
+		}
 		else
 			return ;
 		ft_jump_spaces(&str);
 		if (ft_isdigit(*str))
+		{
 			game_v->res_h = ft_substr(str, 0, ft_numlen(&str));
+			game_v->res_h_nu = ft_atoi(game_v->res_h);
+		}
 		else
 			return ;
 	}

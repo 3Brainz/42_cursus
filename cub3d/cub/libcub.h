@@ -36,6 +36,8 @@ typedef struct	s_game_v
 {
 	char		*res_w;
 	char		*res_h;
+	int			res_w_nu;
+	int			res_h_nu;
 	char		*no_texture;
 	char		*so_texture;
 	char		*ea_texture;
