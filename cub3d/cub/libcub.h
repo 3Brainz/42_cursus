@@ -15,7 +15,7 @@
 # include "../libft/libft.h"
 # include <stdio.h>
 # include <fcntl.h>
-# include  <stdarg.h>
+# include <stdarg.h>
 # include <mlx.h>
 # define MAP_SPACE_VAL 0
 
@@ -29,8 +29,6 @@ typedef struct	s_color
 	char		*blue;
 	char		*green;
 }				t_color;
-
-
 
 typedef struct	s_game_v
 {
@@ -60,9 +58,31 @@ typedef struct  s_data {
     int         endian;
 }               t_data;
 
-typedef struct s_window{
+typedef struct s_mouse_ck{
+	int			button;
+	int			pos_x;
+	int			pos_y;
+}				t_mouse_ck;
+
+typedef struct s_keys{
+	int			w_key;
+	int			a_key;
+	int			s_key;
+	int			d_key;
+}				t_keys;
+
+typedef struct s_mouse_pos{
+	int			pos_x;
+	int			pos_y;
+}				t_mouse_pos;
+
+typedef struct 	s_window{
 	void		*mlx;
 	void		*mlx_win;
+	t_data		curr_img[1];
+	t_mouse_ck	click[1];
+	t_mouse_pos	mouse_pos[1];
+	t_keys		keys[1];
 }				t_window;
 
 /*
@@ -129,5 +149,26 @@ void			start_win(t_window *window, t_game_v *game_v);
 void			my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void			new_image(t_data *image, t_window *window, int width, int height);
 
+/*
+**Mouse funks
+*/
+
+int				mouse_click(int button, int pos_x,int pos_y, t_window *window);
+void			mouse_click_print(t_mouse_ck *click);
+
+/*
+**Structs_funcs
+*/
+
+void	clean_data(t_data *data);
+void	clean_mouse_pos(t_mouse_pos *mouse_pos);
+void 	clean_mouse_click(t_mouse_ck *click);
+void	clean_window_struct(t_window *window);
+
+/*
+**Keyboard_funcs
+*/
+
+int				key_hook(int keycode, t_window *window);
 
 #endif

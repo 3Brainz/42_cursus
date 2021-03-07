@@ -29,7 +29,10 @@ CUB_SRCS =	game_v/game_v_reader.c \
 			game_v/game_v_checks.c \
 			map/map_filler.c \
 			map/map_checker.c \
-			spell_caster/win_func.c
+			spell_caster/win_func.c\
+			spell_caster/mouse_hooks.c \
+			spell_caster/keyboard_hhoks.c \
+			spell_caster/struct_funcs.c
 
 LIBFT_DIR = libft/
 
@@ -79,7 +82,6 @@ LIBFT_SRCS =ft_memset.c \
 			ft_lstiter.c \
 			get_next_line.c \
 			ft_lstmap.c
-BNS_SRCS =	
 
 CUB_DIRSRCS = $(addprefix ${CUB_DIR}, ${CUB_SRCS})
 
@@ -91,9 +93,7 @@ LIBFT_OBJS = ${LIBFT_DIRSRCS:.c=.o}
 
 BNS_OBJS = $(BNS_SRCS:.c=.o)
 
-RM = rm -f
-
-.o.c: ${CC} ${CFLAGS} $<
+all: ${NAME}
 
 $(NAME): ${OBJS} ${LIBFT_OBJS}
 	@${AR} ${NAME} ${OBJS} ${LIBFT_OBJS}
@@ -104,8 +104,6 @@ $(NAME): ${OBJS} ${LIBFT_OBJS}
 bonus: $(NAME)
 	@ gcc $(CFLAGS) -c $(BNS_SRCS) -I ./
 	@ ar rc $(NAME) $(BNS_OBJS)
-
-all: ${NAME}
 
 clean:
 	@${RM} ${OBJS} $(BNS_OBJS) ${LIBFT_OBJS}
