@@ -97,7 +97,17 @@ typedef struct 	s_window{
 	t_mouse_pos	mouse_pos[1];
 	t_keys		keys[1];
 	int			close;
+	t_game_v	*game_v;
 }				t_window;
+
+/*
+**Player_structs
+*/
+
+typedef struct	s_player{
+float			pos_x;
+float			pos_y;
+}				t_player;
 
 /*
 ** String_utilities
@@ -188,5 +198,10 @@ void			clean_keys(t_keys *keys);
 int				key_hook_in(int keycode, t_window *window);
 int				key_hook_out(int keycode, t_window *window);
 
+/*
+**Minimap
+*/
+
+void			add_minimap_to_img(t_data *image, t_game_v *game_v, int factor);
 
 #endif

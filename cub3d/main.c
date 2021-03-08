@@ -30,9 +30,9 @@ int update(t_window *window)
 		}
 		x++;
 	}
+	add_minimap_to_img(&image, window->game_v, 3);
 	mlx_put_image_to_window(window->mlx, window->mlx_win, image.img, 0, 0);
 	mlx_destroy_image(window->mlx, image.img);
-	//printf("close:%i\n",window->close);
 	return (1);
 }
 
@@ -45,6 +45,7 @@ int main(void)
 
 	game_v_cleaner(game_v);
 	game_v_filler(game_v, "./map.cub");
+	window.game_v = game_v;
 	clean_window_struct(&window);
 	start_win(&window, game_v);
 	
