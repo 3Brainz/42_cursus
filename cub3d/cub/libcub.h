@@ -19,6 +19,15 @@
 # include <mlx.h>
 # define MAP_SPACE_VAL 0
 
+# define W_CODE 13
+# define A_CODE 0
+# define S_CODE 1
+# define D_CODE 2
+# define L_A_CODE 123
+# define R_A_CODE 124
+# define L_BUTTON 1
+# define R_BUTTON 2
+
 /*
 ** Structures
 */
@@ -64,17 +73,21 @@ typedef struct s_mouse_ck{
 	int			pos_y;
 }				t_mouse_ck;
 
-typedef struct s_keys{
-	int			w_key;
-	int			a_key;
-	int			s_key;
-	int			d_key;
-}				t_keys;
 
 typedef struct s_mouse_pos{
 	int			pos_x;
 	int			pos_y;
 }				t_mouse_pos;
+
+typedef struct s_keys{
+int				w_key;
+int				a_key;
+int				s_key;
+int				d_key;
+int				left_arrow;
+int				right_arrow;
+int				esc;
+}				t_keys;
 
 typedef struct 	s_window{
 	void		*mlx;
@@ -83,6 +96,7 @@ typedef struct 	s_window{
 	t_mouse_ck	click[1];
 	t_mouse_pos	mouse_pos[1];
 	t_keys		keys[1];
+	int			close;
 }				t_window;
 
 /*
@@ -155,20 +169,24 @@ void			new_image(t_data *image, t_window *window, int width, int height);
 
 int				mouse_click(int button, int pos_x,int pos_y, t_window *window);
 void			mouse_click_print(t_mouse_ck *click);
+int				mouse_pos_mov(int x, int y, t_window *window);
 
 /*
 **Structs_funcs
 */
 
-void	clean_data(t_data *data);
-void	clean_mouse_pos(t_mouse_pos *mouse_pos);
-void 	clean_mouse_click(t_mouse_ck *click);
-void	clean_window_struct(t_window *window);
+void			clean_data(t_data *data);
+void			clean_mouse_pos(t_mouse_pos *mouse_pos);
+void			clean_mouse_click(t_mouse_ck *click);
+void			clean_window_struct(t_window *window);
+void			clean_keys(t_keys *keys);
 
 /*
 **Keyboard_funcs
 */
 
-int				key_hook(int keycode, t_window *window);
+int				key_hook_in(int keycode, t_window *window);
+int				key_hook_out(int keycode, t_window *window);
+
 
 #endif

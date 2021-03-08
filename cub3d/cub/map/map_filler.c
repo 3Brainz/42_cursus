@@ -60,6 +60,7 @@ void	add_string_to_mat(char ***mat, char *str)
 	temp_mat = (char **)ft_calloc(sizeof(char*), len_mat + 2);
 	copy_mat(temp_mat, *mat);
 	temp_mat[len_mat] = ft_strdup(str);
-	free(*mat);
+	if (*mat)
+		free(*mat);
 	*mat = temp_mat;
 }

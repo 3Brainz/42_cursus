@@ -22,6 +22,17 @@ void 	clean_mouse_click(t_mouse_ck *click)
 	click->pos_y = 0;
 } 
 
+void	clean_keys(t_keys *keys)
+{
+	keys->w_key = 0;
+	keys->a_key = 0;
+	keys->s_key = 0;
+	keys->d_key = 0;
+	keys->left_arrow = 0;
+	keys->right_arrow = 0;
+	keys->esc = 0;
+}
+
 void	clean_window_struct(t_window *window)
 {
 	window->mlx = 0;
@@ -29,5 +40,7 @@ void	clean_window_struct(t_window *window)
 	clean_data(window->curr_img);
 	clean_mouse_click(window->click);
 	clean_mouse_pos(window->mouse_pos);
+	clean_keys(window->keys);
+	window->close = 0;
 }
 

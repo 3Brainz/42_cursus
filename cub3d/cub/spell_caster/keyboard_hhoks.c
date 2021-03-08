@@ -1,8 +1,19 @@
 #include "../libcub.h"
 
-int		key_hook(int keycode, t_window *window)
+void	set_key_on(int *key)
 {
-	printf("keycode:%i\nwindowptr:%p\n", keycode, window);
-	
+	*key = 0;
+}
+
+int		key_hook_in(int keycode, t_window *window)
+{
+	printf("keycode_in:%i,windowptr:%p\n", keycode, window);
 	return (0);
 }
+
+int key_hook_out(int keycode, t_window *window)
+{
+	printf("keycode_out:%i,windowptr:%p\n", keycode, window);
+	return (0);
+}
+
