@@ -39,6 +39,11 @@ typedef struct	s_color
 	char		*green;
 }				t_color;
 
+typedef struct	s_size{
+	int			size_x;
+	int			size_y;
+}				t_size;
+
 typedef struct	s_game_v
 {
 	char		*res_w;
@@ -53,6 +58,7 @@ typedef struct	s_game_v
 	t_color		floor_color[1];
 	t_color		ceiling_color[1];
 	char		**map;
+	t_size		map_size[1];
 }				t_game_v;
 
 /*
@@ -79,26 +85,15 @@ typedef struct s_mouse_pos{
 	int			pos_y;
 }				t_mouse_pos;
 
-typedef struct s_keys{
-int				w_key;
-int				a_key;
-int				s_key;
-int				d_key;
-int				left_arrow;
-int				right_arrow;
-int				esc;
+typedef struct	s_keys{
+	int			w_key;
+	int			a_key;
+	int			s_key;
+	int			d_key;
+	int			left_arrow;
+	int			right_arrow;
+	int			esc;
 }				t_keys;
-
-typedef struct 	s_window{
-	void		*mlx;
-	void		*mlx_win;
-	t_data		curr_img[1];
-	t_mouse_ck	click[1];
-	t_mouse_pos	mouse_pos[1];
-	t_keys		keys[1];
-	int			close;
-	t_game_v	*game_v;
-}				t_window;
 
 /*
 **Player_structs
@@ -110,6 +105,26 @@ float			pos_y;
 }				t_player;
 
 /*
+**ALLTHEFREAINGWINDOWISHERE_____________________________________
+*/
+
+typedef struct 	s_window{
+	void		*mlx;
+	void		*mlx_win;
+	t_data		curr_img[1];
+	t_mouse_ck	click[1];
+	t_mouse_pos	mouse_pos[1];
+	t_keys		keys[1];
+	int			close;
+	t_game_v	*game_v;
+	t_player	player[1];
+}				t_window;
+
+/*
+**figures_structs
+*/
+
+/*
 ** String_utilities
 */
 
@@ -117,7 +132,8 @@ int				ft_numlen(char **str);
 void			ft_jump_spaces(char **str);
 char			*ft_strjoin_new_line(char const *s1, char const *s2);
 void			change_char_in_s(char *str, char dest, char substitute);
-void			free_mat(void **mat);
+int				is_in_cset(char c, char *c_set);
+
 
 /*
 **Gen_utils
@@ -125,6 +141,7 @@ void			free_mat(void **mat);
 
 void			initialize_vars(int vars_number, ...);
 void			free_if_exists(void **var);
+void			free_mat(void **mat);
 
 /*
 ** Game_v_utils_functions
@@ -152,11 +169,13 @@ void			print_mat(char **mat);
 void			copy_mat(char **dest, char **src);
 size_t			mat_len(char **mat);
 void			add_string_to_mat(char ***mat, char *str);
+void			mat_size(t_game_v *game_v);
 
 /*
 **Map_c
 */
 
+int				just_one_player(char **map);
 int				is_map_valid(char **map);
 
 /*
@@ -202,6 +221,6 @@ int				key_hook_out(int keycode, t_window *window);
 **Minimap
 */
 
-void			add_minimap_to_img(t_data *image, t_game_v *game_v, int factor);
+void			minimap_img(t_data *img, t_game_v *game_v, int fac, int d_f_b);
 
 #endif

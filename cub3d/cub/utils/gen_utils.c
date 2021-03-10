@@ -33,3 +33,18 @@ void	free_if_exists(void **var)
 		free(*var);
 	*var = 0;
 }
+
+void	free_mat(void **mat)
+{
+	size_t index;
+
+	index = 0;
+	if(mat)
+	{
+		while(mat[index])
+		{
+			free_if_exists(&mat[index]);
+			index++;
+		}
+	}
+}

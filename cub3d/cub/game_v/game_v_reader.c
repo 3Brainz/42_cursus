@@ -93,5 +93,5 @@ int			game_v_filler(t_game_v *game_v, char *file_path)
 		return (1);
 	free_game_v(game_v);
 	printf("\nError\n");
-	return (-1);
+	return (0);
 }

@@ -64,3 +64,23 @@ void	add_string_to_mat(char ***mat, char *str)
 		free(*mat);
 	*mat = temp_mat;
 }
+
+void	mat_size(t_game_v *game_v)
+{
+	int y_index;
+	int len;
+
+	y_index = 0;
+	{
+		game_v->map_size->size_x = ft_strlen(game_v->map[0]);
+		while (game_v->map[y_index])
+		{
+			if ((len = ft_strlen(game_v->map[y_index])) >
+						game_v->map_size->size_x)
+				game_v->map_size->size_x = len;
+			y_index++;
+		}
+	game_v->map_size->size_y = mat_len(game_v->map);
+	}
+}
+

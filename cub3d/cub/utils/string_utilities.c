@@ -64,17 +64,13 @@ void	change_char_in_s(char *str, char dest, char substitute)
 	}
 }
 
-void	free_mat(void **mat)
+int		is_in_cset(char c, char *c_set)
 {
-	size_t index;
-
-	index = 0;
-	if(mat)
+	while (*c_set)
 	{
-		while(mat[index])
-		{
-			free_if_exists(&mat[index]);
-			index++;
-		}
+		if (*c_set == c)
+			return (1);
+		c_set++;
 	}
+	return (0);
 }

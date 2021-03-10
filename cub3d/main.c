@@ -12,27 +12,20 @@
 
 #include "cub/libcub.h"
 
+/*static void print_keys(t_keys *keys)
+{
+	printf("w:%i\na:%i\ns:%i\nd:%i\nl:%i\nr:%i\n", keys->w_key, keys->a_key,keys->s_key,keys->d_key, keys->left_arrow, keys->right_arrow);
+}*/
+
 int update(t_window *window)
 {
 	t_data		image;
 
 	new_image(&image, window, 1980, 1020);
-	
-	int x = 0;
-	int y = 0;
-	while (x < 100)
-	{
-		y = 0;
-		while (y < 100)
-		{
-			my_mlx_pixel_put(&image, x+10, y+10, 0x00FF0000);
-			y++;
-		}
-		x++;
-	}
-	add_minimap_to_img(&image, window->game_v, 3);
+	minimap_img(&image, window->game_v, 3, 60);
 	mlx_put_image_to_window(window->mlx, window->mlx_win, image.img, 0, 0);
 	mlx_destroy_image(window->mlx, image.img);
+	//print_keys(window->keys);
 	return (1);
 }
 
@@ -44,7 +37,8 @@ int main(void)
 	
 
 	game_v_cleaner(game_v);
-	game_v_filler(game_v, "./map.cub");
+	if(!game_v_filler(game_v, "./map.cub"))
+		return (0);
 	window.game_v = game_v;
 	clean_window_struct(&window);
 	start_win(&window, game_v);

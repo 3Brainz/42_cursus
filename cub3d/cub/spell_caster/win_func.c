@@ -19,6 +19,8 @@ void	start_win(t_window *window, t_game_v *game_v)
 
 	res_w = ft_atoi(game_v->res_w);
 	res_h = ft_atoi(game_v->res_h);
+	window->game_v = game_v;
+	clean_keys(window->keys);
 	window->mlx = mlx_init ();
 	window->mlx_win = mlx_new_window(window->mlx, res_w, res_h, "wewe");
 }
