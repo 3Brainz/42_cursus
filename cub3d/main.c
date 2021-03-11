@@ -27,7 +27,7 @@ int update(t_window *window)
 	t_data		image;
 
 	player_movement(window->keys, window->player, window->game_v->map);
-	print_player(window->player);
+	//print_player(window->player);
 	//print_keys(window->keys);
 	new_image(&image, window,
 				window->game_v->res_w_nu, window->game_v->res_h_nu);

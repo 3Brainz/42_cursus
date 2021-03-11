@@ -26,43 +26,47 @@ void	straight_mov(t_player *player, char dir, char **map)
 	{
 		next_y = player->pos_y + (player->speed * cos(player->inclination));
 		next_x = player->pos_x + (player->speed * sin(player->inclination));
-		if (map[(int)next_y][(int)next_x] != 1)
+		if (map[(int)next_y][(int)next_x] == '0')
 		{
 			player->pos_y = next_y;
 			player->pos_x = next_x;
 		}
-		/*
-		player->pos_y += (player->speed * cos(player->inclination));
-		player->pos_x += (player->speed * sin(player->inclination));
-		*/
 	}
 	else if (dir == 'F')
 	{
 		next_y = player->pos_y - (player->speed * cos(player->inclination));
 		next_x = player->pos_x - (player->speed * sin(player->inclination));
-		if (map[(int)next_y][(int)next_x] != 1)
+		if (map[(int)next_y][(int)next_x] == '0')
 		{
 			player->pos_y = next_y;
 			player->pos_x = next_x;
 		}
-		/*
-		player->pos_y -= (player->speed * cos(player->inclination));
-		player->pos_x -= (player->speed * sin(player->inclination));
-		*/
-	}	
+	}
 }
 
-void	side_mov(t_player *player, int dir)
+void	side_mov(t_player *player, int dir, char **map)
 {
+	float next_y;
+	float next_x;
 	if (dir == 'L')
 	{
-		player->pos_y += (player->speed * cos(player->inclination + M_PI / 2));
-		player->pos_x += (player->speed * sin(player->inclination + M_PI / 2));
+		next_y = player->pos_y + (player->speed * cos(player->inclination + M_PI / 2));
+		next_x = player->pos_x + (player->speed * sin(player->inclination + M_PI / 2));
+		if (map[(int)next_y][(int)next_x] == '0')
+		{
+			player->pos_y = next_y;
+			player->pos_x = next_x;
+		}
 	}
 	else if (dir == 'R')
 	{
-		player->pos_y -= (player->speed * cos(player->inclination + M_PI / 2));
-		player->pos_x -= (player->speed * sin(player->inclination + M_PI / 2));
+		next_y = player->pos_y - (player->speed * cos(player->inclination + M_PI / 2));
+		next_x = player->pos_x - (player->speed * sin(player->inclination + M_PI / 2));
+		if (map[(int)next_y][(int)next_x] == '0')
+		{
+			player->pos_y = next_y;
+			player->pos_x = next_x;
+		}
 	}
 }
 
@@ -81,9 +85,9 @@ void	player_movement(t_keys *keys, t_player *player, char **map)
 	if (keys->w_key)
 		straight_mov(player, 'F', map);
 	if (keys->a_key)
-		side_mov(player, 'R');
+		side_mov(player, 'R', map);
 	if (keys->s_key)
 		straight_mov(player, 'B', map);
 	if (keys->d_key)
-		side_mov(player, 'L');
+		side_mov(player, 'L', map);
 }

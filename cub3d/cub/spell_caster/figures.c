@@ -27,7 +27,7 @@ void print_rect(t_data *img, float *origins, t_window *window, float size)
 	int y;
 
 	x = origins[1] - size / 2;
-y =- size / 2;
+	y =	origins[2] - size / 2;
 	while (y < origins[0] + size / 2)
 	{
 		x = origins[1] - size / 2;

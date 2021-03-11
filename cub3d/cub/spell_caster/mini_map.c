@@ -33,15 +33,23 @@ void	minimap_img(t_data *img, t_game_v *game_v, int fac, int d_f_b)
 		print_y++;
 	}
 }
-
-void	minimap_img(t_data *img, t_game_v game_v)
+/*
+void	minimap_img(t_data *img, t_game_v *game_v)
 {
-	int dim_x;
-	int dim_y;
+	float dimensions[2];
+	int factor;
+	int variable;
 
-	dim_x = game_v->map_size->size_x;
-	dim_y = game_v->map_size->size_y;
+	factor = 0;
+	dimensions[1] = game_v->map_size->size_x;
+	dimensions[0] = game_v->map_size->size_y;
+	if (dimensions[0] > dimensions[1])
 	{
-		
+		variable = dimensions[0];
+		while (va)
 	}
-}
+	else
+	{
+		variable = dimensions[1];
+	}
+}*/
