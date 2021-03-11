@@ -33,7 +33,9 @@
 # define ONE_DEGREE M_PI / 180
 # define NORMAL_SPEED 0.1
 # define RUNNING_SPEED 1
-
+# define P_POSX player->pos_x
+# define P_POSY player->pos_y
+#  define P_INCL player->inclination
 /*
 ** Structures
 */
