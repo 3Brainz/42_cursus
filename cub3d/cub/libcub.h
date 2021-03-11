@@ -17,6 +17,7 @@
 # include <fcntl.h>
 # include <stdarg.h>
 # include <mlx.h>
+# include <math.h>
 # define MAP_SPACE_VAL 0
 
 # define W_CODE 13
@@ -27,7 +28,7 @@
 # define R_A_CODE 124
 # define L_BUTTON 1
 # define R_BUTTON 2
-
+# define ONE_DEGREE M_PI / 360
 /*
 ** Structures
 */
@@ -102,10 +103,11 @@ typedef struct	s_keys{
 typedef struct	s_player{
 float			pos_x;
 float			pos_y;
+float			inclination;
 }				t_player;
 
 /*
-**ALLTHEFREAINGWINDOWISHERE_____________________________________
+**ALLTHEFREAINGWINDOWISHERE_____________________________________________
 */
 
 typedef struct 	s_window{
@@ -172,11 +174,18 @@ void			add_string_to_mat(char ***mat, char *str);
 void			mat_size(t_game_v *game_v);
 
 /*
-**Map_c
+**Player_checks
 */
 
 int				just_one_player(char **map);
-int				is_map_valid(char **map);
+void 			player_positioner(t_player *player, int pos_x, int pos_y, char direction);
+void 			where_is_the_player(char **map, t_player *player);
+
+/*
+**Map_c
+*/
+
+int			is_map_valid(char **map);
 
 /*
 ** game_v_reader_functions
@@ -216,6 +225,12 @@ void			clean_keys(t_keys *keys);
 
 int				key_hook_in(int keycode, t_window *window);
 int				key_hook_out(int keycode, t_window *window);
+
+/*
+**Player_movement
+*/
+
+void			player_movement(t_keys *keys, t_player *player, char **map);
 
 /*
 **Minimap

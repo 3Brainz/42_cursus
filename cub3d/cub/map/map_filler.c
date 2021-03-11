@@ -80,7 +80,6 @@ void	mat_size(t_game_v *game_v)
 				game_v->map_size->size_x = len;
 			y_index++;
 		}
-	game_v->map_size->size_y = mat_len(game_v->map);
+		game_v->map_size->size_y = mat_len(game_v->map);
 	}
 }
-

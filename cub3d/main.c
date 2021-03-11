@@ -17,15 +17,23 @@
 	printf("w:%i\na:%i\ns:%i\nd:%i\nl:%i\nr:%i\n", keys->w_key, keys->a_key,keys->s_key,keys->d_key, keys->left_arrow, keys->right_arrow);
 }*/
 
+static void print_player(t_player *player)
+{
+	printf("pos_x:%f,pos_y:%f,inclination:%f\n",player->pos_x, player->pos_y, player->inclination);
+}
+
 int update(t_window *window)
 {
 	t_data		image;
 
-	new_image(&image, window, 1980, 1020);
-	minimap_img(&image, window->game_v, 3, 60);
+	player_movement(window->keys, window->player, window->game_v->map);
+	print_player(window->player);
+	//print_keys(window->keys);
+	new_image(&image, window,
+				window->game_v->res_w_nu, window->game_v->res_h_nu);
+	minimap_img(&image, window->game_v, 3, 0);
 	mlx_put_image_to_window(window->mlx, window->mlx_win, image.img, 0, 0);
 	mlx_destroy_image(window->mlx, image.img);
-	//print_keys(window->keys);
 	return (1);
 }
 

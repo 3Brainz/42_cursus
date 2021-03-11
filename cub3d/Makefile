@@ -33,7 +33,9 @@ CUB_SRCS =	game_v/game_v_reader.c \
 			spell_caster/mouse_hooks.c \
 			spell_caster/keyboard_hhoks.c \
 			spell_caster/struct_funcs.c \
-			spell_caster/mini_map.c
+			spell_caster/mini_map.c \
+			map/player_checker.c \
+			player_mov/player_mov.c
 
 LIBFT_DIR = libft/
 
