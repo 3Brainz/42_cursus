@@ -26,9 +26,14 @@
 # define D_CODE 2
 # define L_A_CODE 123
 # define R_A_CODE 124
+# define SHIFT_CODE 257
+# define ESC_CODE 53
 # define L_BUTTON 1
 # define R_BUTTON 2
-# define ONE_DEGREE M_PI / 360
+# define ONE_DEGREE M_PI / 180
+# define NORMAL_SPEED 0.1
+# define RUNNING_SPEED 1
+
 /*
 ** Structures
 */
@@ -85,7 +90,11 @@ typedef struct s_mouse_pos{
 	int			pos_x;
 	int			pos_y;
 }				t_mouse_pos;
+/*
+typedef struct s_mouse_delta{
 
+}				t_mouse_delta;
+*/
 typedef struct	s_keys{
 	int			w_key;
 	int			a_key;
@@ -93,6 +102,7 @@ typedef struct	s_keys{
 	int			d_key;
 	int			left_arrow;
 	int			right_arrow;
+	int			shift;
 	int			esc;
 }				t_keys;
 
@@ -104,6 +114,7 @@ typedef struct	s_player{
 float			pos_x;
 float			pos_y;
 float			inclination;
+float			speed;
 }				t_player;
 
 /*
@@ -237,5 +248,11 @@ void			player_movement(t_keys *keys, t_player *player, char **map);
 */
 
 void			minimap_img(t_data *img, t_game_v *game_v, int fac, int d_f_b);
+
+/*
+**FIGEUres
+*/
+
+void			print_pg(t_data *img, t_window *window, int dim);
 
 #endif

@@ -72,8 +72,10 @@ int			game_v_filler(t_game_v *game_v, char *file_path)
 {
 	int		game_v_fd;
 	char	*line;
+	int		mat_start;
 
 	line = 0;
+	mat_start = 0;
 	game_v_fd = open(file_path, 00);
 	while (get_next_line(game_v_fd, &line))
 	{
@@ -84,7 +86,10 @@ int			game_v_filler(t_game_v *game_v, char *file_path)
 	}
 	while (get_next_line(game_v_fd, &line))
 	{
-		add_string_to_mat(&game_v->map, line);
+		if (ft_strlen(line))
+			mat_start = 1;
+		if (mat_start)
+			add_string_to_mat(&game_v->map, line);
 		free(line);
 	}
 	add_string_to_mat(&game_v->map, line);

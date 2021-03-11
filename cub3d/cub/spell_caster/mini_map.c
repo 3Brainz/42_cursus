@@ -33,3 +33,15 @@ void	minimap_img(t_data *img, t_game_v *game_v, int fac, int d_f_b)
 		print_y++;
 	}
 }
+
+void	minimap_img(t_data *img, t_game_v game_v)
+{
+	int dim_x;
+	int dim_y;
+
+	dim_x = game_v->map_size->size_x;
+	dim_y = game_v->map_size->size_y;
+	{
+		
+	}
+}

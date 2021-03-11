@@ -35,7 +35,8 @@ CUB_SRCS =	game_v/game_v_reader.c \
 			spell_caster/struct_funcs.c \
 			spell_caster/mini_map.c \
 			map/player_checker.c \
-			player_mov/player_mov.c
+			player_mov/player_mov.c \
+			spell_caster/figures.c
 
 LIBFT_DIR = libft/
 

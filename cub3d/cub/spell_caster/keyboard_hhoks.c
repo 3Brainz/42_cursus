@@ -14,6 +14,10 @@ void		set_key_on(int keycode, t_window *window, int val)
 		window->keys->left_arrow = val;
 	if (keycode == R_A_CODE)
 		window->keys->right_arrow = val;
+	if (keycode == SHIFT_CODE)
+		window->keys->shift = val;
+	if (keycode == ESC_CODE)
+		window->keys->esc = val;
 }
 
 int			key_hook_in(int keycode, t_window *window)

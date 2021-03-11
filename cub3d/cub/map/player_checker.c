@@ -62,6 +62,7 @@ void where_is_the_player(char **map, t_player *player)
 			if (is_in_cset(c, "NOSW"))
 			{
 				player_positioner(player, x_index, y_index, c);
+				map[y_index][x_index] = 0;
 				return ;
 			}
 			x_index++;
