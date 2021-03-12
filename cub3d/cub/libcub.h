@@ -35,7 +35,8 @@
 # define RUNNING_SPEED 1
 # define P_POSX player->pos_x
 # define P_POSY player->pos_y
-#  define P_INCL player->inclination
+# define P_INCL player->inclination
+
 /*
 ** Structures
 */
