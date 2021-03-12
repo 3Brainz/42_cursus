@@ -113,11 +113,20 @@ typedef struct	s_keys{
 **Player_structs
 */
 
+typedef struct	s_plane{
+	float		rel_dir_x;
+	float		rel_dir_y;
+	float		plane_v_x;
+	float		plane_v_y;
+}				t_plane
+
 typedef struct	s_player{
-float			pos_x;
-float			pos_y;
-float			inclination;
-float			speed;
+
+	float		pos_x;
+	float		pos_y;
+	float		inclination;
+	float		speed;
+	t_plane		plane[1];
 }				t_player;
 
 /*
