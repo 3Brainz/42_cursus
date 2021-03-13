@@ -1,7 +1,7 @@
 
 #include "../libcub.h"
 
-int		just_one_player(char **map)
+int				just_one_player(char **map)
 {
 	int		y_index;
 	int		x_index;
@@ -32,10 +32,33 @@ int		just_one_player(char **map)
 	return (1);
 }
 
-void	player_positioner(t_player *player, int pos_x, int pos_y, char dir)
+static void		plane_positioner(t_player *player, char dir)
 {
-	player->pos_x = pos_x;
-	player->pos_y = pos_y;
+	plane_cleaner(player->plane);
+	if (dir == 'N')
+	{
+		player->plane->rel_dir_y = -1;
+		player->plane->plane_v_x = -0.66;
+	}
+	if (dir == 'E')
+	{
+		player->plane->rel_dir_x = 1;
+		player->plane->plane_v_y = 0.66;
+	}
+	if (dir == 'S')
+	{
+		player->plane->rel_dir_y = 1;
+		player->plane->plane_v_x = 0.66;
+	}
+	if (dir == 'O')
+	{
+		player->plane->rel_dir_x = -1;
+		player->plane->plane_v_y = -0.66;
+	}
+}
+
+static void		player_directioner(t_player *player, char dir)
+{
 	if (dir == 'N')
 		player->inclination = 0;
 	if (dir == 'E')
@@ -46,7 +69,15 @@ void	player_positioner(t_player *player, int pos_x, int pos_y, char dir)
 		player->inclination = 3 * M_PI / 2;
 }
 
-void where_is_the_player(char **map, t_player *player)
+void			player_positioner(t_player *player, int pos_x, int pos_y, char dir)
+{
+	player->pos_x = pos_x + 0.5;
+	player->pos_y = pos_y + 0.5;
+	player_directioner(player, dir);
+	plane_positioner(player, dir);
+}
+
+void 			where_is_the_player(char **map, t_player *player)
 {
 	int		x_index;
 	int		y_index;

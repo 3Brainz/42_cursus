@@ -118,7 +118,7 @@ typedef struct	s_plane{
 	float		rel_dir_y;
 	float		plane_v_x;
 	float		plane_v_y;
-}				t_plane
+}				t_plane;
 
 typedef struct	s_player{
 
@@ -203,6 +203,12 @@ void			mat_size(t_game_v *game_v);
 int				just_one_player(char **map);
 void 			player_positioner(t_player *player, int pos_x, int pos_y, char direction);
 void 			where_is_the_player(char **map, t_player *player);
+
+/*
+**player_utils
+*/
+
+void			plane_cleaner(t_plane *plane);
 
 /*
 **Map_c
