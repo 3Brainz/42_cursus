@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   player_checker.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ppunzo <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/13 16:48:28 by ppunzo            #+#    #+#             */
+/*   Updated: 2021/03/13 16:48:29 by ppunzo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../libcub.h"
 
@@ -6,20 +17,18 @@ int				just_one_player(char **map)
 	int		y_index;
 	int		x_index;
 	char	pos;
-	char	c;
 
 	pos = 0;
 	y_index = 0;
-	x_index = 0;
 	while (map[y_index])
 	{
 		x_index = 0;
-		while ((c = map[y_index][x_index]))
+		while (map[y_index][x_index])
 		{
-			if (is_in_cset(c, "NOWS"))
+			if (is_in_cset(map[y_index][x_index], "NOWS"))
 			{
 				if(!pos)
-					pos = c;
+					pos = map[y_index][x_index];
 				else
 					return (0);
 			}
@@ -71,8 +80,8 @@ static void		player_directioner(t_player *player, char dir)
 
 void			player_positioner(t_player *player, int pos_x, int pos_y, char dir)
 {
-	player->pos_x = pos_x + 0.5;
-	player->pos_y = pos_y + 0.5;
+	player->pos_x = pos_x;
+	player->pos_y = pos_y;
 	player_directioner(player, dir);
 	plane_positioner(player, dir);
 }

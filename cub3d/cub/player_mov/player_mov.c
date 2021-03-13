@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   player_mov.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ppunzo <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/13 16:47:43 by ppunzo            #+#    #+#             */
+/*   Updated: 2021/03/13 16:47:45 by ppunzo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../libcub.h"
 
 void	decrement_degree(float *inclination, float degree)
 {
 	if (*inclination + degree >= 2 * M_PI)
-		*inclination = -2 * M_PI;
+		*inclination = 0;
 	else
 		*inclination += degree;
 }

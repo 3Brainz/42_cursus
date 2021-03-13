@@ -41,3 +41,32 @@ void print_rect(t_data *img, float *origins, t_window *window, float size)
 		y++;
 	}
 }
+
+void	print_sky_and_floor(t_data *img, t_game_v *game_v)
+{
+	int y_index;
+	int x_index;
+
+	y_index = 0;
+	x_index = 0;
+	while (y_index < game_v->res_h_nu / 2)
+	{
+		x_index = 0;
+		while (x_index < game_v->res_w_nu)
+		{
+			my_mlx_pixel_put(img, x_index, y_index, game_v->ceiling_color->n_color);
+			x_index++;
+		}
+		y_index++;
+	}
+	while (y_index < game_v->res_h_nu)
+	{
+		x_index = 0;
+		while (x_index < game_v->res_w_nu)
+		{
+			my_mlx_pixel_put(img, x_index, y_index, game_v->floor_color->n_color);
+			x_index++;
+		}
+		y_index++;
+	}
+}

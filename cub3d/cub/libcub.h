@@ -46,6 +46,7 @@ typedef struct	s_color
 	char		*red;
 	char		*blue;
 	char		*green;
+	int			n_color;
 }				t_color;
 
 typedef struct	s_size{
@@ -272,5 +273,6 @@ void			minimap_img(t_data *img, t_game_v *game_v, int fac, int d_f_b);
 */
 
 void			print_pg(t_data *img, t_window *window, int dim);
+void			print_sky_and_floor(t_data *img, t_game_v *game_v);
 
 #endif

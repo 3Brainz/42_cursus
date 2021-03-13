@@ -15,7 +15,12 @@
 int		is_color_filled(t_color *color)
 {
 	if (color->red && color->green && color->blue)
+	{
+		int t = 1;
+		color->n_color = (t << 24 | ft_atoi(color->red) << 16 |
+							ft_atoi(color->green) << 8 | ft_atoi(color->blue));
 		return (1);
+	}
 	return (0);
 }
 

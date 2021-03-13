@@ -27,11 +27,12 @@ int update(t_window *window)
 	t_data		image;
 
 	player_movement(window->keys, window->player, window->game_v->map);
-	//print_player(window->player);
+	print_player(window->player);
 	//print_keys(window->keys);
 	new_image(&image, window,
 				window->game_v->res_w_nu, window->game_v->res_h_nu);
 	//minimap_img(&image, window->game_v, 3, 0);
+	print_sky_and_floor(&image, window->game_v);
 	print_pg(&image, window, 10);
 	mlx_put_image_to_window(window->mlx, window->mlx_win, image.img, 0, 0);
 	mlx_destroy_image(window->mlx, image.img);
