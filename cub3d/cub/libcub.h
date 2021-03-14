@@ -115,8 +115,8 @@ typedef struct	s_keys{
 */
 
 typedef struct	s_plane{
-	float		rel_dir_x;
-	float		rel_dir_y;
+	float		dir_x;
+	float		dir_y;
 	float		plane_v_x;
 	float		plane_v_y;
 }				t_plane;
