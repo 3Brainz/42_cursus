@@ -2,6 +2,7 @@
 
 void	ver_line(int x_cord, int y_start, int y_end, int color, t_data *img)
 {
+	//printf("start:%i,end:%i\n",y_start,y_end);
 	while(y_start < y_end)
 	{
 		my_mlx_pixel_put(img, x_cord, y_start, color);
@@ -11,103 +12,102 @@ void	ver_line(int x_cord, int y_start, int y_end, int color, t_data *img)
 
 void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
 {
-	int x;
-
-	x = 0;
+	int x = 0;
 	while (x < game_v->res_w_nu)
 	{
-		double ray_dir_x;
-		double ray_dir_y;
-		double camera_x;
+		//calculate ray position and direction
+		double cameraX = 2 * x / (double)game_v->res_w_nu - 1; //x-coordinate in camera space
+		double rayDirX = player->plane->dir_x + player->plane->plane_x * cameraX;
+		double rayDirY = player->plane->dir_y + player->plane->plane_y * cameraX;
+		//which box of the map we're in
+		int mapX = (int)(player->pos_x);
+		int mapY = (int)(player->pos_y);
 
-		camera_x = 2 * x / (double)game_v->res_w_nu - 1;
-		ray_dir_x = player->plane->dir_x + player->plane->plane_x * camera_x;
-		ray_dir_y = player->plane->dir_y + player->plane->plane_y * camera_x;
+		//length of ray from current position to next x or y-side
+		double sideDistX;
+		double sideDistY;
 
-		double delta_dist_x;
-		double delta_dist_y;
+		//length of ray from one x or y-side to next x or y-side
+		double deltaDistX = fabs(1 / rayDirX);
+		double deltaDistY = fabs(1 / rayDirY);
+		double perpWallDist;
 
-		delta_dist_x = fabs(1 / ray_dir_x);
-		delta_dist_y = fabs(1 / ray_dir_y);
+		//what direction to step in x or y-direction (either +1 or -1)
+		int stepX;
+		int stepY;
 
-		double perp_wall_dist;
-
-		int map_x = (int)(player->pos_x);
-      	int map_y = (int)(player->pos_y);
-
-		double side_dist_x;
-		double side_dist_y;
-		int step_x;
-		int step_y;
-		int hit = 0;
-		int side;
-
-		if (ray_dir_x < 0)
+		int hit = 0; //was there a wall hit?
+		int side; //was a NS or a EW wall hit?
+		//calculate step and initial sideDist
+		if(rayDirX < 0)
 		{
-			step_x = -1;
-			side_dist_x = (player->pos_x - map_x) * delta_dist_x;
+			stepX = -1;
+			sideDistX = (player->pos_x - mapX) * deltaDistX;
 		}
 		else
 		{
-			step_x = 1;
-			side_dist_x = (map_x + 1.0 - player->pos_x) * delta_dist_x;
+			stepX = 1;
+			sideDistX = (mapX + 1.0 - player->pos_x) * deltaDistX;
 		}
-		if (ray_dir_y < 0)
+		if(rayDirY < 0)
 		{
-			step_y = -1;
-			side_dist_y = (player->pos_y - map_y) * delta_dist_y;
+			stepY = -1;
+			sideDistY = (player->pos_y - mapY) * deltaDistY;
 		}
 		else
 		{
-			step_y = 1;
-			side_dist_y = (map_y + 1.0 - player->pos_y) * delta_dist_y;
+			stepY = 1;
+			sideDistY = (mapY + 1.0 - player->pos_y) * deltaDistY;
 		}
-		 while (hit == 0)
+		//perform DDA
+		while (hit == 0)
 		{
-			if (side_dist_x < side_dist_y)
+			//jump to next map square, OR in x-direction, OR in y-direction
+			if(sideDistX < sideDistY)
 			{
-			side_dist_x += delta_dist_x;
-			map_x += step_x;
+			sideDistX += deltaDistX;
+			mapX += stepX;
 			side = 0;
 			}
 			else
 			{
-			side_dist_y += delta_dist_y;
-			map_y += step_y;
+			sideDistY += deltaDistY;
+			mapY += stepY;
 			side = 1;
 			}
-			if (game_v->map[map_x][map_y] > 0)
-				hit = 1;
-		} 	
-		if (side == 0)
-			perp_wall_dist = (map_x - player->pos_x + (1 - step_x) / 2) / ray_dir_x;
-		else
-			perp_wall_dist = (map_y - player->pos_y + (1 - step_y) / 2) / ray_dir_y;
+			//Check if ray has hit a wall
+			if(game_v->map[mapY][mapX] > 0) hit = 1;
+		}
+		//Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
+		if(side == 0) perpWallDist = (mapX - player->pos_x + (1 - stepX) / 2) / rayDirX;
+		else          perpWallDist = (mapY - player->pos_y + (1 - stepY) / 2) / rayDirY;
 
-		int line_height;
-		line_height = (int)(game_v->res_h_nu / perp_wall_dist);
-		int draw_start;
-		draw_start = -line_height / 2 + game_v->res_h_nu / 2;
-		if(draw_start < 0)
-			draw_start = 0;
-     	int draw_end;
-		 draw_end = line_height / 2 + game_v->res_h_nu / 2;
-      	if(draw_end >= game_v->res_h_nu)
-		  	draw_end = game_v->res_h_nu - 1;
+		//Calculate height of line to draw on screen
+		int lineHeight = (int)(game_v->res_h_nu / perpWallDist);
 
+		//calculate lowest and highest pixel to fill in current stripe
+		int drawStart = -lineHeight / 2 + game_v->res_h_nu / 2;
+		if(drawStart < 0)drawStart = 0;
+		int drawEnd = lineHeight / 2 + game_v->res_h_nu / 2;
+		if(drawEnd >= game_v->res_h_nu)drawEnd = game_v->res_h_nu - 1;
+
+		//choose wall color
 		int color;
-		
-		switch(game_v->map[map_x][map_y])
-     	{
-        case 1:  color =  0x00FF0000;  break; //red
-        case 2:  color =  0x00FF0000;  break; //green
-        case 3:  color =  0x00FF0000;   break; //blue
-        case 4:  color =  0x00FF0000;  break; //white
-        default: color =  0x00FF0000; break; //yellow
-     	}
-		if (side == 1)
-			color = color / 2;
-		ver_line(x, draw_start, draw_end, color, img);
+		switch(game_v->map[mapY][mapX])
+		{
+			case 1:  color = 0x00FF0000;    break; //red
+			case 2:  color = 0x00FF0000;  break; //green
+			case 3:  color = 0x00FF0000;   break; //blue
+			case 4:  color = 0x00FF0000;  break; //white
+			default: color = 0x00FF0000; break; //yellow
+		}
+
+		//give x and y sides different brightness
+		if(side == 1) {color = color / 2;}
+
+		//draw the pixels of the stripe as a vertical line
+		ver_line(x, drawStart, drawEnd, color, img);
+	//_________________________________________________________________
 		x++;
-	}		
+	}
 }

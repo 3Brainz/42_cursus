@@ -44,14 +44,14 @@ int				just_one_player(char **map)
 static void		plane_positioner(t_player *player, char dir)
 {
 	plane_cleaner(player->plane);
-	if (dir == 'N')
+	if (dir == 'O')
 	{
 		player->plane->dir_y = -1;
 		player->plane->plane_x = -0.66;
 	}
-	if (dir == 'E')
+	if (dir == 'N')
 	{
-		player->plane->dir_x = 1;
+		player->plane->dir_x = -1;
 		player->plane->plane_y = 0.66;
 	}
 	if (dir == 'S')
@@ -59,7 +59,7 @@ static void		plane_positioner(t_player *player, char dir)
 		player->plane->dir_y = 1;
 		player->plane->plane_x = 0.66;
 	}
-	if (dir == 'O')
+	if (dir == 'W')
 	{
 		player->plane->dir_x = -1;
 		player->plane->plane_y = -0.66;
@@ -68,13 +68,13 @@ static void		plane_positioner(t_player *player, char dir)
 
 static void		player_directioner(t_player *player, char dir)
 {
-	if (dir == 'N')
+	if (dir == 'W')
 		player->inclination = 0;
-	if (dir == 'E')
+	if (dir == 'N')
 		player->inclination = M_PI / 2;
-	if (dir == 'S')
-		player->inclination = M_PI;
 	if (dir == 'O')
+		player->inclination = M_PI;
+	if (dir == 'S')
 		player->inclination = 3 * M_PI / 2;
 }
 
@@ -102,7 +102,7 @@ void 			where_is_the_player(char **map, t_player *player)
 			if (is_in_cset(c, "NOSW"))
 			{
 				player_positioner(player, x_index, y_index, c);
-				map[y_index][x_index] = 0;
+				map[y_index][x_index] = '0';
 				return ;
 			}
 			x_index++;

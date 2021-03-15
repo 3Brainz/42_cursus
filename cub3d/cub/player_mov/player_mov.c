@@ -35,20 +35,20 @@ void	straight_mov(t_player *player, char dir, char **map)
 	float next_y;
 	float next_x;
 
-	if (dir == 'B')
+	if (dir == 'F')
 	{
-		next_y = P_POSY + (player->speed * cos(P_INCL));
-		next_x = P_POSX + (player->speed * sin(P_INCL));
+		next_y = P_POSY + (player->speed * sin(P_INCL));
+		next_x = P_POSX + (player->speed * cos(P_INCL));
 		if (map[(int)next_y][(int)next_x] == '0')
 		{
 			P_POSY = next_y;
 			P_POSX = next_x;
 		}
 	}
-	else if (dir == 'F')
+	else if (dir == 'B')
 	{
-		next_y = P_POSY - (player->speed * cos(P_INCL));
-		next_x = P_POSX - (player->speed * sin(P_INCL));
+		next_y = P_POSY - (player->speed * sin(P_INCL));
+		next_x = P_POSX - (player->speed * cos(P_INCL));
 		if (map[(int)next_y][(int)next_x] == '0')
 		{
 			P_POSY = next_y;
@@ -64,8 +64,8 @@ void	side_mov(t_player *player, int dir, char **map)
 
 	if (dir == 'L')
 	{
-		next_y = P_POSY + (player->speed * cos(P_INCL + M_PI / 2));
-		next_x = P_POSX + (player->speed * sin(P_INCL + M_PI / 2));
+		next_y = P_POSY + (player->speed * sin(P_INCL + M_PI / 2));
+		next_x = P_POSX + (player->speed * cos(P_INCL + M_PI / 2));
 		if (map[(int)next_y][(int)next_x] == '0')
 		{
 			P_POSY = next_y;
@@ -75,9 +75,9 @@ void	side_mov(t_player *player, int dir, char **map)
 	else if (dir == 'R')
 	{
 		next_y = P_POSY - (player->speed *
-									cos(P_INCL + M_PI / 2));
-		next_x = P_POSX - (player->speed *
 									sin(P_INCL + M_PI / 2));
+		next_x = P_POSX - (player->speed *
+									cos(P_INCL + M_PI / 2));
 		if (map[(int)next_y][(int)next_x] == '0')
 		{
 			P_POSY = next_y;
