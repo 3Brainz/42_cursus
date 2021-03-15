@@ -117,8 +117,8 @@ typedef struct	s_keys{
 typedef struct	s_plane{
 	float		dir_x;
 	float		dir_y;
-	float		plane_v_x;
-	float		plane_v_y;
+	float		plane_x;
+	float		plane_y;
 }				t_plane;
 
 typedef struct	s_player{
@@ -274,5 +274,11 @@ void			minimap_img(t_data *img, t_game_v *game_v, int fac, int d_f_b);
 
 void			print_pg(t_data *img, t_window *window, int dim);
 void			print_sky_and_floor(t_data *img, t_game_v *game_v);
+
+/*
+**RAYCASTER
+*/
+
+void			cast_ray(t_player *player, t_game_v *game_v, t_data *img);
 
 #endif

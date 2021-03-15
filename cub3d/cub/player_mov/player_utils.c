@@ -16,6 +16,6 @@ void	plane_cleaner(t_plane *plane)
 {
 	plane->dir_x = 0;
 	plane->dir_y = 0;
-	plane->plane_v_x = 0;
-	plane->plane_v_y = 0;
+	plane->plane_x = 0;
+	plane->plane_y = 0;
 }

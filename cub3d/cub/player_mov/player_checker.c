@@ -47,22 +47,22 @@ static void		plane_positioner(t_player *player, char dir)
 	if (dir == 'N')
 	{
 		player->plane->dir_y = -1;
-		player->plane->plane_v_x = -0.66;
+		player->plane->plane_x = -0.66;
 	}
 	if (dir == 'E')
 	{
 		player->plane->dir_x = 1;
-		player->plane->plane_v_y = 0.66;
+		player->plane->plane_y = 0.66;
 	}
 	if (dir == 'S')
 	{
 		player->plane->dir_y = 1;
-		player->plane->plane_v_x = 0.66;
+		player->plane->plane_x = 0.66;
 	}
 	if (dir == 'O')
 	{
 		player->plane->dir_x = -1;
-		player->plane->plane_v_y = -0.66;
+		player->plane->plane_y = -0.66;
 	}
 }
 
