@@ -3,7 +3,7 @@
 void	ver_line(int x_cord, int y_start, int y_end, int color, t_data *img)
 {
 	//printf("start:%i,end:%i\n",y_start,y_end);
-	while(y_start < y_end)
+	while(y_start <= y_end)
 	{
 		my_mlx_pixel_put(img, x_cord, y_start, color);
 		y_start++;
@@ -17,8 +17,8 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
 	{
 		//calculate ray position and direction
 		double cameraX = 2 * x / (double)game_v->res_w_nu - 1; //x-coordinate in camera space
-		double rayDirX = player->plane->dir_x + player->plane->plane_x * cameraX;
-		double rayDirY = player->plane->dir_y + player->plane->plane_y * cameraX;
+		double rayDirX = player->plane->dir_x - player->plane->plane_x * cameraX;
+		double rayDirY = player->plane->dir_y - player->plane->plane_y * cameraX;
 		//which box of the map we're in
 		int mapX = (int)(player->pos_x);
 		int mapY = (int)(player->pos_y);
@@ -89,7 +89,7 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
 		int drawStart = -lineHeight / 2 + game_v->res_h_nu / 2;
 		if(drawStart < 0)drawStart = 0;
 		int drawEnd = lineHeight / 2 + game_v->res_h_nu / 2;
-		if(drawEnd >= game_v->res_h_nu)drawEnd = game_v->res_h_nu - 1;
+		if(drawEnd >= game_v->res_h_nu || drawEnd < 0)drawEnd = game_v->res_h_nu - 1;
 
 		//choose wall color
 		int color;

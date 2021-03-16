@@ -44,12 +44,12 @@ int				just_one_player(char **map)
 static void		plane_positioner(t_player *player, char dir)
 {
 	plane_cleaner(player->plane);
-	if (dir == 'O')
+	if (dir == 'N')
 	{
 		player->plane->dir_y = -1;
 		player->plane->plane_x = -0.66;
 	}
-	if (dir == 'N')
+	if (dir == 'O')
 	{
 		player->plane->dir_x = -1;
 		player->plane->plane_y = 0.66;
