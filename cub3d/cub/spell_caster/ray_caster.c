@@ -2,7 +2,12 @@
 
 void	ver_line(int x_cord, int y_start, int y_end, int color, t_data *img)
 {
-	//printf("start:%i,end:%i\n",y_start,y_end);
+	/*
+	y_start -= 300;
+	y_end -= 300;
+	if (y_end >= 1080)
+		y_end = 1080;
+		*/
 	while(y_start <= y_end)
 	{
 		my_mlx_pixel_put(img, x_cord, y_start, color);
@@ -76,7 +81,7 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
 			side = 1;
 			}
 			//Check if ray has hit a wall
-			if(game_v->map[mapY][mapX] > 0) hit = 1;
+			if(game_v->map[mapY][mapX] == '1') hit = 1;
 		}
 		//Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
 		if(side == 0) perpWallDist = (mapX - player->pos_x + (1 - stepX) / 2) / rayDirX;

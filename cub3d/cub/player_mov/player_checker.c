@@ -61,7 +61,7 @@ static void		plane_positioner(t_player *player, char dir)
 	}
 	if (dir == 'W')
 	{
-		player->plane->dir_x = -1;
+		player->plane->dir_x = 1;
 		player->plane->plane_y = -0.66;
 	}
 }
