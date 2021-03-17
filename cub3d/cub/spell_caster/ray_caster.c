@@ -15,6 +15,26 @@ void	ver_line(int x_cord, int y_start, int y_end, int color, t_data *img)
 	}
 }
 
+typedef struct	s_caster
+{
+	double		cameraX;
+	double		rayDirX;
+	double		rayDirY;
+	int			mapX;
+	int			mapY;
+	double		sideDistX;
+	double		sideDistY;
+	double		deltaDistX;
+	double		deltaDistY; 
+	double		perpWallDist;
+	int			stepX;
+	int			stepY;
+	int			hit;
+	int			side;
+	int			lineHeight;
+}				t_caster;
+
+
 void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
 {
 	int x = 0;
