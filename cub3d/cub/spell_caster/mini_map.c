@@ -12,26 +12,37 @@
 
 #include "../libcub.h"
 
-void	minimap_img(t_data *img, t_game_v *game_v, int fac, int d_f_b)
+void	minimap_img(t_data *img, t_window *window, int ratio, t_player *player)
 {
-	int print_x;
-	int print_y;
-	int s_size[2];
-
-	s_size[0] = game_v->res_w_nu;
-	s_size[1] = game_v->res_h_nu;
-	print_x = d_f_b;
-	print_y = s_size[1] - s_size[1] / 4;
-	while (print_y < s_size[1] - d_f_b)
+	size_t mat_index = 0;
+	size_t index = 0;
+	size_t x = 0;
+	size_t y = 0;
+	while (window->game_v->map[mat_index])
 	{
-		print_x = d_f_b;
-		while (print_x < s_size[0] / fac)
+		index = 0;
+		while (index < ft_strlen(window->game_v->map[mat_index]))
 		{
-			my_mlx_pixel_put(img, print_x, print_y, 0x00FF0000);
-			print_x++;
+			x = index * ratio;
+			while(x < ratio * (index + 1))
+			{
+				y = ratio * mat_index;
+				while (y < ratio * (mat_index + 1))
+				{
+					if (window->game_v->map[mat_index][index] == '1')
+						my_mlx_pixel_put(img, x, y, 0x00FF0000);
+					y++;
+				}
+				x++;
+			}
+			index++;
 		}
-		print_y++;
+		mat_index++;
 	}
+	float origins[2];
+	origins[1] = player->pos_x * ratio;
+	origins[0] = player->pos_y * ratio;
+	print_rect(img, origins, window, 50);
 }
 /*
 void	minimap_img(t_data *img, t_game_v *game_v)

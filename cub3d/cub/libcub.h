@@ -30,9 +30,9 @@
 # define ESC_CODE 53
 # define L_BUTTON 1
 # define R_BUTTON 2
-# define ONE_DEGREE M_PI / 180
+# define ONE_DEGREE M_PI / 90
 # define NORMAL_SPEED 0.1
-# define RUNNING_SPEED 0.7
+# define RUNNING_SPEED 0.2
 # define P_POSX player->pos_x
 # define P_POSY player->pos_y
 # define P_INCL player->inclination
@@ -266,13 +266,14 @@ void			player_movement(t_keys *keys, t_player *player, char **map);
 **Minimap
 */
 
-void			minimap_img(t_data *img, t_game_v *game_v, int fac, int d_f_b);
+void	minimap_img(t_data *img, t_window *window, int ratio, t_player *player);
 
 /*
 **FIGEUres
 */
 
 void			print_pg(t_data *img, t_window *window, int dim);
+void			print_rect(t_data *img, float *origins, t_window *window, float size);
 void			print_sky_and_floor(t_data *img, t_game_v *game_v);
 
 /*

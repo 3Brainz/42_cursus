@@ -92,16 +92,26 @@ void	player_movement(t_keys *keys, t_player *player, char **map)
 		player->speed = RUNNING_SPEED;
 	else if(!keys->shift)
 		player->speed = NORMAL_SPEED;
-	if (keys->left_arrow)
-	{
-		player->plane->plane_y += 1;
-		player->plane->plane_x -= 1;
-		/*decrement_degree(&P_INCL, ONE_DEGREE);*/
-	}
 	if (keys->right_arrow)
 	{
-		player->plane->plane_x += 1;
-		/*increment_degree(&P_INCL, ONE_DEGREE);*/
+		double oldDirX =player->plane->dir_x;
+		player->plane->dir_x = player->plane->dir_x * cos(ONE_DEGREE) - player->plane->dir_y * sin(ONE_DEGREE);
+		player->plane->dir_y = oldDirX * sin(ONE_DEGREE) + player->plane->dir_y * cos(ONE_DEGREE);
+		double oldPlaneX = player->plane->plane_x;
+		player->plane->plane_x = player->plane->plane_x * cos(ONE_DEGREE) - player->plane->plane_y * sin(ONE_DEGREE);
+		player->plane->plane_y= oldPlaneX * sin(ONE_DEGREE) + player->plane->plane_y * cos(ONE_DEGREE);
+		decrement_degree(&P_INCL, ONE_DEGREE);
+	}
+	if (keys->left_arrow)
+	{
+		//both camera direction and camera plane must be rotated
+		double oldDirX = player->plane->dir_x;
+		player->plane->dir_x = player->plane->dir_x * cos(-ONE_DEGREE) - player->plane->dir_y * sin(-ONE_DEGREE);
+		player->plane->dir_y = oldDirX * sin(-ONE_DEGREE) + player->plane->dir_y * cos(-ONE_DEGREE);
+		double oldPlaneX = player->plane->plane_x;
+		player->plane->plane_x = player->plane->plane_x * cos(-ONE_DEGREE) - player->plane->plane_y * sin(-ONE_DEGREE);
+		player->plane->plane_y = oldPlaneX * sin(-ONE_DEGREE) + player->plane->plane_y * cos(-ONE_DEGREE);
+		increment_degree(&P_INCL, ONE_DEGREE);
 	}
 	if (keys->w_key)
 		straight_mov(player, 'F', map);

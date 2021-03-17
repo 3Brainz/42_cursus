@@ -5,8 +5,8 @@ void print_pg(t_data *img, t_window *window, int dim)
 	int x;
 	int y;
 
-	x = window->player->pos_x - dim / 2;
-	y = window->player->pos_y - dim / 2;
+	x = (window->player->pos_x - dim / 2) * dim;
+	y = (window->player->pos_y - dim / 2) * dim;
 	while (y < window->player->pos_y + dim / 2)
 	{
 		x = window->player->pos_x - dim / 2;
@@ -27,7 +27,7 @@ void print_rect(t_data *img, float *origins, t_window *window, float size)
 	int y;
 
 	x = origins[1] - size / 2;
-	y =	origins[2] - size / 2;
+	y =	origins[0] - size / 2;
 	while (y < origins[0] + size / 2)
 	{
 		x = origins[1] - size / 2;

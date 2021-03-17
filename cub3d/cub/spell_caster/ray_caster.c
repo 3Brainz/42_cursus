@@ -109,7 +109,6 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
 
 		//give x and y sides different brightness
 		if(side == 1) {color = color / 2;}
-
 		//draw the pixels of the stripe as a vertical line
 		ver_line(x, drawStart, drawEnd, color, img);
 	//_________________________________________________________________
