@@ -8,6 +8,7 @@ void	ver_line(int x_cord, int y_start, int y_end, int color, t_data *img)
 	if (y_end >= 1080)
 		y_end = 1080;
 		*/
+	
 	while(y_start <= y_end)
 	{
 		my_mlx_pixel_put(img, x_cord, y_start, color);
@@ -32,9 +33,133 @@ typedef struct	s_caster
 	int			hit;
 	int			side;
 	int			lineHeight;
+	int			drawStart;
+	int			drawEnd;
 }				t_caster;
 
+void	zero_caster(t_caster *caster)
+{
+	caster->cameraX = 0;
+	caster->rayDirX = 0;
+	caster->rayDirY = 0;
+	caster->mapX = 0;
+	caster->mapY = 0;
+	caster->sideDistX = 0;
+	caster->sideDistY = 0;
+	caster->deltaDistX = 0;
+	caster->deltaDistY = 0;
+	caster->perpWallDist = 0;
+	caster->stepX = 0;
+	caster->stepY = 0;
+	caster->hit = 0;
+	caster->side = 0;
+	caster->lineHeight = 0;
+	caster->drawStart = 0;
+	caster->drawEnd = 0;
+}
 
+void	ray_pos_and_dir(t_caster *caster, t_game_v *game_v,t_player *player, int x)
+{
+	caster->cameraX = 2 * x / (double)game_v->res_w_nu - 1;
+	caster->rayDirX = player->plane->dir_x - player->plane->plane_x * caster->cameraX;
+	caster->rayDirY = player->plane->dir_y - player->plane->plane_y * caster->cameraX;
+	caster->mapX = (int)(player->pos_x);
+	caster->mapY = (int)(player->pos_y);
+	caster->deltaDistX = fabs(1 / caster->rayDirX);
+	caster->deltaDistY = fabs(1 / caster->rayDirY);
+}
+
+void	ray_collider(t_caster *caster, t_player *player)
+{
+	caster->hit = 0;
+	if(caster->rayDirX < 0)
+	{
+		caster->stepX = -1;
+		caster->sideDistX = (player->pos_x - caster->mapX) * caster->deltaDistX;
+	}
+	else
+	{
+		caster->stepX = 1;
+		caster->sideDistX = (caster->mapX + 1.0 - player->pos_x) * caster->deltaDistX;
+	}
+	if(caster->rayDirY < 0)
+	{
+		caster->stepY = -1;
+		caster->sideDistY = (player->pos_y - caster->mapY) * caster->deltaDistY;
+	}
+	else
+	{
+		caster->stepY = 1;
+		caster->sideDistY = (caster->mapY + 1.0 - player->pos_y) * caster->deltaDistY;
+	}
+}
+
+void	ray_dda(t_caster *caster, t_game_v *game_v)
+{
+	while (caster->hit == 0)
+		{
+			//jump to next map square, OR in x-direction, OR in y-direction
+			if(caster->sideDistX < caster->sideDistY)
+			{
+				caster->sideDistX += caster->deltaDistX;
+				caster->mapX += caster->stepX;
+				caster->side = 0;
+			}
+			else
+			{
+				caster->sideDistY += caster->deltaDistY;
+				caster->mapY += caster->stepY;
+				caster->side = 1;
+			}
+			//Check if ray has hit a wall
+			if(game_v->map[caster->mapY][caster->mapX] == '1') 
+				caster->hit = 1;
+		}
+}
+
+void	line_measure_dist(t_caster *caster, t_game_v *game_v, t_player *player)
+{
+	if(caster->side == 0)
+		caster->perpWallDist = (caster->mapX - player->pos_x + (1 - caster->stepX) / 2) / caster->rayDirX;
+	else	
+		caster->perpWallDist = (caster->mapY - player->pos_y + (1 - caster->stepY) / 2) / caster->rayDirY;
+	caster->lineHeight = (int)(game_v->res_h_nu / caster->perpWallDist);
+	caster->drawStart = -caster->lineHeight / 2 + game_v->res_h_nu / 2;
+	if(caster->drawStart < 0)
+		caster->drawStart = 0;
+	caster->drawEnd = caster->lineHeight / 2 + game_v->res_h_nu / 2;
+	if(caster->drawEnd >= game_v->res_h_nu || caster->drawEnd < 0)
+		caster->drawEnd = game_v->res_h_nu - 1;
+}
+
+void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
+{
+	t_caster caster[1];
+	int x;
+
+	x = 0;
+	zero_caster(caster);
+	while (x < game_v->res_w_nu)
+	{
+		zero_caster(caster);
+		ray_pos_and_dir(caster, game_v, player, x);
+		ray_collider(caster, player);
+		ray_dda(caster, game_v);
+		line_measure_dist(caster, game_v, player);
+		int color = 0x00FF0000;
+		ver_line(x, caster->drawStart, caster->drawEnd, color, img);
+		x++;
+	}
+}
+
+
+
+
+
+
+
+
+/*
 void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
 {
 	int x = 0;
@@ -117,21 +242,12 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
 		if(drawEnd >= game_v->res_h_nu || drawEnd < 0)drawEnd = game_v->res_h_nu - 1;
 
 		//choose wall color
-		int color;
-		switch(game_v->map[mapY][mapX])
-		{
-			case 1:  color = 0x00FF0000;    break; //red
-			case 2:  color = 0x00FF0000;  break; //green
-			case 3:  color = 0x00FF0000;   break; //blue
-			case 4:  color = 0x00FF0000;  break; //white
-			default: color = 0x00FF0000; break; //yellow
-		}
-
+		int color = 0x00FF0000;
 		//give x and y sides different brightness
-		if(side == 1) {color = color / 2;}
+		//if(side == 1) {color = color / 2;}
 		//draw the pixels of the stripe as a vertical line
 		ver_line(x, drawStart, drawEnd, color, img);
-	//_________________________________________________________________
 		x++;
 	}
 }
+*/
