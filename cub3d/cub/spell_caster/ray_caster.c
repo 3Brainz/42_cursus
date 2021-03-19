@@ -1,21 +1,28 @@
 #include "../libcub.h"
 
-void	ver_line(int x_cord, int y_start, int y_end, int color, t_data *img)
+void	ver_line(int x_cord, int y_start, int y_end, t_game_v *game_v,t_data *img)
 {
-	/*
-	y_start -= 300;
-	y_end -= 300;
-	if (y_end >= 1080)
-		y_end = 1080;
-		*/
-	
-	while(y_start <= y_end)
+	int index;
+
+	index = 0;
+
+	while (index <= y_start)
 	{
-		my_mlx_pixel_put(img, x_cord, y_start, color);
-		y_start++;
+		my_mlx_pixel_put(img, x_cord, index, game_v->ceiling_color->n_color);
+		index++;
+	}
+	while(index <= y_end)
+	{
+		my_mlx_pixel_put(img, x_cord, index, 0x00FF0000);
+		index++;
+	}
+	while(index < game_v->res_h_nu)
+	{
+		my_mlx_pixel_put(img, x_cord, index, game_v->floor_color->n_color);
+		index++;
 	}
 }
-
+/*
 typedef struct	s_caster
 {
 	double		cameraX;
@@ -151,15 +158,8 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
 		x++;
 	}
 }
+*/
 
-
-
-
-
-
-
-
-/*
 void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
 {
 	int x = 0;
@@ -226,7 +226,7 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
 			side = 1;
 			}
 			//Check if ray has hit a wall
-			if(game_v->map[mapY][mapX] == '1') hit = 1;
+			if(game_v->map[mapY][mapX] > '0') hit = 1;
 		}
 		//Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
 		if(side == 0) perpWallDist = (mapX - player->pos_x + (1 - stepX) / 2) / rayDirX;
@@ -241,13 +241,62 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
 		int drawEnd = lineHeight / 2 + game_v->res_h_nu / 2;
 		if(drawEnd >= game_v->res_h_nu || drawEnd < 0)drawEnd = game_v->res_h_nu - 1;
 
+
+		double wallX; //where exactly the wall was hit
+			if(side == 0)	
+			wallX = player->pos_y + perpWallDist * rayDirY;
+		else
+			wallX = player->pos_x + perpWallDist * rayDirX;
+		wallX -= floor((wallX));
+		//x coordinate on the texture
+		int texX = (int)(wallX * (double)(texWidth));
+		if(side == 0 && rayDirX > 0)
+			texX = texWidth - texX - 1;
+		if(side == 1 && rayDirY < 0)
+			texX = texWidth - texX - 1;
+		double step = 1.0 * texHeight / lineHeight;
+		double texPos = (drawStart - game_v->res_h_nu / 2 + lineHeight / 2) * step;
+
 		//choose wall color
-		int color = 0x00FF0000;
+		// int color = 0x00FF0000;
 		//give x and y sides different brightness
 		//if(side == 1) {color = color / 2;}
 		//draw the pixels of the stripe as a vertical line
-		ver_line(x, drawStart, drawEnd, color, img);
+		//ver_line(x, drawStart, drawEnd, game_v, img);
+		int index;
+
+		index = 0;
+
+		while (index <= drawStart)
+			{
+				my_mlx_pixel_put(img, x, index, game_v->ceiling_color->n_color);
+				index++;
+			}
+			while(index <= drawEnd)
+			{
+				int texY = (int)texPos & (texHeight - 1);
+        		texPos += step;
+				if (side == 0)
+				{
+					if (rayDirX > 0)
+						my_mlx_pixel_put(img, x, index, texture[0][texHeight * texY + texX]);
+					else
+						my_mlx_pixel_put(img, x, index, texture[1][texHeight * texY + texX]);
+				}
+				else
+				{
+					if (rayDirY > 0)
+						my_mlx_pixel_put(img, x, index, texture[2][texHeight * texY + texX]);
+					else
+						my_mlx_pixel_put(img, x, index, texture[3][texHeight * texY + texX]);
+				}
+				index++;
+			}
+			while(index < game_v->res_h_nu)
+			{
+				my_mlx_pixel_put(img, x, index, game_v->floor_color->n_color);
+				index++;
+			}
 		x++;
 	}
 }
-*/

@@ -266,7 +266,7 @@ void			player_movement(t_keys *keys, t_player *player, char **map);
 **Minimap
 */
 
-void	minimap_img(t_data *img, t_window *window, int ratio, t_player *player);
+void	minimap_img(t_data *img, t_window *window, t_player *player);
 
 /*
 **FIGEUres
@@ -281,5 +281,11 @@ void			print_sky_and_floor(t_data *img, t_game_v *game_v);
 */
 
 void			cast_ray(t_player *player, t_game_v *game_v, t_data *img);
+
+int texture[8][5000];
+
+#define texHeight 64
+#define texWidth 64
+
 
 #endif
