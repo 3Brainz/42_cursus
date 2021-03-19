@@ -1,28 +1,6 @@
 #include "../libcub.h"
 
-void	ver_line(int x_cord, int y_start, int y_end, t_game_v *game_v,t_data *img)
-{
-	int index;
 
-	index = 0;
-
-	while (index <= y_start)
-	{
-		my_mlx_pixel_put(img, x_cord, index, game_v->ceiling_color->n_color);
-		index++;
-	}
-	while(index <= y_end)
-	{
-		my_mlx_pixel_put(img, x_cord, index, 0x00FF0000);
-		index++;
-	}
-	while(index < game_v->res_h_nu)
-	{
-		my_mlx_pixel_put(img, x_cord, index, game_v->floor_color->n_color);
-		index++;
-	}
-}
-/*
 typedef struct	s_caster
 {
 	double		cameraX;
@@ -42,7 +20,44 @@ typedef struct	s_caster
 	int			lineHeight;
 	int			drawStart;
 	int			drawEnd;
+	double		wallX;
+	int			texX;
+	double		step;
+	double		texPos;
+	int			texY;
 }				t_caster;
+
+
+void	ver_line(int x, t_caster *caster, t_game_v *game_v,t_data *img)
+{
+	int index;
+
+	index = 0;
+
+	while (++index < caster->drawStart)
+		my_mlx_pixel_put(img, x, index, game_v->ceiling_color->n_color);
+	while(++index < caster->drawEnd)
+	{
+		caster->texY = (int)caster->texPos & (texHeight - 1);
+		caster->texPos += caster->step;
+		if (caster->side == 0)
+		{
+			if (caster->rayDirX > 0)
+				my_mlx_pixel_put(img, x, index, texture[0].addr[texHeight * caster->texY + caster->texX]);
+			else
+				my_mlx_pixel_put(img, x, index, texture[1].addr[texHeight * caster->texY + caster->texX]);
+		}
+		else
+		{
+			if (caster->rayDirY > 0)
+				my_mlx_pixel_put(img, x, index, texture[2].addr[texHeight * caster->texY + caster->texX]);
+			else
+				my_mlx_pixel_put(img, x, index, texture[3].addr[texHeight * caster->texY + caster->texX]);
+		}
+	}
+	while(++index < game_v->res_h_nu)
+		my_mlx_pixel_put(img, x, index, game_v->floor_color->n_color);
+}
 
 void	zero_caster(t_caster *caster)
 {
@@ -63,6 +78,11 @@ void	zero_caster(t_caster *caster)
 	caster->lineHeight = 0;
 	caster->drawStart = 0;
 	caster->drawEnd = 0;
+	caster->wallX = 0;
+	caster->texX = 0;
+	caster->step = 0;
+	caster->texPos = 0;
+	caster->texY = 0;
 }
 
 void	ray_pos_and_dir(t_caster *caster, t_game_v *game_v,t_player *player, int x)
@@ -138,6 +158,22 @@ void	line_measure_dist(t_caster *caster, t_game_v *game_v, t_player *player)
 	if(caster->drawEnd >= game_v->res_h_nu || caster->drawEnd < 0)
 		caster->drawEnd = game_v->res_h_nu - 1;
 }
+void texturer(t_caster *caster, t_player *player, t_game_v *game_v)
+{
+	if(caster->side == 0)	
+		caster->wallX = player->pos_y + caster->perpWallDist * caster->rayDirY;
+	else
+		caster->wallX = player->pos_x + caster->perpWallDist * caster->rayDirX;
+	caster->wallX -= floor((caster->wallX));
+	//x coordinate on the texture
+	caster->texX = (int)(caster->wallX * (double)(texWidth));
+	if(caster->side == 0 && caster->rayDirX > 0)
+		caster->texX = texWidth - caster->texX - 1;
+	if(caster->side == 1 && caster->rayDirY < 0)
+		caster->texX = texWidth - caster->texX - 1;
+	caster->step = 1.0 * texHeight / caster->lineHeight;
+	caster->texPos = (caster->drawStart - game_v->res_h_nu / 2 + caster->lineHeight / 2) * caster->step;
+}
 
 void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
 {
@@ -153,12 +189,12 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
 		ray_collider(caster, player);
 		ray_dda(caster, game_v);
 		line_measure_dist(caster, game_v, player);
-		int color = 0x00FF0000;
-		ver_line(x, caster->drawStart, caster->drawEnd, color, img);
+		texturer(caster, player, game_v);
+		ver_line(x, caster, game_v, img);
 		x++;
 	}
 }
-*/
+/*
 
 void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
 {
@@ -241,7 +277,7 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
 		int drawEnd = lineHeight / 2 + game_v->res_h_nu / 2;
 		if(drawEnd >= game_v->res_h_nu || drawEnd < 0)drawEnd = game_v->res_h_nu - 1;
 
-
+//--------------------------------------------------------------------------------------//----------//------
 		double wallX; //where exactly the wall was hit
 			if(side == 0)	
 			wallX = player->pos_y + perpWallDist * rayDirY;
@@ -300,3 +336,4 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
 		x++;
 	}
 }
+*/

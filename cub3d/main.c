@@ -53,7 +53,7 @@ int main(void)
 	window.game_v = game_v;
 	clean_window_struct(&window);
 	start_win(&window, game_v);
-	
+	/*
 	for(int x = 0; x < texWidth; x++)
 	for(int y = 0; y < texHeight; y++)
 	{
@@ -70,7 +70,18 @@ int main(void)
     texture[5][texWidth * y + x] = 65536 * 192 * (x % 16 && y % 16); //red bricks
     texture[6][texWidth * y + x] = 65536 * ycolor; //red gradient
     texture[7][texWidth * y + x] = 128 + 256 * 128 + 65536 * 128; //flat grey texture
-	}
+	}*/
+	texture[0].img = mlx_xpm_file_to_image(window.mlx, "./cub/tile101.png", &texture[0].img_width, &texture[0].img_height);
+	texture[0].addr = (int *)mlx_get_data_addr(texture[0].img, &texture[0].bits_per_pixel, &texture[0].line_length, &texture[0].endian);
+	texture[1].img = mlx_xpm_file_to_image(window.mlx," texture[1].relative_path", &texture[1].img_width, &texture[1].img_height);
+	texture[1].addr = (int *)mlx_get_data_addr(texture[1].img, &texture[1].bits_per_pixel, &texture[1].line_length, &texture[1].endian);
+	texture[2].img = mlx_xpm_file_to_image(window.mlx, "texture[2].relative_path", &texture[2].img_width, &texture[2].img_height);
+	texture[2].addr = (int *)mlx_get_data_addr(texture[2].img, &texture[2].bits_per_pixel, &texture[2].line_length, &texture[2].endian);
+	texture[3].img = mlx_xpm_file_to_image(window.mlx, "texture[3].relative_path", &texture[3].img_width, &texture[3].img_height);
+	texture[3].addr = (int *)mlx_get_data_addr(texture[3].img, &texture[3].bits_per_pixel, &texture[3].line_length, &texture[3].endian);
+	texture[4].img = mlx_xpm_file_to_image(window.mlx, "texture[4].relative_path", &texture[4].img_width, &texture[4].img_height);
+	texture[4].addr = (int *)mlx_get_data_addr(texture[4].img, &texture[4].bits_per_pixel, &texture[4].line_length, &texture[4].endian);
+
 	mlx_hook(window.mlx_win, 06, 0L, mouse_pos_mov, &window);
 	mlx_hook(window.mlx_win, 02, 0L, key_hook_in, &window);
 	mlx_hook(window.mlx_win, 03, 0L, key_hook_out, &window);

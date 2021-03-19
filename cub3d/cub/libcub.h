@@ -282,7 +282,19 @@ void			print_sky_and_floor(t_data *img, t_game_v *game_v);
 
 void			cast_ray(t_player *player, t_game_v *game_v, t_data *img);
 
-int texture[8][5000];
+typedef struct s_texture
+{
+	void        *img;
+    int        *addr;
+    int         bits_per_pixel;
+	int			img_width;
+	int			img_height;
+    int         line_length;
+    int         endian;
+	
+}				t_texture;
+
+t_texture texture[8];
 
 #define texHeight 64
 #define texWidth 64
