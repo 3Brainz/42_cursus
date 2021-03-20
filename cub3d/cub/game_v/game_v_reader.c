@@ -97,6 +97,6 @@ int			game_v_filler(t_game_v *game_v, char *file_path)
 	if (are_game_v_ok(game_v))
 		return (1);
 	free_game_v(game_v);
-	printf("\nError\n");
+	printf("something_not_turned_in");
 	return (0);
 }

@@ -1,8 +1,8 @@
 R 1920 1080
-NO    ./path_to_the_north_texture
-SO    ./path_to_the_south_texture
-WE    ./path_to_the_west_texture
-EA    ./path_to_the_east_texture
+NO    ./srcs/brick.xpm
+SO    ./srcs/grass.xpm
+WE    ./srcs/stone.xpm
+EA    ./srcs/meta.xpm
 S     ./path_to_the_sprite_texture
 F     232,84,67
 C     108,11,0

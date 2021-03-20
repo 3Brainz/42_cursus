@@ -30,7 +30,7 @@
 # define ESC_CODE 53
 # define L_BUTTON 1
 # define R_BUTTON 2
-# define ONE_DEGREE M_PI / 90
+# define ONE_DEGREE M_PI / 45
 # define NORMAL_SPEED 0.1
 # define RUNNING_SPEED 0.2
 # define P_POSX player->pos_x
@@ -53,23 +53,6 @@ typedef struct	s_size{
 	int			size_x;
 	int			size_y;
 }				t_size;
-
-typedef struct	s_game_v
-{
-	char		*res_w;
-	char		*res_h;
-	int			res_w_nu;
-	int			res_h_nu;
-	char		*no_texture;
-	char		*so_texture;
-	char		*ea_texture;
-	char		*we_texture;
-	char		*sprite_texture;
-	t_color		floor_color[1];
-	t_color		ceiling_color[1];
-	char		**map;
-	t_size		map_size[1];
-}				t_game_v;
 
 /*
 **Structures mlx
@@ -129,10 +112,48 @@ typedef struct	s_player{
 	float		speed;
 	t_plane		plane[1];
 }				t_player;
+/*
+**texture
+*/
+typedef struct s_texture
+{
+	void		*img;
+	int			*addr;
+	int			bits_per_pixel;
+	int			img_width;
+	int			img_height;
+	int			line_length;
+	int			endian;
+	
+}				t_texture;
+
+typedef	struct s_textures{
+	t_texture	n_texture[1];
+	t_texture	s_textture[1];
+	t_texture	e_texture[1];
+	t_texture	w_texture[1];
+}				t_textures;
 
 /*
 **ALLTHEFREAINGWINDOWISHERE_____________________________________________
 */
+
+typedef struct	s_game_v
+{
+	char		*res_w;
+	char		*res_h;
+	int			res_w_nu;
+	int			res_h_nu;
+	char		*no_texture;
+	char		*so_texture;
+	char		*ea_texture;
+	char		*we_texture;
+	char		*sprite_texture;
+	t_color		floor_color[1];
+	t_color		ceiling_color[1];
+	char		**map;
+	t_size		map_size[1];
+}				t_game_v;
 
 typedef struct 	s_window{
 	void		*mlx;
@@ -144,6 +165,7 @@ typedef struct 	s_window{
 	int			close;
 	t_game_v	*game_v;
 	t_player	player[1];
+	t_textures	textuures[1];
 }				t_window;
 
 /*
@@ -222,6 +244,7 @@ int			is_map_valid(char **map);
 */
 
 int				game_v_filler(t_game_v *game_v, char *file_path);
+int				validator(t_game_v *game_v, t_window *window);
 
 /*
 **Win_func
@@ -280,24 +303,14 @@ void			print_sky_and_floor(t_data *img, t_game_v *game_v);
 **RAYCASTER
 */
 
-void			cast_ray(t_player *player, t_game_v *game_v, t_data *img);
+void			cast_ray(t_player *player, t_game_v *game_v, t_data *img, t_window *window);
 
-typedef struct s_texture
-{
-	void        *img;
-    int        *addr;
-    int         bits_per_pixel;
-	int			img_width;
-	int			img_height;
-    int         line_length;
-    int         endian;
-	
-}				t_texture;
+
 
 t_texture texture[8];
 
-#define texHeight 64
-#define texWidth 64
+#define texHeight 32
+#define texWidth 32
 
 
 #endif

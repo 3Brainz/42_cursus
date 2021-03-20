@@ -27,38 +27,6 @@ typedef struct	s_caster
 	int			texY;
 }				t_caster;
 
-
-void	ver_line(int x, t_caster *caster, t_game_v *game_v,t_data *img)
-{
-	int index;
-
-	index = 0;
-
-	while (++index < caster->drawStart)
-		my_mlx_pixel_put(img, x, index, game_v->ceiling_color->n_color);
-	while(++index < caster->drawEnd)
-	{
-		caster->texY = (int)caster->texPos & (texHeight - 1);
-		caster->texPos += caster->step;
-		if (caster->side == 0)
-		{
-			if (caster->rayDirX > 0)
-				my_mlx_pixel_put(img, x, index, texture[0].addr[texHeight * caster->texY + caster->texX]);
-			else
-				my_mlx_pixel_put(img, x, index, texture[1].addr[texHeight * caster->texY + caster->texX]);
-		}
-		else
-		{
-			if (caster->rayDirY > 0)
-				my_mlx_pixel_put(img, x, index, texture[2].addr[texHeight * caster->texY + caster->texX]);
-			else
-				my_mlx_pixel_put(img, x, index, texture[3].addr[texHeight * caster->texY + caster->texX]);
-		}
-	}
-	while(++index < game_v->res_h_nu)
-		my_mlx_pixel_put(img, x, index, game_v->floor_color->n_color);
-}
-
 void	zero_caster(t_caster *caster)
 {
 	caster->cameraX = 0;
@@ -175,7 +143,42 @@ void texturer(t_caster *caster, t_player *player, t_game_v *game_v)
 	caster->texPos = (caster->drawStart - game_v->res_h_nu / 2 + caster->lineHeight / 2) * caster->step;
 }
 
-void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
+void	ver_line(int x, t_caster *caster, t_window *window, t_data *img)
+{
+	int index;
+
+	index = 0;
+
+	while (++index < caster->drawStart)
+		my_mlx_pixel_put(img, x, index, window->game_v->ceiling_color->n_color);
+	while(++index < caster->drawEnd)
+	{
+		caster->texY = (int)caster->texPos & (texHeight - 1);
+		caster->texPos += caster->step;
+		if (caster->side == 0)
+		{
+			if (caster->rayDirX > 0)
+				my_mlx_pixel_put(img, x, index,
+					window->textuures->e_texture->addr[texHeight * caster->texY + caster->texX]);
+			else
+				my_mlx_pixel_put(img, x, index,
+					window->textuures->w_texture->addr[texHeight * caster->texY + caster->texX]);
+		}
+		else
+		{
+			if (caster->rayDirY > 0)
+				my_mlx_pixel_put(img, x, index,
+					window->textuures->s_textture->addr[texHeight * caster->texY + caster->texX]);
+			else
+				my_mlx_pixel_put(img, x, index,
+					window->textuures->n_texture->addr[texHeight * caster->texY + caster->texX]);
+		}
+	}
+	while(++index < window->game_v->res_h_nu)
+		my_mlx_pixel_put(img, x, index, window->game_v->floor_color->n_color);
+}
+
+void	cast_ray(t_player *player, t_game_v *game_v, t_data *img, t_window *window)
 {
 	t_caster caster[1];
 	int x;
@@ -190,7 +193,7 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
 		ray_dda(caster, game_v);
 		line_measure_dist(caster, game_v, player);
 		texturer(caster, player, game_v);
-		ver_line(x, caster, game_v, img);
+		ver_line(x, caster, window, img);
 		x++;
 	}
 }
