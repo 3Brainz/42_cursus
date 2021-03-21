@@ -27,15 +27,14 @@ int		calc_ratio(t_game_v *game_v, int relative_size)
 	return (ratio);
 }
 
-void	minimap_img(t_data *img, t_window *window,t_player *player)
+void	minimap_img(t_data *img, t_window *window,t_player *player, int min_fract)
 {
 	size_t mat_index = 0;
 	size_t index = 0;
 	size_t x = 0;
 	size_t y = 0;
 
-	int ratio = calc_ratio(window->game_v, 4);
-
+	int ratio = calc_ratio(window->game_v, min_fract);
 	while (window->game_v->map[mat_index])
 	{
 		index = 0;
@@ -62,23 +61,3 @@ void	minimap_img(t_data *img, t_window *window,t_player *player)
 	origins[0] = player->pos_y * ratio;
 	print_rect(img, origins, window, ratio);
 }
-/*
-void	minimap_img(t_data *img, t_game_v *game_v)
-{
-	float dimensions[2];
-	int factor;
-	int variable;
-
-	factor = 0;
-	dimensions[1] = game_v->map_size->size_x;
-	dimensions[0] = game_v->map_size->size_y;
-	if (dimensions[0] > dimensions[1])
-	{
-		variable = dimensions[0];
-		while (va)
-	}
-	else
-	{
-		variable = dimensions[1];
-	}
-}*/

@@ -33,7 +33,7 @@ int update(t_window *window)
 				window->game_v->res_w_nu, window->game_v->res_h_nu);
 	//print_sky_and_floor(&image, window->game_v);
 	cast_ray(window->player, window->game_v, &image, window);
-	minimap_img(&image, window, window->player);
+	minimap_img(&image, window, window->player, 5);
 	//print_pg(&image, window, 10);
 	mlx_put_image_to_window(window->mlx, window->mlx_win, image.img, 0, 0);
 	mlx_destroy_image(window->mlx, image.img);
@@ -71,10 +71,11 @@ int main(void)
     texture[6][texWidth * y + x] = 65536 * ycolor; //red gradient
     texture[7][texWidth * y + x] = 128 + 256 * 128 + 65536 * 128; //flat grey texture
 	}*/
-	if (!validator(game_v, &window))
+	if (!validator(game_v))
 	{
 		return (0);
 	}
+	textures_filler(&window);
 	// texture[0].img = mlx_xpm_file_to_image(window.mlx, "cub/brick.xpm", &texture[0].img_width, &texture[0].img_height);
 	// texture[0].addr = (int *)mlx_get_data_addr(texture[0].img, &texture[0].bits_per_pixel, &texture[0].line_length, &texture[0].endian);
 	// texture[1].img = mlx_xpm_file_to_image(window.mlx,"cub/grass.xpm", &texture[1].img_width, &texture[1].img_height);

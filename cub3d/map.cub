@@ -1,11 +1,11 @@
 R 1920 1080
-NO    ./srcs/brick.xpm
-SO    ./srcs/grass.xpm
-WE    ./srcs/stone.xpm
-EA    ./srcs/meta.xpm
+NO    ./srcs/stain1.xpm
+SO    ./srcs/stain2.xpm
+WE    ./srcs/stain4.xpm
+EA    ./srcs/stain3.xpm
 S     ./path_to_the_sprite_texture
-F     232,84,67
-C     108,11,0
+F     0,0,0
+C     255,255,255
 
         1111111111111111111111111
         1000000000110000000000001

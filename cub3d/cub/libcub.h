@@ -244,7 +244,7 @@ int			is_map_valid(char **map);
 */
 
 int				game_v_filler(t_game_v *game_v, char *file_path);
-int				validator(t_game_v *game_v, t_window *window);
+int				validator(t_game_v *game_v);
 
 /*
 **Win_func
@@ -289,7 +289,7 @@ void			player_movement(t_keys *keys, t_player *player, char **map);
 **Minimap
 */
 
-void	minimap_img(t_data *img, t_window *window, t_player *player);
+void	minimap_img(t_data *img, t_window *window, t_player *player, int min_fract);
 
 /*
 **FIGEUres
@@ -305,7 +305,11 @@ void			print_sky_and_floor(t_data *img, t_game_v *game_v);
 
 void			cast_ray(t_player *player, t_game_v *game_v, t_data *img, t_window *window);
 
+/*
+**textures
+*/
 
+void textures_filler(t_window *window);
 
 t_texture texture[8];
 
