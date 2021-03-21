@@ -47,7 +47,7 @@ void	minimap_img(t_data *img, t_window *window,t_player *player, int min_fract)
 				while (y < ratio * (mat_index + 1))
 				{
 					if (window->game_v->map[mat_index][index] == '1')
-						my_mlx_pixel_put(img, x, y, 0x000000FF);
+						my_mlx_pixel_put(img, x, y, 0x00000000);
 					y++;
 				}
 				x++;

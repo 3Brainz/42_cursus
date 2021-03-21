@@ -1,4 +1,5 @@
-R 1920 1080
+R 2560 1440
+B     ./srcs/skybox_1.xpm
 NO    ./srcs/stain1.xpm
 SO    ./srcs/stain2.xpm
 WE    ./srcs/stain4.xpm

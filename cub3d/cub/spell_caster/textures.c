@@ -15,4 +15,6 @@ void textures_filler(t_window *window)
 	texture_filler(window->textuures->s_textture, window, window->game_v->so_texture);
 	texture_filler(window->textuures->w_texture, window, window->game_v->we_texture);
 	texture_filler(window->textuures->e_texture, window, window->game_v->ea_texture);
+	if (window->game_v->skybox)
+		texture_filler(window->textuures->skybox, window, window->game_v->skybox);
 }

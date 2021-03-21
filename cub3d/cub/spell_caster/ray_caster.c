@@ -169,10 +169,16 @@ void	ver_line(int x, t_caster *caster, t_window *window, t_data *img)
 {
 	int index;
 	t_texture *texture;
-	
+	t_texture *skybox;
 	index = 0;
 	while (++index < caster->drawStart)
-		my_mlx_pixel_put(img, x, index, window->game_v->ceiling_color->n_color);
+		if(!window->game_v->skybox)
+			my_mlx_pixel_put(img, x, index, window->game_v->ceiling_color->n_color);
+		else
+		{
+			skybox = window->textuures->skybox;
+			my_mlx_pixel_put(img, x, index, skybox->addr[(int)(window->player->inclination * skybox->img_width) + index * skybox->img_width + x]);
+		}
 	while(++index < caster->drawEnd)
 	{
 		caster->texY = (int)caster->texPos & (texture->img_height - 1);

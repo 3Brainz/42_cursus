@@ -132,6 +132,7 @@ typedef	struct s_textures{
 	t_texture	s_textture[1];
 	t_texture	e_texture[1];
 	t_texture	w_texture[1];
+	t_texture	skybox[1];
 }				t_textures;
 
 /*
@@ -149,6 +150,7 @@ typedef struct	s_game_v
 	char		*ea_texture;
 	char		*we_texture;
 	char		*sprite_texture;
+	char		*skybox;
 	t_color		floor_color[1];
 	t_color		ceiling_color[1];
 	char		**map;

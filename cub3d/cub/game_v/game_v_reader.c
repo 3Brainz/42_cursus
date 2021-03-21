@@ -25,6 +25,8 @@ static void	line_texture_analizer(char *str, t_game_v *game_v)
 		game_v->ea_texture = take_value_s_cub_parser(&str, 2);
 	else if (*str == 'S')
 		game_v->sprite_texture = take_value_s_cub_parser(&str, 1);
+	else if (*str == 'B')
+		game_v->skybox = take_value_s_cub_parser(&str, 1);
 }
 
 static void	line_measures_analizer(char *str, t_game_v *game_v)
