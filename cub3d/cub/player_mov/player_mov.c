@@ -32,28 +32,26 @@ void	increment_degree(float *inclination, float degree)
 
 void	straight_mov(t_player *player, char dir, char **map)
 {
-	float next_y;
-	float next_x;
+	t_plane *plane;
 
-	if (dir == 'B')
+	plane = player->plane;
+	if (dir == 'F')
 	{
-		next_y = P_POSY + (player->speed * sin(P_INCL));
-		next_x = P_POSX + (player->speed * cos(P_INCL));
-		if (map[(int)next_y][(int)next_x] == '0')
-		{
-			P_POSY = next_y;
-			P_POSX = next_x;
-		}
+		if(map[(int)(player->pos_y)]
+				[(int)(player->pos_x + plane->dir_x * player->speed)] != '1')
+			player->pos_x += plane->dir_x * player->speed;
+    	if(map[(int)(player->pos_y + plane->dir_y * player->speed)]
+				[(int)(player->pos_x)] != '1')
+			player->pos_y += plane->dir_y * player->speed;
 	}
-	else if (dir == 'F')
+	else if (dir == 'B')
 	{
-		next_y = P_POSY - (player->speed * sin(P_INCL));
-		next_x = P_POSX - (player->speed * cos(P_INCL));
-		if (map[(int)next_y][(int)next_x] == '0')
-		{
-			P_POSY = next_y;
-			P_POSX = next_x;
-		}
+		if(map[(int)(player->pos_y)]
+				[(int)(player->pos_x - plane->dir_x * player->speed)] != '1')
+			player->pos_x -= plane->dir_x * player->speed;
+    	if(map[(int)(player->pos_y - plane->dir_y * player->speed)]
+				[(int)(player->pos_x)] != '1')
+			player->pos_y -= plane->dir_y * player->speed;
 	}
 }
 

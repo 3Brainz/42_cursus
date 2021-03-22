@@ -1,32 +1,5 @@
 #include "../libcub.h"
 
-
-typedef struct	s_caster
-{
-	double		cameraX;
-	double		rayDirX;
-	double		rayDirY;
-	int			mapX;
-	int			mapY;
-	double		sideDistX;
-	double		sideDistY;
-	double		deltaDistX;
-	double		deltaDistY; 
-	double		perpWallDist;
-	int			stepX;
-	int			stepY;
-	int			hit;
-	int			side;
-	int			lineHeight;
-	int			drawStart;
-	int			drawEnd;
-	double		wallX;
-	int			texX;
-	double		step;
-	double		texPos;
-	int			texY;
-}				t_caster;
-
 void	zero_caster(t_caster *caster)
 {
 	caster->cameraX = 0;
@@ -192,10 +165,11 @@ void	ver_line(int x, t_caster *caster, t_window *window, t_data *img)
 
 void	cast_ray(t_player *player, t_game_v *game_v, t_data *img, t_window *window)
 {
-	t_caster caster[1];
+	t_caster *caster;
 	int x;
 
 	x = 0;
+	caster = player->caster;
 	zero_caster(caster);
 	while (x < game_v->res_w_nu)
 	{

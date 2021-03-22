@@ -104,6 +104,32 @@ typedef struct	s_plane{
 	float		plane_y;
 }				t_plane;
 
+typedef struct	s_caster
+{
+	double		cameraX;
+	double		rayDirX;
+	double		rayDirY;
+	int			mapX;
+	int			mapY;
+	double		sideDistX;
+	double		sideDistY;
+	double		deltaDistX;
+	double		deltaDistY; 
+	double		perpWallDist;
+	int			stepX;
+	int			stepY;
+	int			hit;
+	int			side;
+	int			lineHeight;
+	int			drawStart;
+	int			drawEnd;
+	double		wallX;
+	int			texX;
+	double		step;
+	double		texPos;
+	int			texY;
+}				t_caster;
+
 typedef struct	s_player{
 
 	float		pos_x;
@@ -111,6 +137,7 @@ typedef struct	s_player{
 	float		inclination;
 	float		speed;
 	t_plane		plane[1];
+	t_caster	caster[1];
 }				t_player;
 /*
 **texture
