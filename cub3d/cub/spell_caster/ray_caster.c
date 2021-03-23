@@ -1,5 +1,5 @@
 #include "../libcub.h"
-
+/*
 void	zero_caster(t_caster *caster)
 {
 	caster->cameraX = 0;
@@ -183,10 +183,10 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img, t_window *window)
 		x++;
 	}
 }
+*/
 
-/*
 
-void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
+void	cast_ray(t_player *player, t_game_v *game_v, t_data *img, t_window *window)
 {
 	int x = 0;
 	while (x < game_v->res_w_nu)
@@ -252,7 +252,7 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
 			side = 1;
 			}
 			//Check if ray has hit a wall
-			if(game_v->map[mapY][mapX] > '0') hit = 1;
+			if(game_v->map[mapY][mapX] == '1') hit = 1;
 		}
 		//Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
 		if(side == 0) perpWallDist = (mapX - player->pos_x + (1 - stepX) / 2) / rayDirX;
@@ -305,16 +305,16 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
 				if (side == 0)
 				{
 					if (rayDirX > 0)
-						my_mlx_pixel_put(img, x, index, texture[0][texHeight * texY + texX]);
+						my_mlx_pixel_put(img, x, index, window->textuures->e_texture->addr[texHeight * texY + texX]);
 					else
-						my_mlx_pixel_put(img, x, index, texture[1][texHeight * texY + texX]);
+						my_mlx_pixel_put(img, x, index, window->textuures->w_texture->addr[texHeight * texY + texX]);
 				}
 				else
 				{
 					if (rayDirY > 0)
-						my_mlx_pixel_put(img, x, index, texture[2][texHeight * texY + texX]);
+						my_mlx_pixel_put(img, x, index, window->textuures->s_textture->addr[texHeight * texY + texX]);
 					else
-						my_mlx_pixel_put(img, x, index, texture[3][texHeight * texY + texX]);
+						my_mlx_pixel_put(img, x, index,window->textuures->n_texture->addr[texHeight * texY + texX]);
 				}
 				index++;
 			}
@@ -325,5 +325,66 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img)
 			}
 		x++;
 	}
+
+		sprite_sorter(game_v->s_cords, player, game_v);
+		for(int i = 0; i < game_v->s_count; i++)
+		{
+		//translate sprite position to relative to camera
+		t_coords sprite;
+
+		sprite = game_v->s_cords[i];
+		double spriteY = sprite.y - player->pos_y;
+		double spriteX = sprite.x - player->pos_x;
+
+		//transform sprite with the inverse camera matrix
+		// [ planeX   dirX ] -1                                       [ dirY      -dirX ]
+		// [               ]       =  1/(planeX*dirY-dirX*planeY) *   [                 ]
+		// [ planeY   dirY ]                                          [ -planeY  planeX ]
+
+		double invDet = 1.0 / (player->plane->plane_x * player->plane->dir_y - player->plane->dir_x * player->plane->plane_y); //required for correct matrix multiplication
+
+		double transformX = invDet * (player->plane->dir_y * spriteX - player->plane->dir_x * spriteY);
+		double transformY = invDet * (-player->plane->plane_y * spriteX + player->plane->plane_x * spriteY); //this is actually the depth inside the screen, that what Z is in 3D, the distance of sprite to player, matching sqrt(spriteDistance[i])
+
+		int spriteScreenX = (int)((game_v->res_w_nu / 2) * (1 + transformX / transformY));
+
+		//parameters for scaling and moving the sprites
+		#define uDiv 1
+		#define vDiv 1
+		#define vMove 0.0
+		int vMoveScreen = (int)(vMove / transformY);
+
+		//calculate height of the sprite on screen
+		int spriteHeight = abs((int)(game_v->res_h_nu / (transformY))) / vDiv; //using "transformY" instead of the real distance prevents fisheye
+		//calculate lowest and highest pixel to fill in current stripe
+		int drawStartY = -spriteHeight / 2 + game_v->res_h_nu / 2 + vMoveScreen;
+		if(drawStartY < 0) drawStartY = 0;
+		int drawEndY = spriteHeight / 2 + game_v->res_h_nu / 2 + vMoveScreen;
+		if(drawEndY >= game_v->res_h_nu) drawEndY = game_v->res_h_nu - 1;
+
+		//calculate width of the sprite
+		int spriteWidth = abs((int)(game_v->res_h_nu / (transformY))) / uDiv;
+		int drawStartX = -spriteWidth / 2 + spriteScreenX;
+		if(drawStartX < 0) drawStartX = 0;
+		int drawEndX = spriteWidth / 2 + spriteScreenX;
+		if(drawEndX >= game_v->res_w_nu) drawEndX = game_v->res_w_nu - 1;
+
+		//loop through every vertical stripe of the sprite on screen
+		
+		for(int stripe = drawStartX; stripe < drawEndX; stripe++)
+		{
+			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * texWidth / spriteWidth) / 256;
+			//the conditions in the if are:
+			//1) it's in front of camera plane so you don't see things behind you
+			//2) it's on the screen (left)
+			//3) it's on the screen (right)
+			//4) ZBuffer, with perpendicular distance
+			for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+			{
+			int d = (y - vMoveScreen) * 256 - game_v->res_h_nu * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+			//int texY = ((d * texHeight) / spriteHeight) / 256;
+			my_mlx_pixel_put(img, stripe, y, window->textuures->n_texture->addr[texX + d]);
+			}
+		}
+	}
 }
-*/

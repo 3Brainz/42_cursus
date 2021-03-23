@@ -39,7 +39,8 @@ CUB_SRCS =	game_v/game_v_reader.c \
 			spell_caster/figures.c \
 			player_mov/player_utils.c \
 			spell_caster/ray_caster.c \
-			spell_caster/textures.c
+			spell_caster/textures.c \
+			game_v/sprites_utils.c
 
 LIBFT_DIR = libft/
 

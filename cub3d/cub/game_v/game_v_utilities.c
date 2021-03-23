@@ -26,6 +26,8 @@ void	game_v_cleaner(t_game_v *game_v)
 	color_cleaner(game_v->ceiling_color);
 	color_cleaner(game_v->floor_color);
 	game_v->map = 0;
+	game_v->s_cords = 0;
+	game_v->s_count = 0;
 }
 
 void	color_cleaner(t_color *color)

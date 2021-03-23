@@ -48,6 +48,8 @@ void	minimap_img(t_data *img, t_window *window,t_player *player, int min_fract)
 				{
 					if (window->game_v->map[mat_index][index] == '1')
 						my_mlx_pixel_put(img, x, y, 0x00000000);
+					else if (window->game_v->map[mat_index][index] == '2')
+						my_mlx_pixel_put(img, x, y, 0x0000FF00);
 					y++;
 				}
 				x++;

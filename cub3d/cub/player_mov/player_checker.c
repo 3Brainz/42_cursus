@@ -80,8 +80,8 @@ static void		player_directioner(t_player *player, char dir)
 
 void			player_positioner(t_player *player, int pos_x, int pos_y, char dir)
 {
-	player->pos_x = pos_x;
-	player->pos_y = pos_y;
+	player->pos_x = pos_x + 0.5;
+	player->pos_y = pos_y + 0.5;
 	player_directioner(player, dir);
 	plane_positioner(player, dir);
 }

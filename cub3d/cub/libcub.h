@@ -159,8 +159,14 @@ typedef	struct s_textures{
 	t_texture	s_textture[1];
 	t_texture	e_texture[1];
 	t_texture	w_texture[1];
+	t_texture	sprite_texture[1];
 	t_texture	skybox[1];
 }				t_textures;
+
+typedef struct s_coords{
+	int			x;
+	int			y;
+}				t_coords;
 
 /*
 **ALLTHEFREAINGWINDOWISHERE_____________________________________________
@@ -180,6 +186,8 @@ typedef struct	s_game_v
 	char		*skybox;
 	t_color		floor_color[1];
 	t_color		ceiling_color[1];
+	t_coords	*s_cords;
+	int			s_count;
 	char		**map;
 	t_size		map_size[1];
 }				t_game_v;
@@ -266,7 +274,14 @@ void			plane_cleaner(t_plane *plane);
 **Map_c
 */
 
-int			is_map_valid(char **map);
+int				is_map_valid(char **map);
+
+/*
+**Sprites_funcs
+*/
+
+void			sprites_filler(t_game_v *game_v);
+void			sprite_sorter(t_coords *s_cords, t_player *player, t_game_v *game_v);
 
 /*
 ** game_v_reader_functions
@@ -342,8 +357,8 @@ void textures_filler(t_window *window);
 
 t_texture texture[8];
 
-#define texHeight 32
-#define texWidth 32
+#define texHeight 64
+#define texWidth 64
 
 
 #endif

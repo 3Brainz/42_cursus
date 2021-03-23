@@ -97,7 +97,10 @@ int			game_v_filler(t_game_v *game_v, char *file_path)
 	add_string_to_mat(&game_v->map, line);
 	free(line);
 	if (are_game_v_ok(game_v))
+	{
+		sprites_filler(game_v);
 		return (1);
+	}
 	free_game_v(game_v);
 	printf("something_not_turned_in");
 	return (0);
