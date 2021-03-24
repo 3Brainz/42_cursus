@@ -35,52 +35,45 @@ void	straight_mov(t_player *player, char dir, char **map)
 	t_plane *plane;
 
 	plane = player->plane;
-	if (dir == 'F')
+	if (dir == 'B')
 	{
 		if(map[(int)(player->pos_y)]
-				[(int)(player->pos_x + plane->dir_x * player->speed)] != '1')
+				[(int)(player->pos_x + plane->dir_x * player->speed)] == '0')
 			player->pos_x += plane->dir_x * player->speed;
     	if(map[(int)(player->pos_y + plane->dir_y * player->speed)]
-				[(int)(player->pos_x)] != '1')
+				[(int)(player->pos_x)] == '0')
 			player->pos_y += plane->dir_y * player->speed;
 	}
-	else if (dir == 'B')
+	else if (dir == 'F')
 	{
 		if(map[(int)(player->pos_y)]
-				[(int)(player->pos_x - plane->dir_x * player->speed)] != '1')
+				[(int)(player->pos_x - plane->dir_x * player->speed)] == '0')
 			player->pos_x -= plane->dir_x * player->speed;
     	if(map[(int)(player->pos_y - plane->dir_y * player->speed)]
-				[(int)(player->pos_x)] != '1')
+				[(int)(player->pos_x)] == '0')
 			player->pos_y -= plane->dir_y * player->speed;
 	}
 }
 
 void	side_mov(t_player *player, int dir, char **map)
 {
-	float next_y;
-	float next_x;
-
 	if (dir == 'R')
 	{
-		next_y = P_POSY + (player->speed * sin(P_INCL + M_PI / 2));
-		next_x = P_POSX + (player->speed * cos(P_INCL + M_PI / 2));
-		if (map[(int)next_y][(int)next_x] == '0')
-		{
-			P_POSY = next_y;
-			P_POSX = next_x;
-		}
+		if (map[(int)player->pos_y][(int)(player->pos_x - player->plane->plane_x
+		* 5 * player->speed)] == '0')
+			player->pos_x -= (player->plane->plane_x * player->speed);
+		if (map[(int)(player->pos_y - player->plane->plane_y
+		* 5 * player->speed )][(int)player->pos_x] == '0')
+			player->pos_y -= (player->plane->plane_y * player->speed);
 	}
 	else if (dir == 'L')
 	{
-		next_y = P_POSY - (player->speed *
-									sin(P_INCL + M_PI / 2));
-		next_x = P_POSX - (player->speed *
-									cos(P_INCL + M_PI / 2));
-		if (map[(int)next_y][(int)next_x] == '0')
-		{
-			P_POSY = next_y;
-			P_POSX = next_x;
-		}
+		if (map[(int)player->pos_y][(int)(player->pos_x + player->plane->plane_x
+		* 5 * player->speed)] == '0')
+			player->pos_x += (player->plane->plane_x * player->speed);
+		if (map[(int)(player->pos_y + player->plane->plane_y
+		* 5 * player->speed )][(int)player->pos_x] == '0')
+			player->pos_y += (player->plane->plane_y * player->speed);
 	}
 }
 
@@ -112,11 +105,11 @@ void	player_movement(t_keys *keys, t_player *player, char **map)
 		increment_degree(&P_INCL, ONE_DEGREE);
 	}
 	if (keys->w_key)
-		straight_mov(player, 'F', map);
-	if (keys->a_key)
-		side_mov(player, 'R', map);
-	if (keys->s_key)
 		straight_mov(player, 'B', map);
-	if (keys->d_key)
+	if (keys->a_key)
 		side_mov(player, 'L', map);
+	if (keys->s_key)
+		straight_mov(player, 'F', map);
+	if (keys->d_key)
+		side_mov(player, 'R', map);
 }

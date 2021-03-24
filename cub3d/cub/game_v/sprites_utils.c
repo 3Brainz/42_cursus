@@ -38,8 +38,8 @@ void sprites_filler(t_game_v *game_v)
 		{
 			if (game_v->map[y][x] == '2')
 			{
-				game_v->s_cords[sprite_index].x = x;
-				game_v->s_cords[sprite_index].y = y;
+				game_v->s_cords[sprite_index].x = x + 0.5;
+				game_v->s_cords[sprite_index].y = y + 0.5;
 				sprite_index++;
 			}
 			x++;

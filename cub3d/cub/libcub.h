@@ -104,6 +104,25 @@ typedef struct	s_plane{
 	float		plane_y;
 }				t_plane;
 
+typedef struct	s_s_caster{
+	double		spriteX;
+	double		spriteY;
+	double		invDet;
+	double		teansformX;
+	double		transformY;
+	int			spriteScreenX;
+	int			vMoveScreen;
+	int			spriteHeight;
+	int			drawStartY;
+	int			drawEndY;
+	int			spriteWidth;
+	int			drawStartX;
+	int			drawEndX;
+	int			texX;
+	int			d;
+	int			texY;
+}				t_s_caster;
+
 typedef struct	s_caster
 {
 	double		cameraX;
@@ -128,6 +147,8 @@ typedef struct	s_caster
 	double		step;
 	double		texPos;
 	int			texY;
+	float		*z_buffer;
+	t_s_caster	sprite_caster[1];
 }				t_caster;
 
 typedef struct	s_player{
@@ -164,8 +185,8 @@ typedef	struct s_textures{
 }				t_textures;
 
 typedef struct s_coords{
-	int			x;
-	int			y;
+	float			x;
+	float			y;
 }				t_coords;
 
 /*
