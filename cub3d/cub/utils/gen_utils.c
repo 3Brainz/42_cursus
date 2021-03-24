@@ -12,21 +12,6 @@
 
 #include "../libcub.h"
 
-void	initialize_vars(int vars_number, ...)
-{
-	va_list		list;
-	void		*variable;
-
-	va_start(list, vars_number);
-	while (vars_number > 0)
-	{
-		variable = va_arg(list, void *);
-		*(long long *)variable = 0;
-		vars_number--;
-	}
-	va_end(list);
-}
-
 void	free_if_exists(void **var)
 {
 	if (*var)

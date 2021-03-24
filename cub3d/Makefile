@@ -24,23 +24,22 @@ SEPARATOR = "---------------------------------------------------------------"
 
 CUB_SRCS =	game_v/game_v_reader.c \
 			game_v/game_v_utilities.c \
+			game_v/game_v_checks.c \
+			game_v/sprites_utils.c \
 			utils/string_utilities.c \
 			utils/gen_utils.c \
-			game_v/game_v_checks.c \
 			map/map_filler.c \
 			map/map_checker.c \
-			spell_caster/win_func.c\
-			spell_caster/mouse_hooks.c \
-			spell_caster/keyboard_hhoks.c \
-			spell_caster/struct_funcs.c \
-			spell_caster/mini_map.c \
 			player/player_checker.c \
 			player/player_mov.c \
-			spell_caster/figures.c \
+			event_handling/mouse_hooks.c \
+			event_handling/keyboard_hhoks.c \
 			player/player_utils.c \
+			spell_caster/win_func.c\
+			spell_caster/struct_funcs.c \
 			spell_caster/ray_caster.c \
 			spell_caster/textures.c \
-			game_v/sprites_utils.c
+			bonus/mini_map.c
 
 LIBFT_DIR = libft/
 

@@ -128,7 +128,7 @@ typedef struct	s_caster
 	double		side_dist_x;
 	double		side_dist_y;
 	double		delta_dist_x;
-	double		delta_dist_y; 
+	double		delta_dist_y;
 	double		perp_wall_dist;
 	int			step_x;
 	int			step_y;
@@ -158,7 +158,7 @@ typedef struct	s_player{
 /*
 **texture
 */
-typedef struct s_texture
+typedef struct	s_texture
 {
 	void		*img;
 	int			*addr;
@@ -167,10 +167,9 @@ typedef struct s_texture
 	int			img_height;
 	int			line_length;
 	int			endian;
-	
 }				t_texture;
 
-typedef	struct s_textures{
+typedef	struct	s_textures{
 	t_texture	n_texture[1];
 	t_texture	s_textture[1];
 	t_texture	e_texture[1];
@@ -179,7 +178,7 @@ typedef	struct s_textures{
 	t_texture	skybox[1];
 }				t_textures;
 
-typedef struct s_coords{
+typedef struct	s_coords{
 	float			x;
 	float			y;
 }				t_coords;
@@ -208,7 +207,7 @@ typedef struct	s_game_v
 	t_size		map_size[1];
 }				t_game_v;
 
-typedef struct 	s_window{
+typedef struct	s_window{
 	void		*mlx;
 	void		*mlx_win;
 	t_data		curr_img[1];
@@ -235,13 +234,12 @@ char			*ft_strjoin_new_line(char const *s1, char const *s2);
 void			change_char_in_s(char *str, char dest, char substitute);
 int				is_in_cset(char c, char *c_set);
 
-
 /*
 **Gen_utils
 */
 
 void			initialize_vars(int vars_number, ...);
-void			free_if_exists(void **var);
+void			free_if_exists(void **var); // da  rivedere
 void			free_mat(void **mat);
 
 /*
@@ -259,8 +257,10 @@ void			free_game_v(t_game_v *game_v);
 */
 
 int				is_color_filled(t_color *color);
-int 	is_map_moment(t_game_v *game_v);
-int		are_game_v_ok(t_game_v *game_v);
+int				is_map_moment(t_game_v *game_v);
+int				is_texture_valid(char *text_name);
+int				validator(t_game_v *game_v);
+int				are_game_v_ok(t_game_v *game_v);
 
 /*
 ** Map_filler
@@ -277,8 +277,8 @@ void			mat_size(t_game_v *game_v);
 */
 
 int				just_one_player(char **map);
-void 			player_positioner(t_player *player, int pos_x, int pos_y, char direction);
-void 			where_is_the_player(char **map, t_player *player);
+void			player_positioner(t_player *player, int pos_x, int pos_y, char dir);
+void			where_is_the_player(char **map, t_player *player);
 
 /*
 **player_utils
@@ -304,7 +304,6 @@ void			sprite_sorter(t_coords *s_cords, t_player *player, t_game_v *game_v);
 */
 
 int				game_v_filler(t_game_v *game_v, char *file_path);
-int				validator(t_game_v *game_v);
 
 /*
 **Win_func
@@ -318,7 +317,7 @@ void			new_image(t_data *image, t_window *window, int width, int height);
 **Mouse funks
 */
 
-int				mouse_click(int button, int pos_x,int pos_y, t_window *window);
+int				mouse_click(int button, int pos_x, int pos_y, t_window *window);
 void			mouse_click_print(t_mouse_ck *click);
 int				mouse_pos_mov(int x, int y, t_window *window);
 
@@ -349,7 +348,7 @@ void			player_movement(t_keys *keys, t_player *player, char **map);
 **Minimap
 */
 
-void	minimap_img(t_data *img, t_window *window, t_player *player, int min_fract);
+void			minimap_img(t_data *img, t_window *window, t_player *player, int min_fract);
 
 /*
 **FIGEUres
@@ -369,12 +368,6 @@ void			cast_ray(t_player *player, t_game_v *game_v, t_data *img, t_window *windo
 **textures
 */
 
-void textures_filler(t_window *window);
-
-t_texture texture[8];
-
-#define texHeight 64
-#define texWidth 64
-
+void			textures_filler(t_window *window);
 
 #endif

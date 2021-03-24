@@ -27,6 +27,27 @@ int		calc_ratio(t_game_v *game_v, int relative_size)
 	return (ratio);
 }
 
+void print_rect(t_data *img, float *origins, t_window *window, float size)
+{
+	int x;
+	int y;
+
+	x = origins[1] - size / 2;
+	y =	origins[0] - size / 2;
+	while (y < origins[0] + size / 2)
+	{
+		x = origins[1] - size / 2;
+		while (x < origins[1] + size / 2)
+		{
+			if (x > 0 && x < window->game_v->res_w_nu &&
+				y > 0 && y < window->game_v->res_h_nu)
+				my_mlx_pixel_put(img, x, y, 0x00FF0000);
+			x++;
+		}
+		y++;
+	}
+}
+
 void	minimap_img(t_data *img, t_window *window,t_player *player, int min_fract)
 {
 	size_t mat_index = 0;
