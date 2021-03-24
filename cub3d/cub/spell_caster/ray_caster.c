@@ -2,27 +2,27 @@
 
 void	zero_caster(t_caster *caster)
 {
-	caster->cameraX = 0;
-	caster->rayDirX = 0;
-	caster->rayDirY = 0;
-	caster->mapX = 0;
-	caster->mapY = 0;
-	caster->sideDistX = 0;
-	caster->sideDistY = 0;
-	caster->deltaDistX = 0;
-	caster->deltaDistY = 0;
-	caster->perpWallDist = 0;
-	caster->stepX = 0;
-	caster->stepY = 0;
+	caster->camera_x = 0;
+	caster->ray_dir_x = 0;
+	caster->ray_dir_y = 0;
+	caster->map_x = 0;
+	caster->map_y = 0;
+	caster->side_dist_x = 0;
+	caster->side_dist_y = 0;
+	caster->delta_dist_x = 0;
+	caster->delta_dist_y = 0;
+	caster->perp_wall_dist = 0;
+	caster->step_x = 0;
+	caster->step_y = 0;
 	caster->hit = 0;
 	caster->side = 0;
-	caster->lineHeight = 0;
-	caster->drawStart = 0;
-	caster->drawEnd = 0;
-	caster->wallX = 0;
+	caster->line_height = 0;
+	caster->draw_start = 0;
+	caster->draw_end = 0;
+	caster->wall_x = 0;
 	caster->tex_x = 0;
 	caster->step = 0;
-	caster->texPos = 0;
+	caster->tex_pos = 0;
 	caster->tex_y = 0;
 }
 
@@ -48,37 +48,37 @@ void	zero_s_caster(t_s_caster *s_caster)
 
 void	ray_pos_and_dir(t_caster *caster, t_game_v *game_v,t_player *player, int x)
 {
-	caster->cameraX = 2 * x / (double)game_v->res_w_nu - 1;
-	caster->rayDirX = player->plane->dir_x - player->plane->plane_x * caster->cameraX;
-	caster->rayDirY = player->plane->dir_y - player->plane->plane_y * caster->cameraX;
-	caster->mapX = (int)(player->pos_x);
-	caster->mapY = (int)(player->pos_y);
-	caster->deltaDistX = fabs(1 / caster->rayDirX);
-	caster->deltaDistY = fabs(1 / caster->rayDirY);
+	caster->camera_x = 2 * x / (double)game_v->res_w_nu - 1;
+	caster->ray_dir_x = player->plane->dir_x - player->plane->plane_x * caster->camera_x;
+	caster->ray_dir_y = player->plane->dir_y - player->plane->plane_y * caster->camera_x;
+	caster->map_x = (int)(player->pos_x);
+	caster->map_y = (int)(player->pos_y);
+	caster->delta_dist_x = fabs(1 / caster->ray_dir_x);
+	caster->delta_dist_y = fabs(1 / caster->ray_dir_y);
 }
 
 void	ray_collider(t_caster *caster, t_player *player)
 {
 	caster->hit = 0;
-	if(caster->rayDirX < 0)
+	if(caster->ray_dir_x < 0)
 	{
-		caster->stepX = -1;
-		caster->sideDistX = (player->pos_x - caster->mapX) * caster->deltaDistX;
+		caster->step_x = -1;
+		caster->side_dist_x = (player->pos_x - caster->map_x) * caster->delta_dist_x;
 	}
 	else
 	{
-		caster->stepX = 1;
-		caster->sideDistX = (caster->mapX + 1.0 - player->pos_x) * caster->deltaDistX;
+		caster->step_x = 1;
+		caster->side_dist_x = (caster->map_x + 1.0 - player->pos_x) * caster->delta_dist_x;
 	}
-	if(caster->rayDirY < 0)
+	if(caster->ray_dir_y < 0)
 	{
-		caster->stepY = -1;
-		caster->sideDistY = (player->pos_y - caster->mapY) * caster->deltaDistY;
+		caster->step_y = -1;
+		caster->side_dist_y = (player->pos_y - caster->map_y) * caster->delta_dist_y;
 	}
 	else
 	{
-		caster->stepY = 1;
-		caster->sideDistY = (caster->mapY + 1.0 - player->pos_y) * caster->deltaDistY;
+		caster->step_y = 1;
+		caster->side_dist_y = (caster->map_y + 1.0 - player->pos_y) * caster->delta_dist_y;
 	}
 }
 
@@ -87,20 +87,20 @@ void	ray_dda(t_caster *caster, t_game_v *game_v)
 	while (caster->hit == 0)
 		{
 			//jump to next map square, OR in x-direction, OR in y-direction
-			if(caster->sideDistX < caster->sideDistY)
+			if(caster->side_dist_x < caster->side_dist_y)
 			{
-				caster->sideDistX += caster->deltaDistX;
-				caster->mapX += caster->stepX;
+				caster->side_dist_x += caster->delta_dist_x;
+				caster->map_x += caster->step_x;
 				caster->side = 0;
 			}
 			else
 			{
-				caster->sideDistY += caster->deltaDistY;
-				caster->mapY += caster->stepY;
+				caster->side_dist_y += caster->delta_dist_y;
+				caster->map_y += caster->step_y;
 				caster->side = 1;
 			}
 			//Check if ray has hit a wall
-			if(game_v->map[caster->mapY][caster->mapX] == '1') 
+			if(game_v->map[caster->map_y][caster->map_x] == '1') 
 				caster->hit = 1;
 		}
 }
@@ -108,30 +108,30 @@ void	ray_dda(t_caster *caster, t_game_v *game_v)
 void	line_measure_dist(t_caster *caster, t_game_v *game_v, t_player *player)
 {
 	if(caster->side == 0)
-		caster->perpWallDist = (caster->mapX - player->pos_x + (1 - caster->stepX) / 2) / caster->rayDirX;
+		caster->perp_wall_dist = (caster->map_x - player->pos_x + (1 - caster->step_x) / 2) / caster->ray_dir_x;
 	else	
-		caster->perpWallDist = (caster->mapY - player->pos_y + (1 - caster->stepY) / 2) / caster->rayDirY;
-	caster->lineHeight = (int)(game_v->res_h_nu / caster->perpWallDist);
-	caster->drawStart = -caster->lineHeight / 2 + game_v->res_h_nu / 2;
-	if(caster->drawStart < 0)
-		caster->drawStart = 0;
-	caster->drawEnd = caster->lineHeight / 2 + game_v->res_h_nu / 2;
-	if(caster->drawEnd >= game_v->res_h_nu || caster->drawEnd < 0)
-		caster->drawEnd = game_v->res_h_nu - 1;
+		caster->perp_wall_dist = (caster->map_y - player->pos_y + (1 - caster->step_y) / 2) / caster->ray_dir_y;
+	caster->line_height = (int)(game_v->res_h_nu / caster->perp_wall_dist);
+	caster->draw_start = -caster->line_height / 2 + game_v->res_h_nu / 2;
+	if(caster->draw_start < 0)
+		caster->draw_start = 0;
+	caster->draw_end = caster->line_height / 2 + game_v->res_h_nu / 2;
+	if(caster->draw_end >= game_v->res_h_nu || caster->draw_end < 0)
+		caster->draw_end = game_v->res_h_nu - 1;
 }
 
 t_texture *texture_selector(t_window *window, t_caster *caster)
 {
 	if (caster->side == 0)
 		{
-			if (caster->rayDirX > 0)
+			if (caster->ray_dir_x > 0)
 				return (window->textuures->e_texture);
 			else
 				return (window->textuures->w_texture);
 		}
 		else
 		{
-			if (caster->rayDirY > 0)
+			if (caster->ray_dir_y > 0)
 				return(window->textuures->s_textture);
 			else
 				return(window->textuures->n_texture);
@@ -144,18 +144,18 @@ void texturer(t_caster *caster, t_player *player, t_game_v *game_v, t_window *wi
 	
 	texture = texture_selector(window, caster);
 	if(caster->side == 0)	
-		caster->wallX = player->pos_y + caster->perpWallDist * caster->rayDirY;
+		caster->wall_x = player->pos_y + caster->perp_wall_dist * caster->ray_dir_y;
 	else
-		caster->wallX = player->pos_x + caster->perpWallDist * caster->rayDirX;
-	caster->wallX -= floor((caster->wallX));
+		caster->wall_x = player->pos_x + caster->perp_wall_dist * caster->ray_dir_x;
+	caster->wall_x -= floor((caster->wall_x));
 	//x coordinate on the texture
-	caster->tex_x = (int)(caster->wallX * (double)(texture->img_width));
-	if(caster->side == 0 && caster->rayDirX > 0)
+	caster->tex_x = (int)(caster->wall_x * (double)(texture->img_width));
+	if(caster->side == 0 && caster->ray_dir_x > 0)
 		caster->tex_x = texture->img_width - caster->tex_x - 1;
-	if(caster->side == 1 && caster->rayDirY < 0)
+	if(caster->side == 1 && caster->ray_dir_y < 0)
 		caster->tex_x = texture->img_width - caster->tex_x - 1;
-	caster->step = 1.0 * texture->img_height / caster->lineHeight;
-	caster->texPos = (caster->drawStart - game_v->res_h_nu / 2 + caster->lineHeight / 2) * caster->step;
+	caster->step = 1.0 * texture->img_height / caster->line_height;
+	caster->tex_pos = (caster->draw_start - game_v->res_h_nu / 2 + caster->line_height / 2) * caster->step;
 }
 
 void	ver_line(int x, t_caster *caster, t_window *window, t_data *img)
@@ -164,7 +164,7 @@ void	ver_line(int x, t_caster *caster, t_window *window, t_data *img)
 	t_texture *texture;
 	t_texture *skybox;
 	index = 0;
-	while (++index < caster->drawStart)
+	while (++index < caster->draw_start)
 		if(!window->game_v->skybox)
 			my_mlx_pixel_put(img, x, index, window->game_v->ceiling_color->n_color);
 		else
@@ -172,10 +172,10 @@ void	ver_line(int x, t_caster *caster, t_window *window, t_data *img)
 			skybox = window->textuures->skybox;
 			my_mlx_pixel_put(img, x, index, skybox->addr[(int)(window->player->inclination * skybox->img_width) + index * skybox->img_width + x]);
 		}
-	while(++index < caster->drawEnd)
+	while(++index < caster->draw_end)
 	{
-		caster->tex_y = (int)caster->texPos & (texture->img_height - 1);
-		caster->texPos += caster->step;
+		caster->tex_y = (int)caster->tex_pos & (texture->img_height - 1);
+		caster->tex_pos += caster->step;
 		texture = texture_selector(window, caster);
 		my_mlx_pixel_put(img, x, index, texture->addr[texture->img_height * caster->tex_y + caster->tex_x]);
 	}
@@ -203,7 +203,7 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img, t_window *window)
 		line_measure_dist(caster, game_v, player);
 		texturer(caster, player, game_v, window);
 		ver_line(x, caster, window, img);
-		caster->z_buffer[x] = caster->perpWallDist;
+		caster->z_buffer[x] = caster->perp_wall_dist;
 		x++;
 	}
 	sprite_caster(player, game_v, img, window);

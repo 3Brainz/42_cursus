@@ -7,126 +7,126 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img, t_window *window)
 	while (x < game_v->res_w_nu)
 	{
 		//calculate ray position and direction
-		double cameraX = 2 * x / (double)game_v->res_w_nu - 1; //x-coordinate in camera space
-		double rayDirX = player->plane->dir_x - player->plane->plane_x * cameraX;
-		double rayDirY = player->plane->dir_y - player->plane->plane_y * cameraX;
+		double camera_x = 2 * x / (double)game_v->res_w_nu - 1; //x-coordinate in camera space
+		double ray_dir_x = player->plane->dir_x - player->plane->plane_x * camera_x;
+		double ray_dir_y = player->plane->dir_y - player->plane->plane_y * camera_x;
 		//which box of the map we're in
-		int mapX = (int)(player->pos_x);
-		int mapY = (int)(player->pos_y);
+		int map_x = (int)(player->pos_x);
+		int map_y = (int)(player->pos_y);
 
 		//length of ray from current position to next x or y-side
-		double sideDistX;
-		double sideDistY;
+		double side_dist_x;
+		double side_dist_y;
 
 		//length of ray from one x or y-side to next x or y-side
-		double deltaDistX = fabs(1 / rayDirX);
-		double deltaDistY = fabs(1 / rayDirY);
-		double perpWallDist;
+		double delta_dist_x = fabs(1 / ray_dir_x);
+		double delta_dist_y = fabs(1 / ray_dir_y);
+		double perp_wall_dist;
 
 		//what direction to step in x or y-direction (either +1 or -1)
-		int stepX;
-		int stepY;
+		int step_x;
+		int step_y;
 
 		int hit = 0; //was there a wall hit?
 		int side; //was a NS or a EW wall hit?
 		//calculate step and initial sideDist
-		if(rayDirX < 0)
+		if(ray_dir_x < 0)
 		{
-			stepX = -1;
-			sideDistX = (player->pos_x - mapX) * deltaDistX;
+			step_x = -1;
+			side_dist_x = (player->pos_x - map_x) * delta_dist_x;
 		}
 		else
 		{
-			stepX = 1;
-			sideDistX = (mapX + 1.0 - player->pos_x) * deltaDistX;
+			step_x = 1;
+			side_dist_x = (map_x + 1.0 - player->pos_x) * delta_dist_x;
 		}
-		if(rayDirY < 0)
+		if(ray_dir_y < 0)
 		{
-			stepY = -1;
-			sideDistY = (player->pos_y - mapY) * deltaDistY;
+			step_y = -1;
+			side_dist_y = (player->pos_y - map_y) * delta_dist_y;
 		}
 		else
 		{
-			stepY = 1;
-			sideDistY = (mapY + 1.0 - player->pos_y) * deltaDistY;
+			step_y = 1;
+			side_dist_y = (map_y + 1.0 - player->pos_y) * delta_dist_y;
 		}
 		//perform DDA
 		while (hit == 0)
 		{
 			//jump to next map square, OR in x-direction, OR in y-direction
-			if(sideDistX < sideDistY)
+			if(side_dist_x < side_dist_y)
 			{
-			sideDistX += deltaDistX;
-			mapX += stepX;
+			side_dist_x += delta_dist_x;
+			map_x += step_x;
 			side = 0;
 			}
 			else
 			{
-			sideDistY += deltaDistY;
-			mapY += stepY;
+			side_dist_y += delta_dist_y;
+			map_y += step_y;
 			side = 1;
 			}
 			//Check if ray has hit a wall
-			if(game_v->map[mapY][mapX] == '1') hit = 1;
+			if(game_v->map[map_y][map_x] == '1') hit = 1;
 		}
 		//Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
-		if(side == 0) perpWallDist = (mapX - player->pos_x + (1 - stepX) / 2) / rayDirX;
-		else          perpWallDist = (mapY - player->pos_y + (1 - stepY) / 2) / rayDirY;
+		if(side == 0) perp_wall_dist = (map_x - player->pos_x + (1 - step_x) / 2) / ray_dir_x;
+		else          perp_wall_dist = (map_y - player->pos_y + (1 - step_y) / 2) / ray_dir_y;
 
 		//Calculate height of line to draw on screen
-		int lineHeight = (int)(game_v->res_h_nu / perpWallDist);
+		int line_height = (int)(game_v->res_h_nu / perp_wall_dist);
 
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStart = -lineHeight / 2 + game_v->res_h_nu / 2;
-		if(drawStart < 0)drawStart = 0;
-		int drawEnd = lineHeight / 2 + game_v->res_h_nu / 2;
-		if(drawEnd >= game_v->res_h_nu || drawEnd < 0)drawEnd = game_v->res_h_nu - 1;
+		int draw_start = -line_height / 2 + game_v->res_h_nu / 2;
+		if(draw_start < 0)draw_start = 0;
+		int draw_end = line_height / 2 + game_v->res_h_nu / 2;
+		if(draw_end >= game_v->res_h_nu || draw_end < 0)draw_end = game_v->res_h_nu - 1;
 
 //--------------------------------------------------------------------------------------//----------//------
-		double wallX; //where exactly the wall was hit
+		double wall_x; //where exactly the wall was hit
 			if(side == 0)	
-			wallX = player->pos_y + perpWallDist * rayDirY;
+			wall_x = player->pos_y + perp_wall_dist * ray_dir_y;
 		else
-			wallX = player->pos_x + perpWallDist * rayDirX;
-		wallX -= floor((wallX));
+			wall_x = player->pos_x + perp_wall_dist * ray_dir_x;
+		wall_x -= floor((wall_x));
 		//x coordinate on the texture
-		int tex_x = (int)(wallX * (double)(texWidth));
-		if(side == 0 && rayDirX > 0)
+		int tex_x = (int)(wall_x * (double)(texWidth));
+		if(side == 0 && ray_dir_x > 0)
 			tex_x = texWidth - tex_x - 1;
-		if(side == 1 && rayDirY < 0)
+		if(side == 1 && ray_dir_y < 0)
 			tex_x = texWidth - tex_x - 1;
-		double step = 1.0 * texHeight / lineHeight;
-		double texPos = (drawStart - game_v->res_h_nu / 2 + lineHeight / 2) * step;
+		double step = 1.0 * texHeight / line_height;
+		double tex_pos = (draw_start - game_v->res_h_nu / 2 + line_height / 2) * step;
 
 		//choose wall color
 		// int color = 0x00FF0000;
 		//give x and y sides different brightness
 		//if(side == 1) {color = color / 2;}
 		//draw the pixels of the stripe as a vertical line
-		//ver_line(x, drawStart, drawEnd, game_v, img);
+		//ver_line(x, draw_start, draw_end, game_v, img);
 		int index;
 
 		index = 0;
 
-		while (index <= drawStart)
+		while (index <= draw_start)
 			{
 				my_mlx_pixel_put(img, x, index, game_v->ceiling_color->n_color);
 				index++;
 			}
-			while(index <= drawEnd)
+			while(index <= draw_end)
 			{
-				int tex_y = (int)texPos & (texHeight - 1);
-        		texPos += step;
+				int tex_y = (int)tex_pos & (texHeight - 1);
+        		tex_pos += step;
 				if (side == 0)
 				{
-					if (rayDirX > 0)
+					if (ray_dir_x > 0)
 						my_mlx_pixel_put(img, x, index, window->textuures->e_texture->addr[texHeight * tex_y + tex_x]);
 					else
 						my_mlx_pixel_put(img, x, index, window->textuures->w_texture->addr[texHeight * tex_y + tex_x]);
 				}
 				else
 				{
-					if (rayDirY > 0)
+					if (ray_dir_y > 0)
 						my_mlx_pixel_put(img, x, index, window->textuures->s_textture->addr[texHeight * tex_y + tex_x]);
 					else
 						my_mlx_pixel_put(img, x, index,window->textuures->n_texture->addr[texHeight * tex_y + tex_x]);
@@ -138,7 +138,7 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img, t_window *window)
 				my_mlx_pixel_put(img, x, index, game_v->floor_color->n_color);
 				index++;
 			}
-		zbuffer[x] = perpWallDist;
+		zbuffer[x] = perp_wall_dist;
 		x++;
 	}
 
