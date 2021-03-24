@@ -26,6 +26,26 @@ void	zero_caster(t_caster *caster)
 	caster->texY = 0;
 }
 
+void	zero_s_caster(t_s_caster *s_caster)
+{
+	s_caster->spriteX = 0;
+	s_caster->spriteY = 0;
+	s_caster->invDet = 0;
+	s_caster->transformX = 0;
+	s_caster->transformY = 0;
+	s_caster->spriteScreenX = 0;
+	s_caster->vMoveScreen = 0;
+	s_caster->spriteHeight = 0;
+	s_caster->drawStartY = 0;
+	s_caster->drawEndY = 0;
+	s_caster->spriteWidth = 0;
+	s_caster->drawStartX = 0;
+	s_caster->drawEndX = 0;
+	s_caster->texX = 0;
+	s_caster->d = 0;
+	s_caster->texY = 0;
+}
+
 void	ray_pos_and_dir(t_caster *caster, t_game_v *game_v,t_player *player, int x)
 {
 	caster->cameraX = 2 * x / (double)game_v->res_w_nu - 1;
@@ -189,7 +209,7 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img, t_window *window)
 	sprite_caster(player, game_v, img, window);
 	free(caster->z_buffer);
 }
-void	sprite_positioner(t_player *player, t_game_v *game_v, t_window *window, int i)
+void	sprite_positioner(t_player *player, t_game_v *game_v, int i)
 {
 	t_s_caster *s_caster;
 
@@ -198,7 +218,7 @@ void	sprite_positioner(t_player *player, t_game_v *game_v, t_window *window, int
 	s_caster->spriteY = game_v->s_cords[i].y - player->pos_y;
 }
 
-void	sprite_dimensioner1(t_player *player, t_game_v *game_v, t_window *window)
+void	sprite_dimensioner(t_player *player, t_game_v *game_v)
 {
 	t_s_caster *s_caster;
 
@@ -211,7 +231,7 @@ void	sprite_dimensioner1(t_player *player, t_game_v *game_v, t_window *window)
 	s_caster->spriteHeight = (abs((int)(game_v->res_h_nu / s_caster->transformY))) / 1; 
 }
 
-void	sprite_painting_coords_y(t_player *player, t_game_v *game_v, t_window *window)
+void	sprite_painting_coords_y(t_player *player, t_game_v *game_v)
 {
 	t_s_caster *s_caster;
 
@@ -225,7 +245,7 @@ void	sprite_painting_coords_y(t_player *player, t_game_v *game_v, t_window *wind
 	
 }
 
-void	sprite_painting_coords_x(t_player *player, t_game_v *game_v, t_window *window)
+void	sprite_painting_coords_x(t_player *player, t_game_v *game_v)
 {
 	t_s_caster *s_caster;
 
@@ -254,11 +274,11 @@ void	sprite_ver_line(int stripe, t_game_v *game_v, t_data *img, t_window *window
 		color = (unsigned int)window->textuures->w_texture->addr[window->textuures->w_texture->img_width * s_caster->texY + s_caster->texX];
 		if((color & 0x00FFFFFF) != 0)
 		my_mlx_pixel_put(img, stripe, y, color);
+		y++;
 	}
-	
 }
 
-void	sprite_hor_line(t_player *player, t_game_v *game_v, t_data *img, t_window *window)
+void	sprite_print(t_player *player, t_game_v *game_v, t_data *img, t_window *window)
 {
 	int	stripe;
 	t_s_caster *s_caster;
@@ -280,11 +300,20 @@ void	sprite_caster(t_player *player, t_game_v *game_v, t_data *img, t_window *wi
 	t_caster *caster;
 
 	caster = player->caster;
-	
 	s_index = 0;
-
+	sprite_sorter(game_v->s_cords, player, game_v);
+	while (s_index < game_v->s_count)
+	{
+		zero_s_caster(caster->sprite_caster);
+		sprite_positioner(player, game_v, s_index);
+		sprite_dimensioner(player, game_v);
+		sprite_painting_coords_y(player, game_v);
+		sprite_painting_coords_x(player, game_v);
+		sprite_print(player, game_v, img, window);
+		s_index++;
+	}
 }
-
+/*
 void	sprite_caster(t_player *player, t_game_v *game_v, t_data *img, t_window *window)
 {
 	t_caster *caster;
@@ -343,3 +372,4 @@ void	sprite_caster(t_player *player, t_game_v *game_v, t_data *img, t_window *wi
 			}
 		}
 }
+*/

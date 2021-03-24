@@ -108,7 +108,7 @@ typedef struct	s_s_caster{
 	double		spriteX;
 	double		spriteY;
 	double		invDet;
-	double		teansformX;
+	double		transformX;
 	double		transformY;
 	int			spriteScreenX;
 	int			vMoveScreen;
