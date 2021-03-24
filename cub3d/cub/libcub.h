@@ -58,30 +58,25 @@ typedef struct	s_size{
 **Structures mlx
 */
 
-typedef struct  s_data {
-    void        *img;
-    char        *addr;
-    int         bits_per_pixel;
-    int         line_length;
-    int         endian;
-}               t_data;
+typedef struct	s_data {
+	void		*img;
+	char		*addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+}				t_data;
 
-typedef struct s_mouse_ck{
+typedef struct	s_mouse_ck{
 	int			button;
 	int			pos_x;
 	int			pos_y;
 }				t_mouse_ck;
 
-
-typedef struct s_mouse_pos{
+typedef struct	s_mouse_pos{
 	int			pos_x;
 	int			pos_y;
 }				t_mouse_pos;
-/*
-typedef struct s_mouse_delta{
 
-}				t_mouse_delta;
-*/
 typedef struct	s_keys{
 	int			w_key;
 	int			a_key;
@@ -105,22 +100,22 @@ typedef struct	s_plane{
 }				t_plane;
 
 typedef struct	s_s_caster{
-	double		spriteX;
-	double		spriteY;
-	double		invDet;
-	double		transformX;
-	double		transformY;
-	int			spriteScreenX;
-	int			vMoveScreen;
-	int			spriteHeight;
-	int			drawStartY;
-	int			drawEndY;
-	int			spriteWidth;
-	int			drawStartX;
-	int			drawEndX;
-	int			texX;
+	double		sprite_x;
+	double		sprite_y;
+	double		inv_det;
+	double		transform_x;
+	double		transform_y;
+	int			sprite_screen_x;
+	int			v_move_screen;
+	int			sprite_height;
+	int			draw_start_y;
+	int			draw_end_y;
+	int			sprite_width;
+	int			draw_start_x;
+	int			draw_end_x;
+	int			tex_x;
 	int			d;
-	int			texY;
+	int			tex_y;
 }				t_s_caster;
 
 typedef struct	s_caster
@@ -143,10 +138,10 @@ typedef struct	s_caster
 	int			drawStart;
 	int			drawEnd;
 	double		wallX;
-	int			texX;
+	int			tex_x;
 	double		step;
 	double		texPos;
-	int			texY;
+	int			tex_y;
 	float		*z_buffer;
 	t_s_caster	sprite_caster[1];
 }				t_caster;

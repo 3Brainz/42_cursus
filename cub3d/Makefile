@@ -34,10 +34,10 @@ CUB_SRCS =	game_v/game_v_reader.c \
 			spell_caster/keyboard_hhoks.c \
 			spell_caster/struct_funcs.c \
 			spell_caster/mini_map.c \
-			player_mov/player_checker.c \
-			player_mov/player_mov.c \
+			player/player_checker.c \
+			player/player_mov.c \
 			spell_caster/figures.c \
-			player_mov/player_utils.c \
+			player/player_utils.c \
 			spell_caster/ray_caster.c \
 			spell_caster/textures.c \
 			game_v/sprites_utils.c
@@ -131,9 +131,5 @@ c:
 karen:
 	@echo "Karen is judging your header ${SEPARATOR}"
 	@norminette ${NAME:.a=.h}
-	@echo "Karen is judging your pt1 & pt2 .c files ${SEPARATOR}"
-	@norminette ${SRCS}
-	@echo "Karen is judging your bouns .c files ${SEPARATOR}"
-	@norminette ${BNS_SRCS}
 
 .PHONY: all bonus clean fclean re

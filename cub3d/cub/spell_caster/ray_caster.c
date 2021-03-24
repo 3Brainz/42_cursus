@@ -20,30 +20,30 @@ void	zero_caster(t_caster *caster)
 	caster->drawStart = 0;
 	caster->drawEnd = 0;
 	caster->wallX = 0;
-	caster->texX = 0;
+	caster->tex_x = 0;
 	caster->step = 0;
 	caster->texPos = 0;
-	caster->texY = 0;
+	caster->tex_y = 0;
 }
 
 void	zero_s_caster(t_s_caster *s_caster)
 {
-	s_caster->spriteX = 0;
-	s_caster->spriteY = 0;
-	s_caster->invDet = 0;
-	s_caster->transformX = 0;
-	s_caster->transformY = 0;
-	s_caster->spriteScreenX = 0;
-	s_caster->vMoveScreen = 0;
-	s_caster->spriteHeight = 0;
-	s_caster->drawStartY = 0;
-	s_caster->drawEndY = 0;
-	s_caster->spriteWidth = 0;
-	s_caster->drawStartX = 0;
-	s_caster->drawEndX = 0;
-	s_caster->texX = 0;
+	s_caster->sprite_x = 0;
+	s_caster->sprite_y = 0;
+	s_caster->inv_det = 0;
+	s_caster->transform_x = 0;
+	s_caster->transform_y = 0;
+	s_caster->sprite_screen_x = 0;
+	s_caster->v_move_screen = 0;
+	s_caster->sprite_height = 0;
+	s_caster->draw_start_y = 0;
+	s_caster->draw_end_y = 0;
+	s_caster->sprite_width = 0;
+	s_caster->draw_start_x = 0;
+	s_caster->draw_end_x = 0;
+	s_caster->tex_x = 0;
 	s_caster->d = 0;
-	s_caster->texY = 0;
+	s_caster->tex_y = 0;
 }
 
 void	ray_pos_and_dir(t_caster *caster, t_game_v *game_v,t_player *player, int x)
@@ -149,11 +149,11 @@ void texturer(t_caster *caster, t_player *player, t_game_v *game_v, t_window *wi
 		caster->wallX = player->pos_x + caster->perpWallDist * caster->rayDirX;
 	caster->wallX -= floor((caster->wallX));
 	//x coordinate on the texture
-	caster->texX = (int)(caster->wallX * (double)(texture->img_width));
+	caster->tex_x = (int)(caster->wallX * (double)(texture->img_width));
 	if(caster->side == 0 && caster->rayDirX > 0)
-		caster->texX = texture->img_width - caster->texX - 1;
+		caster->tex_x = texture->img_width - caster->tex_x - 1;
 	if(caster->side == 1 && caster->rayDirY < 0)
-		caster->texX = texture->img_width - caster->texX - 1;
+		caster->tex_x = texture->img_width - caster->tex_x - 1;
 	caster->step = 1.0 * texture->img_height / caster->lineHeight;
 	caster->texPos = (caster->drawStart - game_v->res_h_nu / 2 + caster->lineHeight / 2) * caster->step;
 }
@@ -174,10 +174,10 @@ void	ver_line(int x, t_caster *caster, t_window *window, t_data *img)
 		}
 	while(++index < caster->drawEnd)
 	{
-		caster->texY = (int)caster->texPos & (texture->img_height - 1);
+		caster->tex_y = (int)caster->texPos & (texture->img_height - 1);
 		caster->texPos += caster->step;
 		texture = texture_selector(window, caster);
-		my_mlx_pixel_put(img, x, index, texture->addr[texture->img_height * caster->texY + caster->texX]);
+		my_mlx_pixel_put(img, x, index, texture->addr[texture->img_height * caster->tex_y + caster->tex_x]);
 	}
 	while(++index < window->game_v->res_h_nu)
 		my_mlx_pixel_put(img, x, index, window->game_v->floor_color->n_color);
@@ -214,8 +214,8 @@ void	sprite_positioner(t_player *player, t_game_v *game_v, int i)
 	t_s_caster *s_caster;
 
 	s_caster = player->caster->sprite_caster;
-	s_caster->spriteX = game_v->s_cords[i].x - player->pos_x;
-	s_caster->spriteY = game_v->s_cords[i].y - player->pos_y;
+	s_caster->sprite_x = game_v->s_cords[i].x - player->pos_x;
+	s_caster->sprite_y = game_v->s_cords[i].y - player->pos_y;
 }
 
 void	sprite_dimensioner(t_player *player, t_game_v *game_v)
@@ -223,12 +223,12 @@ void	sprite_dimensioner(t_player *player, t_game_v *game_v)
 	t_s_caster *s_caster;
 
 	s_caster = player->caster->sprite_caster;
-	s_caster->invDet = 1.0 / (player->plane->plane_x * player->plane->dir_y - player->plane->dir_x * player->plane->plane_y);
-	s_caster->transformX = s_caster->invDet * (player->plane->dir_y * s_caster->spriteX - player->plane->dir_x * s_caster->spriteY);
-	s_caster->transformY = s_caster->invDet * ((-player->plane->plane_y) * s_caster->spriteX + player->plane->plane_x * s_caster->spriteY);
-	s_caster->spriteScreenX = game_v->res_w_nu - (int)((game_v->res_w_nu / 2) * (1 + s_caster->transformX / s_caster->transformY));
-	s_caster->vMoveScreen = (int)(0.0 / s_caster->transformY);
-	s_caster->spriteHeight = (abs((int)(game_v->res_h_nu / s_caster->transformY))) / 1; 
+	s_caster->inv_det = 1.0 / (player->plane->plane_x * player->plane->dir_y - player->plane->dir_x * player->plane->plane_y);
+	s_caster->transform_x = s_caster->inv_det * (player->plane->dir_y * s_caster->sprite_x - player->plane->dir_x * s_caster->sprite_y);
+	s_caster->transform_y = s_caster->inv_det * ((-player->plane->plane_y) * s_caster->sprite_x + player->plane->plane_x * s_caster->sprite_y);
+	s_caster->sprite_screen_x = game_v->res_w_nu - (int)((game_v->res_w_nu / 2) * (1 + s_caster->transform_x / s_caster->transform_y));
+	s_caster->v_move_screen = (int)(0.0 / s_caster->transform_y);
+	s_caster->sprite_height = (abs((int)(game_v->res_h_nu / s_caster->transform_y))) / 1; 
 }
 
 void	sprite_painting_coords_y(t_player *player, t_game_v *game_v)
@@ -236,12 +236,12 @@ void	sprite_painting_coords_y(t_player *player, t_game_v *game_v)
 	t_s_caster *s_caster;
 
 	s_caster = player->caster->sprite_caster;
-	s_caster->drawStartY = -s_caster->spriteHeight / 2 + game_v->res_h_nu / 2 + s_caster->vMoveScreen;
-	if(s_caster->drawStartY < 0)
-		s_caster->drawStartY = 0;
-	s_caster->drawEndY = s_caster->spriteHeight / 2 + game_v->res_h_nu / 2 + s_caster->vMoveScreen;
-	if(s_caster->drawEndY >= game_v->res_h_nu)
-		s_caster->drawEndY = game_v->res_h_nu - 1;
+	s_caster->draw_start_y = -s_caster->sprite_height / 2 + game_v->res_h_nu / 2 + s_caster->v_move_screen;
+	if(s_caster->draw_start_y < 0)
+		s_caster->draw_start_y = 0;
+	s_caster->draw_end_y = s_caster->sprite_height / 2 + game_v->res_h_nu / 2 + s_caster->v_move_screen;
+	if(s_caster->draw_end_y >= game_v->res_h_nu)
+		s_caster->draw_end_y = game_v->res_h_nu - 1;
 	
 }
 
@@ -250,13 +250,13 @@ void	sprite_painting_coords_x(t_player *player, t_game_v *game_v)
 	t_s_caster *s_caster;
 
 	s_caster = player->caster->sprite_caster;
-	s_caster->spriteWidth = (abs((int)(game_v->res_h_nu / s_caster->transformY))) / 1;
-	s_caster->drawStartX = -s_caster->spriteWidth / 2 + s_caster->spriteScreenX;
-	if(s_caster->drawStartX < 0) 
-		s_caster->drawStartX = 0;
-	s_caster->drawEndX = s_caster->spriteWidth / 2 + s_caster->spriteScreenX;
-	if(s_caster->drawEndY >= game_v->res_w_nu) 
-		s_caster->drawEndX = game_v->res_w_nu - 1;
+	s_caster->sprite_width = (abs((int)(game_v->res_h_nu / s_caster->transform_y))) / 1;
+	s_caster->draw_start_x = -s_caster->sprite_width / 2 + s_caster->sprite_screen_x;
+	if(s_caster->draw_start_x < 0) 
+		s_caster->draw_start_x = 0;
+	s_caster->draw_end_x = s_caster->sprite_width / 2 + s_caster->sprite_screen_x;
+	if(s_caster->draw_end_y >= game_v->res_w_nu) 
+		s_caster->draw_end_x = game_v->res_w_nu - 1;
 }
  
 void	sprite_ver_line(int stripe, t_game_v *game_v, t_data *img, t_window *window)
@@ -266,12 +266,12 @@ void	sprite_ver_line(int stripe, t_game_v *game_v, t_data *img, t_window *window
 	int y;
 
 	s_caster = window->player->caster->sprite_caster;
-	y = s_caster->drawStartY;
-	while (y < s_caster->drawEndY)
+	y = s_caster->draw_start_y;
+	while (y < s_caster->draw_end_y)
 	{
-		s_caster->d = (y-s_caster->vMoveScreen) * 256 - game_v->res_h_nu * 128 + s_caster->spriteHeight * 128;
-		s_caster->texY = ((s_caster->d * window->textuures->w_texture->img_height) / s_caster->spriteHeight) / 256;
-		color = (unsigned int)window->textuures->w_texture->addr[window->textuures->w_texture->img_width * s_caster->texY + s_caster->texX];
+		s_caster->d = (y-s_caster->v_move_screen) * 256 - game_v->res_h_nu * 128 + s_caster->sprite_height * 128;
+		s_caster->tex_y = ((s_caster->d * window->textuures->w_texture->img_height) / s_caster->sprite_height) / 256;
+		color = (unsigned int)window->textuures->w_texture->addr[window->textuures->w_texture->img_width * s_caster->tex_y + s_caster->tex_x];
 		if((color & 0x00FFFFFF) != 0)
 		my_mlx_pixel_put(img, stripe, y, color);
 		y++;
@@ -284,11 +284,11 @@ void	sprite_print(t_player *player, t_game_v *game_v, t_data *img, t_window *win
 	t_s_caster *s_caster;
 
 	s_caster = player->caster->sprite_caster;
-	stripe = s_caster->drawStartX;
-	while (stripe < s_caster->drawEndX)
+	stripe = s_caster->draw_start_x;
+	while (stripe < s_caster->draw_end_x)
 	{
-		s_caster->texX = (int)(256 * (stripe - (-s_caster->spriteWidth / 2 + s_caster->spriteScreenX)) * window->textuures->w_texture->img_width / s_caster->spriteWidth) / 256;
-		if(s_caster->transformY > 0 && stripe > 0 && stripe < game_v->res_w_nu && s_caster->transformY < player->caster->z_buffer[stripe])
+		s_caster->tex_x = (int)(256 * (stripe - (-s_caster->sprite_width / 2 + s_caster->sprite_screen_x)) * window->textuures->w_texture->img_width / s_caster->sprite_width) / 256;
+		if(s_caster->transform_y > 0 && stripe > 0 && stripe < game_v->res_w_nu && s_caster->transform_y < player->caster->z_buffer[stripe])
 			sprite_ver_line(stripe, game_v, img, window);
 		stripe++;
 	}	
@@ -313,63 +313,3 @@ void	sprite_caster(t_player *player, t_game_v *game_v, t_data *img, t_window *wi
 		s_index++;
 	}
 }
-/*
-void	sprite_caster(t_player *player, t_game_v *game_v, t_data *img, t_window *window)
-{
-	t_caster *caster;
-	caster = player->caster;
-	sprite_sorter(game_v->s_cords, player, game_v);
-		for(int i = 0; i < game_v->s_count; i++)
-		{
-			double spriteX = game_v->s_cords[i].x - player->pos_x;
-      		double spriteY = game_v->s_cords[i].y - player->pos_y;
-			double invDet = 1.0 / (player->plane->plane_x * player->plane->dir_y - player->plane->dir_x * player->plane->plane_y); //required for correct matrix multiplication
-			double transformX = invDet * (player->plane->dir_y * spriteX - player->plane->dir_x * spriteY);
-			double transformY = invDet * ((-player->plane->plane_y) * spriteX + player->plane->plane_x * spriteY); //this is actually the depth inside the screen, that what Z is in 3D
-			int spriteScreenX = game_v->res_w_nu - (int)((game_v->res_w_nu / 2) * (1 + transformX / transformY));
-			#define uDiv 1
-			#define vDiv 1
-			#define vMove 0.0
-			int vMoveScreen = (int)(vMove / transformY);
-			int spriteHeight = (abs((int)(game_v->res_h_nu / transformY))) / vDiv; 
-
-			int drawStartY = -spriteHeight / 2 + game_v->res_h_nu / 2 + vMoveScreen;
-			if(drawStartY < 0) 
-				drawStartY = 0;
-			int drawEndY = spriteHeight / 2 + game_v->res_h_nu / 2 + vMoveScreen;
-			if(drawEndY >= game_v->res_h_nu) 
-				drawEndY = game_v->res_h_nu - 1;
-			//calculate width of the sprite
-			int spriteWidth = (abs((int)(game_v->res_h_nu / transformY))) / uDiv;
-			int drawStartX = -spriteWidth / 2 + spriteScreenX;
-			if(drawStartX < 0) 
-				drawStartX = 0;
-			int drawEndX = spriteWidth / 2 + spriteScreenX;
-			if(drawEndX >= game_v->res_w_nu) 
-				drawEndX = game_v->res_w_nu - 1;
-
-
-
-
-			for(int stripe = drawStartX; stripe < drawEndX; stripe++)
-			{
-			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * window->textuures->w_texture->img_width / spriteWidth) / 256;
-			//the conditions in the if are:
-			//1) it's in front of camera plane so you don't see things behind you
-			//2) it's on the screen (left)
-			//3) it's on the screen (right)
-			//4) ZBuffer, with perpendicular distance
-			if(transformY > 0 && stripe > 0 && stripe < game_v->res_w_nu && transformY < caster->z_buffer[stripe])
-				for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
-				{
-					int d = (y-vMoveScreen) * 256 - game_v->res_h_nu * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
-					int texY = ((d * window->textuures->w_texture->img_height) / spriteHeight) / 256;
-					unsigned  int color = (unsigned int)window->textuures->w_texture->addr[window->textuures->w_texture->img_width * texY + texX]; //get current color from the texture
-					//color = 0xFFFFFFF;
-					if((color & 0x00FFFFFF) != 0)
-						my_mlx_pixel_put(img, stripe, y, color); //paint pixel if it isn't black, black is the invisible color
-				}
-			}
-		}
-}
-*/

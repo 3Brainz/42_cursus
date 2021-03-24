@@ -90,11 +90,11 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img, t_window *window)
 			wallX = player->pos_x + perpWallDist * rayDirX;
 		wallX -= floor((wallX));
 		//x coordinate on the texture
-		int texX = (int)(wallX * (double)(texWidth));
+		int tex_x = (int)(wallX * (double)(texWidth));
 		if(side == 0 && rayDirX > 0)
-			texX = texWidth - texX - 1;
+			tex_x = texWidth - tex_x - 1;
 		if(side == 1 && rayDirY < 0)
-			texX = texWidth - texX - 1;
+			tex_x = texWidth - tex_x - 1;
 		double step = 1.0 * texHeight / lineHeight;
 		double texPos = (drawStart - game_v->res_h_nu / 2 + lineHeight / 2) * step;
 
@@ -115,21 +115,21 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img, t_window *window)
 			}
 			while(index <= drawEnd)
 			{
-				int texY = (int)texPos & (texHeight - 1);
+				int tex_y = (int)texPos & (texHeight - 1);
         		texPos += step;
 				if (side == 0)
 				{
 					if (rayDirX > 0)
-						my_mlx_pixel_put(img, x, index, window->textuures->e_texture->addr[texHeight * texY + texX]);
+						my_mlx_pixel_put(img, x, index, window->textuures->e_texture->addr[texHeight * tex_y + tex_x]);
 					else
-						my_mlx_pixel_put(img, x, index, window->textuures->w_texture->addr[texHeight * texY + texX]);
+						my_mlx_pixel_put(img, x, index, window->textuures->w_texture->addr[texHeight * tex_y + tex_x]);
 				}
 				else
 				{
 					if (rayDirY > 0)
-						my_mlx_pixel_put(img, x, index, window->textuures->s_textture->addr[texHeight * texY + texX]);
+						my_mlx_pixel_put(img, x, index, window->textuures->s_textture->addr[texHeight * tex_y + tex_x]);
 					else
-						my_mlx_pixel_put(img, x, index,window->textuures->n_texture->addr[texHeight * texY + texX]);
+						my_mlx_pixel_put(img, x, index,window->textuures->n_texture->addr[texHeight * tex_y + tex_x]);
 				}
 				index++;
 			}
@@ -145,46 +145,46 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img, t_window *window)
 		sprite_sorter(game_v->s_cords, player, game_v);
 		for(int i = 0; i < game_v->s_count; i++)
 		{
-			double spriteX = game_v->s_cords[i].x - player->pos_x;
-      		double spriteY = game_v->s_cords[i].y - player->pos_y;
-			double invDet = 1.0 / (player->plane->plane_x * player->plane->dir_y - player->plane->dir_x * player->plane->plane_y); //required for correct matrix multiplication
-			double transformX = invDet * (player->plane->dir_y * spriteX - player->plane->dir_x * spriteY);
-			double transformY = invDet * ((-player->plane->plane_y) * spriteX + player->plane->plane_x * spriteY); //this is actually the depth inside the screen, that what Z is in 3D
-			int spriteScreenX = game_v->res_w_nu - (int)((game_v->res_w_nu / 2) * (1 + transformX / transformY));
+			double sprite_x = game_v->s_cords[i].x - player->pos_x;
+      		double sprite_y = game_v->s_cords[i].y - player->pos_y;
+			double inv_det = 1.0 / (player->plane->plane_x * player->plane->dir_y - player->plane->dir_x * player->plane->plane_y); //required for correct matrix multiplication
+			double transform_x = inv_det * (player->plane->dir_y * sprite_x - player->plane->dir_x * sprite_y);
+			double transform_y = inv_det * ((-player->plane->plane_y) * sprite_x + player->plane->plane_x * sprite_y); //this is actually the depth inside the screen, that what Z is in 3D
+			int sprite_screen_x = game_v->res_w_nu - (int)((game_v->res_w_nu / 2) * (1 + transform_x / transform_y));
 			#define uDiv 1
 			#define vDiv 1
 			#define vMove 0.0
-			int vMoveScreen = (int)(vMove / transformY);
-			int spriteHeight = (abs((int)(game_v->res_h_nu / transformY))) / vDiv; 
+			int v_move_screen = (int)(vMove / transform_y);
+			int sprite_height = (abs((int)(game_v->res_h_nu / transform_y))) / vDiv; 
 
-			int drawStartY = -spriteHeight / 2 + game_v->res_h_nu / 2 + vMoveScreen;
-			if(drawStartY < 0) 
-				drawStartY = 0;
-			int drawEndY = spriteHeight / 2 + game_v->res_h_nu / 2 + vMoveScreen;
-			if(drawEndY >= game_v->res_h_nu) 
-				drawEndY = game_v->res_h_nu - 1;
+			int draw_start_y = -sprite_height / 2 + game_v->res_h_nu / 2 + v_move_screen;
+			if(draw_start_y < 0) 
+				draw_start_y = 0;
+			int draw_end_y = sprite_height / 2 + game_v->res_h_nu / 2 + v_move_screen;
+			if(draw_end_y >= game_v->res_h_nu) 
+				draw_end_y = game_v->res_h_nu - 1;
 			//calculate width of the sprite
-			int spriteWidth = (abs((int)(game_v->res_h_nu / transformY))) / uDiv;
-			int drawStartX = -spriteWidth / 2 + spriteScreenX;
-			if(drawStartX < 0) 
-				drawStartX = 0;
-			int drawEndX = spriteWidth / 2 + spriteScreenX;
-			if(drawEndX >= game_v->res_w_nu) 
-				drawEndX = game_v->res_w_nu - 1;
-			for(int stripe = drawStartX; stripe < drawEndX; stripe++)
+			int sprite_width = (abs((int)(game_v->res_h_nu / transform_y))) / uDiv;
+			int draw_start_x = -sprite_width / 2 + sprite_screen_x;
+			if(draw_start_x < 0) 
+				draw_start_x = 0;
+			int draw_end_x = sprite_width / 2 + sprite_screen_x;
+			if(draw_end_x >= game_v->res_w_nu) 
+				draw_end_x = game_v->res_w_nu - 1;
+			for(int stripe = draw_start_x; stripe < draw_end_x; stripe++)
 			{
-			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * window->textuures->w_texture->img_width / spriteWidth) / 256;
+			int tex_x = (int)(256 * (stripe - (-sprite_width / 2 + sprite_screen_x)) * window->textuures->w_texture->img_width / sprite_width) / 256;
 			//the conditions in the if are:
 			//1) it's in front of camera plane so you don't see things behind you
 			//2) it's on the screen (left)
 			//3) it's on the screen (right)
 			//4) ZBuffer, with perpendicular distance
-			if(transformY > 0 && stripe > 0 && stripe < game_v->res_w_nu && transformY < zbuffer[stripe])
-				for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+			if(transform_y > 0 && stripe > 0 && stripe < game_v->res_w_nu && transform_y < zbuffer[stripe])
+				for(int y = draw_start_y; y < draw_end_y; y++) //for every pixel of the current stripe
 				{
-					int d = (y-vMoveScreen) * 256 - game_v->res_h_nu * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
-					int texY = ((d * window->textuures->w_texture->img_height) / spriteHeight) / 256;
-					unsigned  int color = (unsigned int)window->textuures->w_texture->addr[window->textuures->w_texture->img_width * texY + texX]; //get current color from the texture
+					int d = (y-v_move_screen) * 256 - game_v->res_h_nu * 128 + sprite_height * 128; //256 and 128 factors to avoid floats
+					int tex_y = ((d * window->textuures->w_texture->img_height) / sprite_height) / 256;
+					unsigned  int color = (unsigned int)window->textuures->w_texture->addr[window->textuures->w_texture->img_width * tex_y + tex_x]; //get current color from the texture
 					//color = 0xFFFFFFF;
 					if((color & 0x00FFFFFF) != 0)
 						my_mlx_pixel_put(img, stripe, y, color); //paint pixel if it isn't black, black is the invisible color
@@ -198,57 +198,57 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img, t_window *window)
 		t_coords sprite;
 
 		sprite = game_v->s_cords[i];
-		double spriteY = sprite.y - player->pos_y;
-		double spriteX = sprite.x - player->pos_x;
+		double sprite_y = sprite.y - player->pos_y;
+		double sprite_x = sprite.x - player->pos_x;
 
 		//transform sprite with the inverse camera matrix
 		// [ planeX   dirX ] -1                                       [ dirY      -dirX ]
 		// [               ]       =  1/(planeX*dirY-dirX*planeY) *   [                 ]
 		// [ planeY   dirY ]                                          [ -planeY  planeX ]
 
-		double invDet = 1.0 / (player->plane->plane_x * player->plane->dir_y - player->plane->dir_x * player->plane->plane_y); //required for correct matrix multiplication
+		double inv_det = 1.0 / (player->plane->plane_x * player->plane->dir_y - player->plane->dir_x * player->plane->plane_y); //required for correct matrix multiplication
 
-		double transformX = invDet * (player->plane->dir_y * spriteX - player->plane->dir_x * spriteY);
-		double transformY = invDet * (-player->plane->plane_y * spriteX + player->plane->plane_x * spriteY); //this is actually the depth inside the screen, that what Z is in 3D, the distance of sprite to player, matching sqrt(spriteDistance[i])
+		double transform_x = inv_det * (player->plane->dir_y * sprite_x - player->plane->dir_x * sprite_y);
+		double transform_y = inv_det * (-player->plane->plane_y * sprite_x + player->plane->plane_x * sprite_y); //this is actually the depth inside the screen, that what Z is in 3D, the distance of sprite to player, matching sqrt(spriteDistance[i])
 
-		int spriteScreenX = (int)((game_v->res_w_nu / 2) * (1 + transformX / transformY));
+		int sprite_screen_x = (int)((game_v->res_w_nu / 2) * (1 + transform_x / transform_y));
 
 		//parameters for scaling and moving the sprites
 		#define uDiv 1
 		#define vDiv 1
 		#define vMove 0.0
-		int vMoveScreen = (int)(vMove / transformY);
+		int v_move_screen = (int)(vMove / transform_y);
 
 		//calculate height of the sprite on screen
-		int spriteHeight = abs((int)(game_v->res_h_nu / (transformY))) / vDiv; //using "transformY" instead of the real distance prevents fisheye
+		int sprite_height = abs((int)(game_v->res_h_nu / (transform_y))) / vDiv; //using "transform_y" instead of the real distance prevents fisheye
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStartY = -spriteHeight / 2 + game_v->res_h_nu / 2 + vMoveScreen;
-		if(drawStartY < 0) drawStartY = 0;
-		int drawEndY = spriteHeight / 2 + game_v->res_h_nu / 2 + vMoveScreen;
-		if(drawEndY >= game_v->res_h_nu) drawEndY = game_v->res_h_nu - 1;
+		int draw_start_y = -sprite_height / 2 + game_v->res_h_nu / 2 + v_move_screen;
+		if(draw_start_y < 0) draw_start_y = 0;
+		int draw_end_y = sprite_height / 2 + game_v->res_h_nu / 2 + v_move_screen;
+		if(draw_end_y >= game_v->res_h_nu) draw_end_y = game_v->res_h_nu - 1;
 
 		//calculate width of the sprite
-		int spriteWidth = abs((int)(game_v->res_h_nu / (transformY))) / uDiv;
-		int drawStartX = -spriteWidth / 2 + spriteScreenX;
-		if(drawStartX < 0) drawStartX = 0;
-		int drawEndX = spriteWidth / 2 + spriteScreenX;
-		if(drawEndX >= game_v->res_w_nu) drawEndX = game_v->res_w_nu - 1;
+		int sprite_width = abs((int)(game_v->res_h_nu / (transform_y))) / uDiv;
+		int draw_start_x = -sprite_width / 2 + sprite_screen_x;
+		if(draw_start_x < 0) draw_start_x = 0;
+		int draw_end_x = sprite_width / 2 + sprite_screen_x;
+		if(draw_end_x >= game_v->res_w_nu) draw_end_x = game_v->res_w_nu - 1;
 
 		//loop through every vertical stripe of the sprite on screen
 		
-		for(int stripe = drawStartX; stripe < drawEndX; stripe++)
+		for(int stripe = draw_start_x; stripe < draw_end_x; stripe++)
 		{
-			int texX = (int)(128 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * texWidth / spriteWidth) / 128;
+			int tex_x = (int)(128 * (stripe - (-sprite_width / 2 + sprite_screen_x)) * texWidth / sprite_width) / 128;
 			//the conditions in the if are:
 			//1) it's in front of camera plane so you don't see things behind you
 			//2) it's on the screen (left)
 			//3) it's on the screen (right)
 			//4) ZBuffer, with perpendicular distance
-			for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+			for(int y = draw_start_y; y < draw_end_y; y++) //for every pixel of the current stripe
 			{
-			int d = (y - vMoveScreen) * 128 - game_v->res_h_nu * 64 + spriteHeight * 64; //256 and 128 factors to avoid floats
-			//int texY = ((d * texHeight) / spriteHeight) / 256;
-			my_mlx_pixel_put(img, stripe, y, window->textuures->n_texture->addr[texX + d]);
+			int d = (y - v_move_screen) * 128 - game_v->res_h_nu * 64 + sprite_height * 64; //256 and 128 factors to avoid floats
+			//int tex_y = ((d * texHeight) / sprite_height) / 256;
+			my_mlx_pixel_put(img, stripe, y, window->textuures->n_texture->addr[tex_x + d]);
 			}
 		}
 	}*/
