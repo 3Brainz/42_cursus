@@ -189,7 +189,7 @@ void	cast_ray(t_player *player, t_game_v *game_v, t_data *img, t_window *window)
 	sprite_caster(player, game_v, img, window);
 	free(caster->z_buffer);
 }
-void	sprite_positioner(t_player *player, t_game_v *game_v, t_window *window)
+void	sprite_positioner(t_player *player, t_game_v *game_v, t_window *window, int i)
 {
 	t_s_caster *s_caster;
 
@@ -198,7 +198,7 @@ void	sprite_positioner(t_player *player, t_game_v *game_v, t_window *window)
 	s_caster->spriteY = game_v->s_cords[i].y - player->pos_y;
 }
 
-void	sprite_dimensioner(t_player *player, t_game_v *game_v, t_window *window)
+void	sprite_dimensioner1(t_player *player, t_game_v *game_v, t_window *window)
 {
 	t_s_caster *s_caster;
 
@@ -211,10 +211,80 @@ void	sprite_dimensioner(t_player *player, t_game_v *game_v, t_window *window)
 	s_caster->spriteHeight = (abs((int)(game_v->res_h_nu / s_caster->transformY))) / 1; 
 }
 
-void	sprite_painting_coords(t_player *player, t_game_v *game_v, t_window *window)
+void	sprite_painting_coords_y(t_player *player, t_game_v *game_v, t_window *window)
 {
+	t_s_caster *s_caster;
+
+	s_caster = player->caster->sprite_caster;
+	s_caster->drawStartY = -s_caster->spriteHeight / 2 + game_v->res_h_nu / 2 + s_caster->vMoveScreen;
+	if(s_caster->drawStartY < 0)
+		s_caster->drawStartY = 0;
+	s_caster->drawEndY = s_caster->spriteHeight / 2 + game_v->res_h_nu / 2 + s_caster->vMoveScreen;
+	if(s_caster->drawEndY >= game_v->res_h_nu)
+		s_caster->drawEndY = game_v->res_h_nu - 1;
 	
 }
+
+void	sprite_painting_coords_x(t_player *player, t_game_v *game_v, t_window *window)
+{
+	t_s_caster *s_caster;
+
+	s_caster = player->caster->sprite_caster;
+	s_caster->spriteWidth = (abs((int)(game_v->res_h_nu / s_caster->transformY))) / 1;
+	s_caster->drawStartX = -s_caster->spriteWidth / 2 + s_caster->spriteScreenX;
+	if(s_caster->drawStartX < 0) 
+		s_caster->drawStartX = 0;
+	s_caster->drawEndX = s_caster->spriteWidth / 2 + s_caster->spriteScreenX;
+	if(s_caster->drawEndY >= game_v->res_w_nu) 
+		s_caster->drawEndX = game_v->res_w_nu - 1;
+}
+ 
+void	sprite_ver_line(int stripe, t_game_v *game_v, t_data *img, t_window *window)
+{
+	t_s_caster *s_caster;
+	unsigned int color;
+	int y;
+
+	s_caster = window->player->caster->sprite_caster;
+	y = s_caster->drawStartY;
+	while (y < s_caster->drawEndY)
+	{
+		s_caster->d = (y-s_caster->vMoveScreen) * 256 - game_v->res_h_nu * 128 + s_caster->spriteHeight * 128;
+		s_caster->texY = ((s_caster->d * window->textuures->w_texture->img_height) / s_caster->spriteHeight) / 256;
+		color = (unsigned int)window->textuures->w_texture->addr[window->textuures->w_texture->img_width * s_caster->texY + s_caster->texX];
+		if((color & 0x00FFFFFF) != 0)
+		my_mlx_pixel_put(img, stripe, y, color);
+	}
+	
+}
+
+void	sprite_hor_line(t_player *player, t_game_v *game_v, t_data *img, t_window *window)
+{
+	int	stripe;
+	t_s_caster *s_caster;
+
+	s_caster = player->caster->sprite_caster;
+	stripe = s_caster->drawStartX;
+	while (stripe < s_caster->drawEndX)
+	{
+		s_caster->texX = (int)(256 * (stripe - (-s_caster->spriteWidth / 2 + s_caster->spriteScreenX)) * window->textuures->w_texture->img_width / s_caster->spriteWidth) / 256;
+		if(s_caster->transformY > 0 && stripe > 0 && stripe < game_v->res_w_nu && s_caster->transformY < player->caster->z_buffer[stripe])
+			sprite_ver_line(stripe, game_v, img, window);
+		stripe++;
+	}	
+}
+
+void	sprite_caster(t_player *player, t_game_v *game_v, t_data *img, t_window *window)
+{
+	int s_index;
+	t_caster *caster;
+
+	caster = player->caster;
+	
+	s_index = 0;
+
+}
+
 void	sprite_caster(t_player *player, t_game_v *game_v, t_data *img, t_window *window)
 {
 	t_caster *caster;
@@ -248,6 +318,10 @@ void	sprite_caster(t_player *player, t_game_v *game_v, t_data *img, t_window *wi
 			int drawEndX = spriteWidth / 2 + spriteScreenX;
 			if(drawEndX >= game_v->res_w_nu) 
 				drawEndX = game_v->res_w_nu - 1;
+
+
+
+
 			for(int stripe = drawStartX; stripe < drawEndX; stripe++)
 			{
 			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * window->textuures->w_texture->img_width / spriteWidth) / 256;
