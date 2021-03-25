@@ -54,6 +54,7 @@ int		validator(t_game_v *game_v)
 		if (is_texture_valid(game_v->so_texture))
 			if (is_texture_valid(game_v->we_texture))
 				if	(is_texture_valid(game_v->ea_texture))
+					if (is_texture_valid(game_v->sprite_texture))
 					{
 					if (ft_strlen(game_v->skybox))
 						{

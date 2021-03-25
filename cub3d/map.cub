@@ -4,7 +4,7 @@ NO    ./srcs/stain1.xpm
 SO    ./srcs/stain2.xpm
 WE    ./srcs/stain4.xpm
 EA    ./srcs/stain3.xpm
-S     ./path_to_the_sprite_texture
+S     ./srcs/kaganawa.xpm
 F     0,0,0
 C     255,255,255
 

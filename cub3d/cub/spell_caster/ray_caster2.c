@@ -28,7 +28,6 @@ void		texturer(t_caster *caster, t_player *player, t_game_v *game_v, t_window *w
 	else
 		caster->wall_x = player->pos_x + caster->perp_wall_dist * caster->ray_dir_x;
 	caster->wall_x -= floor((caster->wall_x));
-	//x coordinate on the texture
 	caster->tex_x = (int)(caster->wall_x * (double)(texture->img_width));
 	if(caster->side == 0 && caster->ray_dir_x > 0)
 		caster->tex_x = texture->img_width - caster->tex_x - 1;

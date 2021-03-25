@@ -1,16 +1,5 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ppunzo <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/27 11:32:07 by ppunzo            #+#    #+#             */
-/*   Updated: 2021/02/27 11:32:09 by ppunzo           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "cub/libcub.h"
+#include "cub/libcub_bonus.h"
 
 int update(t_window *window)
 {
@@ -20,6 +9,7 @@ int update(t_window *window)
 	new_image(&image, window,
 				window->game_v->res_w_nu, window->game_v->res_h_nu);
 	cast_ray(window->player, window->game_v, &image, window);
+	minimap_img(&image, window, window->player, 5);
 	mlx_put_image_to_window(window->mlx, window->mlx_win, image.img, 0, 0);
 	mlx_destroy_image(window->mlx, image.img);
 	return (1);

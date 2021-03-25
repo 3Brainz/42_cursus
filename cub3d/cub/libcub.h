@@ -350,6 +350,7 @@ void			player_movement(t_keys *keys, t_player *player, char **map);
 void			minimap_img(t_data *img, t_window *window, t_player *player,
 							int min_fract);
 
+
 /*
 **RAYCASTER
 */
