@@ -24,9 +24,9 @@ void	free_mat(void **mat)
 	size_t index;
 
 	index = 0;
-	if(mat)
+	if (mat)
 	{
-		while(mat[index])
+		while (mat[index])
 		{
 			free_if_exists(&mat[index]);
 			index++;
@@ -43,7 +43,7 @@ int		check_suffix(char *str, char *suffix)
 	index = ft_strlen(str);
 	if (index > suff_len)
 	{
-		while(suff_len)
+		while (suff_len)
 		{
 			if (suffix[suff_len - 1] != str[index - 1])
 				return (0);

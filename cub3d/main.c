@@ -43,9 +43,11 @@ int main(int argc, char **argv)
 	int			w_n;
 
 	w_n = 0;
-	if (argc > 1 && argc < 3)
+	if (argc > 1 && argc <= 3)
 	{
-		if (check_suffix(argv[1], ".cub"))
+		if (argc == 3 && !ft_strncmp(argv[2], "--save", ft_strlen(argv[1])))
+			w_n = 1;
+		if (check_suffix(argv[1], ".cub") && !w_n)
 		{
 			game_v_cleaner(game_v);
 			if(!game_v_filler(game_v, argv[1]))

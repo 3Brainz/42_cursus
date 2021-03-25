@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   struct_cleaners1.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ppunzo <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/25 18:32:27 by ppunzo            #+#    #+#             */
+/*   Updated: 2021/03/25 18:32:29 by ppunzo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../libcub.h"
 
 void	clean_data(t_data *data)
@@ -15,12 +27,12 @@ void	clean_mouse_pos(t_mouse_pos *mouse_pos)
 	mouse_pos->pos_y = 0;
 }
 
-void 	clean_mouse_click(t_mouse_ck *click)
+void	clean_mouse_click(t_mouse_ck *click)
 {
 	click->button = 0;
 	click->pos_x = 0;
 	click->pos_y = 0;
-} 
+}
 
 void	clean_keys(t_keys *keys)
 {
@@ -43,4 +55,3 @@ void	clean_window_struct(t_window *window)
 	clean_keys(window->keys);
 	window->close = 0;
 }
-

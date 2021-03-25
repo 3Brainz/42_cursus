@@ -43,16 +43,16 @@ void		new_image(t_data *image, t_window *window, int width, int height)
 
 static void	free_win(t_window *window)
 {
-	free (window->textuures->e_texture->addr);
-	free (window->textuures->n_texture->addr);
-	free (window->textuures->s_textture->addr);
-	free (window->textuures->w_texture->addr);
-	free (window->textuures->sprite_texture->addr);
+	free(window->textuures->e_texture->addr);
+	free(window->textuures->n_texture->addr);
+	free(window->textuures->s_textture->addr);
+	free(window->textuures->w_texture->addr);
+	free(window->textuures->sprite_texture->addr);
 	if (window->game_v->bonus)
-		free (window->textuures->skybox->addr);
+		free(window->textuures->skybox->addr);
 }
 
-int		close_game(t_window *window)
+int			close_game(t_window *window)
 {
 	mlx_destroy_window(window->mlx, window->mlx_win);
 	free_game_v(window->game_v);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   keyboard_hhoks.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ppunzo <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/25 16:58:00 by ppunzo            #+#    #+#             */
+/*   Updated: 2021/03/25 16:58:02 by ppunzo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../libcub.h"
 
 void		set_key_on(int keycode, t_window *window, int val)
@@ -26,9 +38,8 @@ int			key_hook_in(int keycode, t_window *window)
 	return (0);
 }
 
-int 		key_hook_out(int keycode, t_window *window)
+int			key_hook_out(int keycode, t_window *window)
 {
 	set_key_on(keycode, window, 0);
 	return (0);
 }
-

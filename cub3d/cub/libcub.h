@@ -30,7 +30,7 @@
 # define ESC_CODE 53
 # define L_BUTTON 1
 # define R_BUTTON 2
-# define ONE_DEGREE M_PI / 45
+# define ONE_D M_PI / 45
 # define NORMAL_SPEED 0.1
 # define RUNNING_SPEED 0.2
 # define P_POSX player->pos_x
@@ -285,6 +285,11 @@ void			where_is_the_player(char **map, t_player *player);
 **Map_c
 */
 
+int				first_last_row(char *row);
+int				zero_after_end(char *prev, char *curr, char *next);
+int				check_around_walkables(int index, char *prev, char *curr, char *next);
+int				check_zeroes(char *prev, char *curr, char *next);
+int				intermidiate_row(char *prev, char *curr, char *next);
 int				is_map_valid(char **map);
 
 /*

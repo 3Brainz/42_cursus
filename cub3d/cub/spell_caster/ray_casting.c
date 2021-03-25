@@ -1,9 +1,10 @@
 #include "../libcub.h"
 
-void		cast_ray(t_player *player, t_game_v *game_v, t_data *img, t_window *window)
+void		cast_ray(t_player *player, t_game_v *game_v,
+						t_data *img, t_window *window)
 {
-	t_caster *caster;
-	int x;
+	t_caster	*caster;
+	int			x;
 
 	x = 0;
 	caster = player->caster;
@@ -25,10 +26,11 @@ void		cast_ray(t_player *player, t_game_v *game_v, t_data *img, t_window *window
 	free(caster->z_buffer);
 }
 
-void		sprite_caster(t_player *player, t_game_v *game_v, t_data *img, t_window *window)
+void		sprite_caster(t_player *player, t_game_v *game_v,
+							t_data *img, t_window *window)
 {
-	int s_index;
-	t_caster *caster;
+	int			s_index;
+	t_caster	*caster;
 
 	caster = player->caster;
 	s_index = 0;

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sprites_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ppunzo <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/25 17:06:47 by ppunzo            #+#    #+#             */
+/*   Updated: 2021/03/25 17:06:49 by ppunzo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../libcub.h"
 
-int sprite_counter(char **map)
+int		sprite_counter(char **map)
 {
 	int x;
 	int y;
@@ -22,7 +34,7 @@ int sprite_counter(char **map)
 	return (count);
 }
 
-void sprites_filler(t_game_v *game_v)
+void	sprites_filler(t_game_v *game_v)
 {
 	int x;
 	int y;
@@ -30,7 +42,8 @@ void sprites_filler(t_game_v *game_v)
 
 	y = 0;
 	sprite_index = 0;
-	game_v->s_cords = ft_calloc(sizeof(t_coords), ((sprite_counter(game_v->map) + 1)));
+	game_v->s_cords = ft_calloc(sizeof(t_coords),
+										((sprite_counter(game_v->map) + 1)));
 	while (game_v->map[y])
 	{
 		x = 0;
@@ -49,21 +62,21 @@ void sprites_filler(t_game_v *game_v)
 	game_v->s_count = sprite_counter(game_v->map);
 }
 
-float sprite_dist(t_coords *s_cords, t_player *player)
+float	sprite_dist(t_coords *s_cords, t_player *player)
 {
 	float dist_x;
 	float dist_y;
 
 	dist_x = (player->pos_x - s_cords->x) * (player->pos_x - s_cords->x);
 	dist_y = (player->pos_y - s_cords->y) * (player->pos_y - s_cords->y);
-	return(dist_x + dist_y);
+	return (dist_x + dist_y);
 }
 
-void sprite_sorter(t_coords *s_cords, t_player *player, t_game_v *game_v)
+void	sprite_sorter(t_coords *s_cords, t_player *player, t_game_v *game_v)
 {
-	int index_x;
-	int index_y;
-	t_coords temp_c;
+	int			index_x;
+	int			index_y;
+	t_coords	temp_c;
 
 	index_y = 0;
 	while (index_y < game_v->s_count)
@@ -71,7 +84,8 @@ void sprite_sorter(t_coords *s_cords, t_player *player, t_game_v *game_v)
 		index_x = 0;
 		while (index_x < game_v->s_count)
 		{
-			if (sprite_dist(&s_cords[index_y], player) > sprite_dist(&s_cords[index_x], player))
+			if (sprite_dist(&s_cords[index_y], player) >
+									sprite_dist(&s_cords[index_x], player))
 			{
 				temp_c = s_cords[index_y];
 				s_cords[index_y] = s_cords[index_x];

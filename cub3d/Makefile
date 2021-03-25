@@ -32,6 +32,7 @@ CUB_SRCS =	event_handling/mouse_hooks.c \
 			game_v/sprites_utils.c \
 			map/map_filler.c \
 			map/map_checker.c \
+			map/map_checker_utils.c \
 			player/player_checker.c \
 			player/player_mov.c \
 			spell_caster/ray_caster1.c\

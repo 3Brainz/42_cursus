@@ -27,7 +27,7 @@ int				just_one_player(char **map)
 		{
 			if (is_in_cset(map[y_index][x_index], "NOWS"))
 			{
-				if(!pos)
+				if (!pos)
 					pos = map[y_index][x_index];
 				else
 					return (0);
@@ -78,7 +78,8 @@ static void		player_directioner(t_player *player, char dir)
 		player->inclination = 3 * M_PI / 2;
 }
 
-void			player_positioner(t_player *player, int pos_x, int pos_y, char dir)
+void			player_positioner(t_player *player, int pos_x, int pos_y,
+									char dir)
 {
 	player->pos_x = pos_x + 0.5;
 	player->pos_y = pos_y + 0.5;
@@ -86,7 +87,7 @@ void			player_positioner(t_player *player, int pos_x, int pos_y, char dir)
 	plane_positioner(player, dir);
 }
 
-void 			where_is_the_player(char **map, t_player *player)
+void			where_is_the_player(char **map, t_player *player)
 {
 	int		x_index;
 	int		y_index;
