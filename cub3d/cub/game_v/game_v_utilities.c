@@ -12,31 +12,6 @@
 
 #include "../libcub.h"
 
-void	game_v_cleaner(t_game_v *game_v)
-{
-	game_v->res_w = 0;
-	game_v->res_h = 0;
-	game_v->res_w_nu = 0;
-	game_v->res_h_nu = 0;
-	game_v->no_texture = 0;
-	game_v->so_texture = 0;
-	game_v->ea_texture = 0;
-	game_v->we_texture = 0;
-	game_v->sprite_texture = 0;
-	color_cleaner(game_v->ceiling_color);
-	color_cleaner(game_v->floor_color);
-	game_v->map = 0;
-	game_v->s_cords = 0;
-	game_v->s_count = 0;
-}
-
-void	color_cleaner(t_color *color)
-{
-	color->red = 0;
-	color->blue = 0;
-	color->green = 0;
-}
-
 char	*take_value_s_cub_parser(char **str, int offset)
 {
 	*str += offset;

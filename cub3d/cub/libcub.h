@@ -246,8 +246,6 @@ void			free_mat(void **mat);
 ** Game_v_utils_functions
 */
 
-void			game_v_cleaner(t_game_v *game_v);
-void			color_cleaner(t_color *color);
 char			*take_value_s_cub_parser(char **str, int offset);
 void			fill_color(char **str, int offset, t_color *color);
 void			free_game_v(t_game_v *game_v);
@@ -277,14 +275,9 @@ void			mat_size(t_game_v *game_v);
 */
 
 int				just_one_player(char **map);
-void			player_positioner(t_player *player, int pos_x, int pos_y, char dir);
+void			player_positioner(t_player *player, int pos_x, int pos_y,
+									char dir);
 void			where_is_the_player(char **map, t_player *player);
-
-/*
-**player_utils
-*/
-
-void			plane_cleaner(t_plane *plane);
 
 /*
 **Map_c
@@ -297,7 +290,8 @@ int				is_map_valid(char **map);
 */
 
 void			sprites_filler(t_game_v *game_v);
-void			sprite_sorter(t_coords *s_cords, t_player *player, t_game_v *game_v);
+void			sprite_sorter(t_coords *s_cords, t_player *player,
+								t_game_v *game_v);
 
 /*
 ** game_v_reader_functions
@@ -311,7 +305,8 @@ int				game_v_filler(t_game_v *game_v, char *file_path);
 
 void			start_win(t_window *window, t_game_v *game_v);
 void			my_mlx_pixel_put(t_data *data, int x, int y, int color);
-void			new_image(t_data *image, t_window *window, int width, int height);
+void			new_image(t_data *image, t_window *window, int width,
+							int height);
 
 /*
 **Mouse funks
@@ -322,7 +317,7 @@ void			mouse_click_print(t_mouse_ck *click);
 int				mouse_pos_mov(int x, int y, t_window *window);
 
 /*
-**Structs_funcs
+**Struct_cleaners
 */
 
 void			clean_data(t_data *data);
@@ -330,7 +325,11 @@ void			clean_mouse_pos(t_mouse_pos *mouse_pos);
 void			clean_mouse_click(t_mouse_ck *click);
 void			clean_window_struct(t_window *window);
 void			clean_keys(t_keys *keys);
-
+void			plane_cleaner(t_plane *plane);
+void			game_v_cleaner(t_game_v *game_v);
+void			color_cleaner(t_color *color);
+void			zero_caster(t_caster *caster);
+void			zero_s_caster(t_s_caster *s_caster);
 /*
 **Keyboard_funcs
 */
@@ -348,21 +347,36 @@ void			player_movement(t_keys *keys, t_player *player, char **map);
 **Minimap
 */
 
-void			minimap_img(t_data *img, t_window *window, t_player *player, int min_fract);
-
-/*
-**FIGEUres
-*/
-
-void			print_pg(t_data *img, t_window *window, int dim);
-void			print_rect(t_data *img, float *origins, t_window *window, float size);
-void			print_sky_and_floor(t_data *img, t_game_v *game_v);
+void			minimap_img(t_data *img, t_window *window, t_player *player,
+							int min_fract);
 
 /*
 **RAYCASTER
 */
 
-void			cast_ray(t_player *player, t_game_v *game_v, t_data *img, t_window *window);
+void			sprite_positioner(t_player *player, t_game_v *game_v, int i);
+void			sprite_dimensioner(t_player *player, t_game_v *game_v);
+void			sprite_painting_coords_y(t_player *player, t_game_v *game_v);
+void			sprite_painting_coords_x(t_player *player, t_game_v *game_v);
+void			sprite_ver_line(int stripe, t_game_v *game_v, t_data *img,
+								t_window *window);
+void			sprite_print(t_player *player, t_game_v *game_v, t_data *img,
+								t_window *window);
+void			sprite_caster(t_player *player, t_game_v *game_v, t_data *img,
+								t_window *window);
+void			ray_pos_and_dir(t_caster *caster, t_game_v *game_v,t_player
+								*player, int x);
+void			ray_collider(t_caster *caster, t_player *player);
+void			ray_dda(t_caster *caster, t_game_v *game_v);
+void			line_measure_dist(t_caster *caster, t_game_v *game_v, t_player *player);
+t_texture 		*texture_selector(t_window *window, t_caster *caster);
+void			texturer(t_caster *caster, t_player *player, t_game_v *game_v,
+								t_window *window);
+void			ver_line(int x, t_caster *caster, t_window *window, t_data *img);
+void			cast_ray(t_player *player, t_game_v *game_v, t_data *img,
+								t_window *window);
+void			cast_ray(t_player *player, t_game_v *game_v, t_data *img,
+								t_window *window);
 
 /*
 **textures

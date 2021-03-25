@@ -22,23 +22,27 @@ RAN = ranlib
 
 SEPARATOR = "---------------------------------------------------------------"
 
-CUB_SRCS =	game_v/game_v_reader.c \
+CUB_SRCS =	event_handling/mouse_hooks.c \
+			event_handling/keyboard_hhoks.c \
+			game_v/game_v_reader.c \
 			game_v/game_v_utilities.c \
 			game_v/game_v_checks.c \
 			game_v/sprites_utils.c \
-			utils/string_utilities.c \
-			utils/gen_utils.c \
 			map/map_filler.c \
 			map/map_checker.c \
 			player/player_checker.c \
 			player/player_mov.c \
-			event_handling/mouse_hooks.c \
-			event_handling/keyboard_hhoks.c \
-			player/player_utils.c \
-			spell_caster/win_func.c\
-			spell_caster/struct_funcs.c \
-			spell_caster/ray_caster.c \
-			spell_caster/textures.c \
+			spell_caster/ray_caster1.c\
+			spell_caster/ray_caster2.c \
+			spell_caster/ray_casting.c \
+			spell_caster/sprite_caster1.c \
+			spell_caster/sprite_caster2.c \
+			struct_manager/struct_cleaners1.c\
+			struct_manager/struct_cleaners2.c\
+			utils/string_utilities.c \
+			utils/gen_utils.c \
+			window_funcs/textures.c \
+			window_funcs/win_func.c \
 			bonus/mini_map.c
 
 LIBFT_DIR = libft/
