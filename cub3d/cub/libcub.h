@@ -205,6 +205,7 @@ typedef struct	s_game_v
 	int			s_count;
 	char		**map;
 	t_size		map_size[1];
+	int			bonus;
 }				t_game_v;
 
 typedef struct	s_window{
@@ -241,6 +242,7 @@ int				is_in_cset(char c, char *c_set);
 void			initialize_vars(int vars_number, ...);
 void			free_if_exists(void **var); // da  rivedere
 void			free_mat(void **mat);
+int				check_suffix(char *str, char *suffix);
 
 /*
 ** Game_v_utils_functions
@@ -307,6 +309,7 @@ void			start_win(t_window *window, t_game_v *game_v);
 void			my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void			new_image(t_data *image, t_window *window, int width,
 							int height);
+int				close_game(t_window *window);
 
 /*
 **Mouse funks
@@ -340,7 +343,8 @@ int				key_hook_out(int keycode, t_window *window);
 /*
 **Player_movement
 */
-
+void			increment_degree(float *inclination, float degree, t_plane *plane);
+void			decrement_degree(float *inclination, float degree, t_plane *plane);
 void			player_movement(t_keys *keys, t_player *player, char **map);
 
 /*

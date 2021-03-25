@@ -12,7 +12,7 @@
 
 #include "../libcub.h"
 
-static void	decrement_degree(float *inclination, float degree, t_plane *plane)
+void		decrement_degree(float *inclination, float degree, t_plane *plane)
 {
 	double oldDirX;
 	double oldPlaneX;
@@ -29,7 +29,7 @@ static void	decrement_degree(float *inclination, float degree, t_plane *plane)
 	plane->plane_y= oldPlaneX * sin(ONE_DEGREE) + plane->plane_y * cos(ONE_DEGREE);
 }
 
-static void	increment_degree(float *inclination, float degree, t_plane *plane)
+void		increment_degree(float *inclination, float degree, t_plane *plane)
 {
 	double oldDirX;
 	double oldPlaneX;

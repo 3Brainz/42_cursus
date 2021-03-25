@@ -51,12 +51,14 @@ void	free_game_v(t_game_v *game_v)
 	free_if_exists((void **)&game_v->ea_texture);
 	free_if_exists((void **)&game_v->we_texture);
 	free_if_exists((void **)&game_v->sprite_texture);
+	free_if_exists((void **)&game_v->skybox);
 	free_if_exists((void **)&game_v->ceiling_color->red);
 	free_if_exists((void **)&game_v->ceiling_color->green);
 	free_if_exists((void **)&game_v->ceiling_color->blue);
 	free_if_exists((void **)&game_v->floor_color->red);
 	free_if_exists((void **)&game_v->floor_color->green);
 	free_if_exists((void **)&game_v->floor_color->blue);
+	free_if_exists((void **)&game_v->s_cords);
 	free_mat((void **)(game_v->map));
 	free_if_exists((void **)&game_v->map);
 }

@@ -11,11 +11,15 @@ void	game_v_cleaner(t_game_v *game_v)
 	game_v->ea_texture = 0;
 	game_v->we_texture = 0;
 	game_v->sprite_texture = 0;
+	game_v->skybox = 0;
 	color_cleaner(game_v->ceiling_color);
 	color_cleaner(game_v->floor_color);
+	game_v->s_count = 0;
+	game_v->map_size->size_x = 0;
+	game_v->map_size->size_y = 0;
 	game_v->map = 0;
 	game_v->s_cords = 0;
-	game_v->s_count = 0;
+	game_v->bonus = 0;
 }
 
 void	color_cleaner(t_color *color)

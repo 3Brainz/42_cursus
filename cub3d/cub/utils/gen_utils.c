@@ -33,3 +33,24 @@ void	free_mat(void **mat)
 		}
 	}
 }
+
+int		check_suffix(char *str, char *suffix)
+{
+	int suff_len;
+	int index;
+
+	suff_len = ft_strlen(suffix);
+	index = ft_strlen(str);
+	if (index > suff_len)
+	{
+		while(suff_len)
+		{
+			if (suffix[suff_len - 1] != str[index - 1])
+				return (0);
+			suff_len--;
+			index--;
+		}
+		return (1);
+	}
+	return (0);
+}

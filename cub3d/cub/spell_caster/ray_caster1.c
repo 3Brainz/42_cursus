@@ -81,7 +81,7 @@ void		ver_line(int x, t_caster *caster, t_window *window, t_data *img)
 	t_texture *skybox;
 	index = 0;
 	while (++index < caster->draw_start)
-		if(!window->game_v->skybox)
+		if(!window->game_v->skybox || window->game_v->bonus == 0)
 			my_mlx_pixel_put(img, x, index, window->game_v->ceiling_color->n_color);
 		else
 		{

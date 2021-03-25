@@ -21,6 +21,5 @@ int		mouse_pos_mov(int x, int y, t_window *window)
 {
 	window->mouse_pos->pos_x = x;
 	window->mouse_pos->pos_y = y;
-	//printf("pos_x:%i,pos_y:%i\n", window->mouse_pos->pos_x, window->mouse_pos->pos_y);
 	return (0);
 }

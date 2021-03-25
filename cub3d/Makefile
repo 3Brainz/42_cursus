@@ -22,6 +22,8 @@ RAN = ranlib
 
 SEPARATOR = "---------------------------------------------------------------"
 
+CUB_DIR = cub/
+
 CUB_SRCS =	event_handling/mouse_hooks.c \
 			event_handling/keyboard_hhoks.c \
 			game_v/game_v_reader.c \
@@ -43,11 +45,8 @@ CUB_SRCS =	event_handling/mouse_hooks.c \
 			utils/gen_utils.c \
 			window_funcs/textures.c \
 			window_funcs/win_func.c \
-			bonus/mini_map.c
 
 LIBFT_DIR = libft/
-
-CUB_DIR = cub/
 
 LIBFT_SRCS =ft_memset.c \
 			ft_bzero.c \
@@ -94,7 +93,14 @@ LIBFT_SRCS =ft_memset.c \
 			get_next_line.c \
 			ft_lstmap.c
 
+BNS_DIR = cub/bonus/
+
+BNS_SRCS = 	mini_map.c \
+			mouse_rotation.c
+
 CUB_DIRSRCS = $(addprefix ${CUB_DIR}, ${CUB_SRCS})
+
+BNS_DIRSRCS = $(addprefix ${BNS_DIR}, ${BNS_SRCS})
 
 OBJS = ${CUB_DIRSRCS:.c=.o}
 
@@ -102,7 +108,7 @@ LIBFT_DIRSRCS = $(addprefix ${LIBFT_DIR}, ${LIBFT_SRCS})
 
 LIBFT_OBJS = ${LIBFT_DIRSRCS:.c=.o}
 
-BNS_OBJS = $(BNS_SRCS:.c=.o)
+BNS_OBJS = $(BNS_DIRSRCS:.c=.o)
 
 all: ${NAME}
 
@@ -112,9 +118,11 @@ $(NAME): ${OBJS} ${LIBFT_OBJS}
 	@mv ${NAME} cub
 	@gcc -Werror -Wextra -Wall -lmlx -framework OpenGL -framework AppKit -g ./cub/${NAME} main.c -o cub3d
 
-bonus: $(NAME)
-	@ gcc $(CFLAGS) -c $(BNS_SRCS) -I ./
-	@ ar rc $(NAME) $(BNS_OBJS)
+bonus: ${OBJS} ${LIBFT_OBJS} ${BNS_OBJS}
+	@${AR} ${NAME} ${OBJS} ${LIBFT_OBJS} ${BNS_OBJS}
+	@${RAN} ${NAME}
+	@mv ${NAME} cub
+	@gcc -Werror -Wextra -Wall -lmlx -framework OpenGL -framework AppKit -g ./cub/${NAME} main_bonus.c -o cub3d
 
 clean:
 	@${RM} ${OBJS} $(BNS_OBJS) ${LIBFT_OBJS}

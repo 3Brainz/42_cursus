@@ -17,6 +17,12 @@ int		is_color_filled(t_color *color)
 	if (color->red && color->green && color->blue)
 	{
 		int t = 1;
+		if (ft_atoi(color->red) > 255)
+			return (0);
+		if (ft_atoi(color->green) > 255)
+			return (0);
+		if (ft_atoi(color->blue) > 255)
+			return (0);
 		color->n_color = (t << 24 | ft_atoi(color->red) << 16 |
 							ft_atoi(color->green) << 8 | ft_atoi(color->blue));
 		return (1);
@@ -31,18 +37,31 @@ int		is_map_moment(t_game_v *game_v)
 		game_v->no_texture && game_v->so_texture &&
 		game_v->we_texture && game_v->ea_texture &&
 		game_v->sprite_texture &&
-		is_color_filled(game_v->floor_color) &&
-		is_color_filled(game_v->ceiling_color))
-		return (1);
+		is_color_filled(game_v->floor_color))
+		{
+			if(game_v->bonus)
+			{
+				if (game_v->skybox)
+					return (1);
+			}
+			else
+			{
+				if(is_color_filled(game_v->ceiling_color))
+					return (1);
+			}
+		}
 	return (0);
 }
 
 int		is_texture_valid(char *text_name)
 {
-	if (open((const char *)text_name, 00) >= 0)
+	if (check_suffix(text_name, ".xpm"))
 	{
-		close(*text_name);
-		return (1);
+		if (open((const char *)text_name, 00) >= 0)
+		{
+			close(*text_name);
+			return (1);
+		}
 	}
 	printf("error, texture %s not valid", text_name);
 	return (0);
