@@ -122,12 +122,14 @@ $(NAME): ${OBJS} ${LIBFT_OBJS}
 	@mv ${NAME} cub
 	@make -C cub/minilibx
 	@mv cub/minilibx/libmlx.dylib .
-	@${CC} ${CMLXFLAGS} ./cub/${NAME} main.c libmlx.dylib -o cub3D
+	@${CC} ${CMLXFLAGS} ./cub/${NAME} cub/main.c libmlx.dylib -o cub3D
 
 bonus: ${OBJS} ${LIBFT_OBJS} ${BNS_OBJS}
 	@${AR} ${NAME} ${OBJS} ${LIBFT_OBJS} ${BNS_OBJS}
 	@${RAN} ${NAME}
 	@mv ${NAME} cub
+	@make -C cub/minilibx
+	@mv cub/minilibx/libmlx.dylib .
 	@${CC} ${CMLXFLAGS} ./cub/${NAME} cub/bonus/main_bonus.c libmlx.dylib -o cub3D
 
 clean:
@@ -148,30 +150,41 @@ c:
 	@say -v Kyoko センパイを走らせて
 
 karen:
-	@echo "Karen is judging your header ${SEPARATOR}"
+	@echo "Karen is judging your header ${SEPARATOR}\n"
 	@norminette libcub.h
+	@echo "\n"
 	@echo "Karen is judging bonus${SEPARATOR}"
 	@norminette cub/bonus
-	@echo "Karen is judging event_handling${SEPARATOR}"
+	@echo "\n"
+	@echo "Karen is judging event_handling${SEPARATOR}\n"
 	@norminette cub/event_handling
-	@echo "Karen is judging game_v${SEPARATOR}"
+	@echo "\n"
+	@echo "Karen is judging game_v${SEPARATOR}\n"
 	@norminette cub/game_v
-	@echo "Karen is judging map${SEPARATOR}"
+	@echo "\n"
+	@echo "Karen is judging map${SEPARATOR}\n"
 	@norminette cub/map
-	@echo "Karen is judging player${SEPARATOR}"
+	@echo "\n"
+	@echo "Karen is judging player${SEPARATOR}\n"
 	@norminette cub/player
+	@echo "\n"
 	@echo "Karen is judging save${SEPARATOR}"
 	@norminette cub/save
-	@echo "Karen is judging spell_caster${SEPARATOR}"
+	@echo "\n"
+	@echo "Karen is judging spell_caster${SEPARATOR}\n"
 	@norminette cub/spell_caster
-	@echo "Karen is judging struct_manager${SEPARATOR}"
+	@echo "\n"
+	@echo "Karen is judging struct_manager${SEPARATOR}\n"
 	@norminette cub/struct_manager
-	@echo "Karen is judging utils${SEPARATOR}"
+	@echo "\n"
+	@echo "Karen is judging utils${SEPARATOR}\n"
 	@norminette cub/utils
-	@echo "Karen is judging window_funcs${SEPARATOR}"
+	@echo "\n"
+	@echo "Karen is judging window_funcs${SEPARATOR}\n"
 	@norminette cub/window_funcs
-	@echo "Karen is judging main${SEPARATOR}"
-	@norminette main.c
+	@echo "\n"
+	@echo "Karen is judging main${SEPARATOR}\n"
+	@norminette cub/main.c
 
 
 .PHONY: all bonus clean fclean re

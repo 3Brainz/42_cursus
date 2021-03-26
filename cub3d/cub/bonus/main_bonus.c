@@ -13,7 +13,7 @@
 #include "../libcub.h"
 #include "libcub_bonus.h"
 
-int update(t_window *window)
+int		update(t_window *window)
 {
 	t_data		image;
 
@@ -22,12 +22,12 @@ int update(t_window *window)
 	new_image(&image, window,
 				window->game_v->res_w_nu, window->game_v->res_h_nu);
 	cast_ray(window->player, window->game_v, &image, window);
-	minimap_img(&image, window, window->player, 5);
 	mlx_put_image_to_window(window->mlx, window->mlx_win, image.img, 0, 0);
 	mlx_destroy_image(window->mlx, image.img);
-	if(window->keys->esc)
+	if (window->keys->esc)
 		close_game(window);
-	screenshot(window, &image);
+	if (window->game_v->save)
+		screenshot(window, &image);
 	return (1);
 }
 
@@ -40,34 +40,47 @@ void	engine_starter(t_window *window)
 	mlx_loop(window->mlx);
 }
 
+int		ret_error(void)
+{
+	printf("Error\nwrong number of arguments, or wrong arguments");
+	return (-1);
+}
+
+int		fillers(t_game_v *game_v, char *filename, t_window *window)
+{
+	if (!game_v_filler(game_v, filename))
+		return (-1);
+	window->game_v = game_v;
+	game_v->bonus = 1;
+	clean_window_struct(window);
+	start_win(window, game_v);
+	if (!validator(game_v))
+		return (-1);
+	textures_filler(window);
+	engine_starter(window);
+	return (1);
+}
+
 int		main(int argc, char **argv)
 {
 	t_game_v	game_v[1];
 	t_window	window;
-	int			w_n;
 
-	w_n = 0;
-	if (argc > 1 && argc < 3)
+	if (argc > 1 && argc <= 3)
 	{
+		game_v_cleaner(game_v);
+		if (argc == 3 && !ft_strncmp(argv[2], "---save", ft_strlen(argv[2])))
+			return (ret_error());
+		else if (argc == 3 && ft_strncmp(argv[2], "---save",
+				ft_strlen(argv[2])))
+			game_v->save = 1;
 		if (check_suffix(argv[1], ".cub"))
 		{
-			game_v_cleaner(game_v);
-			if(!game_v_filler(game_v, argv[1]))
-				return (0);
-			game_v->bonus = 1;
-			window.game_v = game_v;
-			clean_window_struct(&window);
-			start_win(&window, game_v);
-			if (!validator(game_v))
-				return (0);
-			textures_filler(&window);
-			engine_starter(&window);
+			if (fillers(game_v, argv[1], &window) < 0)
+				return (-1);
 		}
 		else
-			w_n = 1;
+			return (ret_error());
 	}
-	else
-		w_n = 1;
-	if (w_n)
-		printf ("Error\nwrong number of arguments, or wrong arguments");
+	return (ret_error());
 }
