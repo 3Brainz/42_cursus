@@ -242,7 +242,7 @@ int				is_in_cset(char c, char *c_set);
 */
 
 void			initialize_vars(int vars_number, ...);
-void			free_if_exists(void **var); // da  rivedere
+void			free_if_exists(void **var);
 void			free_mat(void **mat);
 int				check_suffix(char *str, char *suffix);
 
@@ -290,7 +290,8 @@ void			where_is_the_player(char **map, t_player *player);
 
 int				first_last_row(char *row);
 int				zero_after_end(char *prev, char *curr, char *next);
-int				check_around_walkables(int index, char *prev, char *curr, char *next);
+int				check_around_walkables(int index, char *prev, char *curr,
+										char *next);
 int				check_zeroes(char *prev, char *curr, char *next);
 int				intermidiate_row(char *prev, char *curr, char *next);
 int				is_map_valid(char **map);
@@ -350,8 +351,11 @@ int				key_hook_out(int keycode, t_window *window);
 /*
 **Player_movement
 */
-void			increment_degree(float *inclination, float degree, t_plane *plane);
-void			decrement_degree(float *inclination, float degree, t_plane *plane);
+
+void			increment_degree(float *inclination, float degree,
+									t_plane *plane);
+void			decrement_degree(float *inclination, float degree,
+									t_plane *plane);
 void			player_movement(t_keys *keys, t_player *player, char **map);
 
 /*
@@ -360,7 +364,6 @@ void			player_movement(t_keys *keys, t_player *player, char **map);
 
 void			minimap_img(t_data *img, t_window *window, t_player *player,
 							int min_fract);
-
 
 /*
 **RAYCASTER
@@ -376,15 +379,17 @@ void			sprite_print(t_player *player, t_game_v *game_v, t_data *img,
 								t_window *window);
 void			sprite_caster(t_player *player, t_game_v *game_v, t_data *img,
 								t_window *window);
-void			ray_pos_and_dir(t_caster *caster, t_game_v *game_v,t_player
+void			ray_pos_and_dir(t_caster *caster, t_game_v *game_v, t_player
 								*player, int x);
 void			ray_collider(t_caster *caster, t_player *player);
 void			ray_dda(t_caster *caster, t_game_v *game_v);
-void			line_measure_dist(t_caster *caster, t_game_v *game_v, t_player *player);
-t_texture 		*texture_selector(t_window *window, t_caster *caster);
+void			line_measure_dist(t_caster *caster, t_game_v *game_v,
+									t_player *player);
+t_texture		*texture_selector(t_window *window, t_caster *caster);
 void			texturer(t_caster *caster, t_player *player, t_game_v *game_v,
 								t_window *window);
-void			ver_line(int x, t_caster *caster, t_window *window, t_data *img);
+void			ver_line(int x, t_caster *caster, t_window *window,
+								t_data *img);
 void			cast_ray(t_player *player, t_game_v *game_v, t_data *img,
 								t_window *window);
 void			cast_ray(t_player *player, t_game_v *game_v, t_data *img,
@@ -397,9 +402,9 @@ void			cast_ray(t_player *player, t_game_v *game_v, t_data *img,
 void			textures_filler(t_window *window);
 
 /*
-**				void		screenshot(t_window *window, t_data *img);
+**--save
 */
 
-				void		screenshot(t_window *window, t_data *img);
+void			screenshot(t_window *window, t_data *img);
 
 #endif

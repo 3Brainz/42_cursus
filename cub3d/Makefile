@@ -151,9 +151,9 @@ c:
 
 karen:
 	@echo "Karen is judging your header ${SEPARATOR}\n"
-	@norminette libcub.h
+	@norminette -R CheckDefine cub/libcub.h
 	@echo "\n"
-	@echo "Karen is judging bonus${SEPARATOR}"
+	@echo "Karen is judging bonus${SEPARATOR}\n"
 	@norminette cub/bonus
 	@echo "\n"
 	@echo "Karen is judging event_handling${SEPARATOR}\n"
@@ -168,7 +168,7 @@ karen:
 	@echo "Karen is judging player${SEPARATOR}\n"
 	@norminette cub/player
 	@echo "\n"
-	@echo "Karen is judging save${SEPARATOR}"
+	@echo "Karen is judging save${SEPARATOR}\n"
 	@norminette cub/save
 	@echo "\n"
 	@echo "Karen is judging spell_caster${SEPARATOR}\n"

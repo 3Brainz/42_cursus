@@ -36,6 +36,7 @@ void	engine_starter(t_window *window)
 	mlx_hook(window->mlx_win, 06, 0L, mouse_pos_mov, window);
 	mlx_hook(window->mlx_win, 02, 0L, key_hook_in, window);
 	mlx_hook(window->mlx_win, 03, 0L, key_hook_out, window);
+	mlx_hook(window->mlx_win, 17, 0L, close_game, window);
 	mlx_loop_hook(window->mlx, update, window);
 	mlx_loop(window->mlx);
 }
