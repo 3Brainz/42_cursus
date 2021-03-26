@@ -164,6 +164,8 @@ karen:
 	@norminette cub/utils
 	@echo "Karen is judging window_funcs${SEPARATOR}"
 	@norminette cub/window_funcs
+	@echo "Karen is judging main${SEPARATOR}"
+	@norminette main.c
 
 
 .PHONY: all bonus clean fclean re

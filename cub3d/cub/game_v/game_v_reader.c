@@ -63,25 +63,18 @@ static void	line_colors_analizer(char *str, t_game_v *game_v)
 		fill_color(&str, 1, game_v->floor_color);
 }
 
-static void	analizers(char *line, t_game_v *game_v)
+static void	analizers(t_game_v *game_v, int game_v_fd)
 {
-	line_texture_analizer(line, game_v);
-	line_measures_analizer(line, game_v);
-	line_colors_analizer(line, game_v);
-}
-
-int			game_v_filler(t_game_v *game_v, char *file_path)
-{
-	int		game_v_fd;
-	char	*line;
 	int		mat_start;
+	char	*line;
 
-	line = 0;
 	mat_start = 0;
-	game_v_fd = open(file_path, 00);
+	line = 0;
 	while (get_next_line(game_v_fd, &line))
 	{
-		analizers(line, game_v);
+		line_texture_analizer(line, game_v);
+		line_measures_analizer(line, game_v);
+		line_colors_analizer(line, game_v);
 		free(line);
 		if (is_map_moment(game_v))
 			break ;
@@ -96,6 +89,14 @@ int			game_v_filler(t_game_v *game_v, char *file_path)
 	}
 	add_string_to_mat(&game_v->map, line);
 	free(line);
+}
+
+int			game_v_filler(t_game_v *game_v, char *file_path)
+{
+	int		game_v_fd;
+
+	game_v_fd = open(file_path, 00);
+	analizers(game_v, game_v_fd);
 	if (are_game_v_ok(game_v))
 	{
 		sprites_filler(game_v);
