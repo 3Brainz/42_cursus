@@ -35,6 +35,7 @@ CUB_SRCS =	event_handling/mouse_hooks.c \
 			map/map_checker_utils.c \
 			player/player_checker.c \
 			player/player_mov.c \
+			save/save.c \
 			spell_caster/ray_caster1.c\
 			spell_caster/ray_caster2.c \
 			spell_caster/ray_casting.c \
@@ -117,13 +118,13 @@ $(NAME): ${OBJS} ${LIBFT_OBJS}
 	@${AR} ${NAME} ${OBJS} ${LIBFT_OBJS}
 	@${RAN} ${NAME}
 	@mv ${NAME} cub
-	@gcc -Werror -Wextra -Wall -lmlx -framework OpenGL -framework AppKit -g ./cub/${NAME} main.c -o cub3d
+	@gcc -Werror -Wextra -Wall -lmlx -framework OpenGL -framework AppKit -g ./cub/${NAME} main.c -o cub3D
 
 bonus: ${OBJS} ${LIBFT_OBJS} ${BNS_OBJS}
 	@${AR} ${NAME} ${OBJS} ${LIBFT_OBJS} ${BNS_OBJS}
 	@${RAN} ${NAME}
 	@mv ${NAME} cub
-	@gcc -Werror -Wextra -Wall -lmlx -framework OpenGL -framework AppKit -g ./cub/${NAME} main_bonus.c -o cub3d
+	@gcc -Werror -Wextra -Wall -lmlx -framework OpenGL -framework AppKit -g ./cub/${NAME} cub/bonus/main_bonus.c -o cub3D
 
 clean:
 	@${RM} ${OBJS} $(BNS_OBJS) ${LIBFT_OBJS}
@@ -142,6 +143,27 @@ c:
 
 karen:
 	@echo "Karen is judging your header ${SEPARATOR}"
-	@norminette ${NAME:.a=.h}
+	@norminette libcub.h
+	@echo "Karen is judging bonus${SEPARATOR}"
+	@norminette cub/bonus
+	@echo "Karen is judging event_handling${SEPARATOR}"
+	@norminette cub/event_handling
+	@echo "Karen is judging game_v${SEPARATOR}"
+	@norminette cub/game_v
+	@echo "Karen is judging map${SEPARATOR}"
+	@norminette cub/map
+	@echo "Karen is judging player${SEPARATOR}"
+	@norminette cub/player
+	@echo "Karen is judging save${SEPARATOR}"
+	@norminette cub/save
+	@echo "Karen is judging spell_caster${SEPARATOR}"
+	@norminette cub/spell_caster
+	@echo "Karen is judging struct_manager${SEPARATOR}"
+	@norminette cub/struct_manager
+	@echo "Karen is judging utils${SEPARATOR}"
+	@norminette cub/utils
+	@echo "Karen is judging window_funcs${SEPARATOR}"
+	@norminette cub/window_funcs
+
 
 .PHONY: all bonus clean fclean re

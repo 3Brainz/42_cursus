@@ -36,6 +36,7 @@
 # define P_POSX player->pos_x
 # define P_POSY player->pos_y
 # define P_INCL player->inclination
+# define U_C unsigned char
 
 /*
 ** Structures
@@ -206,6 +207,7 @@ typedef struct	s_game_v
 	char		**map;
 	t_size		map_size[1];
 	int			bonus;
+	int			save;
 }				t_game_v;
 
 typedef struct	s_window{
@@ -393,5 +395,11 @@ void			cast_ray(t_player *player, t_game_v *game_v, t_data *img,
 */
 
 void			textures_filler(t_window *window);
+
+/*
+**				void		screenshot(t_window *window, t_data *img);
+*/
+
+				void		screenshot(t_window *window, t_data *img);
 
 #endif

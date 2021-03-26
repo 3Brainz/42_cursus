@@ -24,6 +24,8 @@ int update(t_window *window)
 	mlx_destroy_image(window->mlx, image.img);
 	if(window->keys->esc)
 		close_game(window);
+	if (window->game_v->save)
+		screenshot(window, &image);
 	return (1);
 }
 
@@ -36,7 +38,7 @@ void	engine_starter(t_window *window)
 	mlx_loop(window->mlx);
 }
 
-int main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
 	t_game_v	game_v[1];
 	t_window	window;
@@ -45,11 +47,17 @@ int main(int argc, char **argv)
 	w_n = 0;
 	if (argc > 1 && argc <= 3)
 	{
-		if (argc == 3 && !ft_strncmp(argv[2], "--save", ft_strlen(argv[1])))
+		game_v_cleaner(game_v);
+		if (argc == 3 && !ft_strncmp(argv[2], "---save", ft_strlen(argv[2])))
+		{
 			w_n = 1;
+		}
+		else if (argc == 3 && ft_strncmp(argv[2], "---save", ft_strlen(argv[2])))
+		{
+			game_v->save = 1;
+		}
 		if (check_suffix(argv[1], ".cub") && !w_n)
 		{
-			game_v_cleaner(game_v);
 			if(!game_v_filler(game_v, argv[1]))
 				return (0);
 			window.game_v = game_v;

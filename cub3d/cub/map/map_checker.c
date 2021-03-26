@@ -23,7 +23,7 @@ int	just_right_chars(char **map)
 		x = 0;
 		while (map[y][x])
 		{
-			if (!is_in_cset(map[y][x], "012 NSWE"))
+			if (!is_in_cset(map[y][x], "012 NEWS"))
 				return (0);
 			x++;
 		}

@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../libcub.h"
 
 void	texture_filler(t_texture *texture, t_window *window, char *text_name)

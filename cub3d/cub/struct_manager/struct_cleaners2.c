@@ -32,6 +32,7 @@ void	game_v_cleaner(t_game_v *game_v)
 	game_v->map = 0;
 	game_v->s_cords = 0;
 	game_v->bonus = 0;
+	game_v->save = 0;
 }
 
 void	color_cleaner(t_color *color)

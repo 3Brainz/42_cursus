@@ -12,7 +12,7 @@
 
 #include "../libcub.h"
 
-int		calc_ratio(t_game_v *game_v, int relative_size)
+int			calc_ratio(t_game_v *game_v, int relative_size)
 {
 	int mat_len_x;
 	int mat_len_y;
@@ -27,7 +27,8 @@ int		calc_ratio(t_game_v *game_v, int relative_size)
 	return (ratio);
 }
 
-void	print_rect(t_data *img, float *origins, t_window *window, float size)
+void		print_rect(t_data *img, float *origins, t_window *window,
+						float size)
 {
 	int x;
 	int y;
@@ -41,42 +42,52 @@ void	print_rect(t_data *img, float *origins, t_window *window, float size)
 		{
 			if (x > 0 && x < window->game_v->res_w_nu &&
 				y > 0 && y < window->game_v->res_h_nu)
-				my_mlx_pixel_put(img, x, y, 0x00FF0000);
+				my_mlx_pixel_put(img, x, y, 0x000000FF);
 			x++;
 		}
 		y++;
 	}
 }
 
-void	minimap_img(t_data *img, t_window *window,t_player *player, int min_fract)
+static void	minimap_printer(t_window *window, int mat_index, int ratio,
+							t_data *img)
 {
-	size_t	mat_index = -1;
-	float	origins[2];
-	size_t	index = -1;
-	size_t	x = -1;
-	size_t	y = -1;
+	int index;
+	int x;
+	int y;
 
-	int ratio = calc_ratio(window->game_v, min_fract);
-	while (window->game_v->map[++mat_index])
+	index = -1;
+	while (++index < (int)ft_strlen(window->game_v->map[mat_index]))
 	{
-		index = -1;
-		while (++index < ft_strlen(window->game_v->map[mat_index]))
+		x = index * ratio - 1;
+		while (++x < ratio * (index + 1))
 		{
-			x = index * ratio - 1;
-			while(++x < ratio * (index + 1))
+			y = ratio * mat_index - 1;
+			while (++y < ratio * (mat_index + 1))
 			{
-				y = ratio * mat_index - 1;
-				while (++y < ratio * (mat_index + 1))
-				{
-					if (window->game_v->map[mat_index][index] == '1')
-						my_mlx_pixel_put(img, x, y, 0x000000FF);
-					else if (window->game_v->map[mat_index][index] == '2')
-						my_mlx_pixel_put(img, x, y, 0x0000FF00);
-					else
-						my_mlx_pixel_put(img, x, y, 0x00FF0000);
-				}
+				if (window->game_v->map[mat_index][index] == '1')
+					my_mlx_pixel_put(img, x, y, 0x000000FF);
+				else if (window->game_v->map[mat_index][index] == '2')
+					my_mlx_pixel_put(img, x, y, 0x0000FF00);
+				else
+					my_mlx_pixel_put(img, x, y, 0x00FF0000);
 			}
 		}
+	}
+}
+
+void		minimap_img(t_data *img, t_window *window, t_player *player,
+					int min_fract)
+{
+	size_t	mat_index;
+	float	origins[2];
+	int		ratio;
+
+	mat_index = -1;
+	ratio = calc_ratio(window->game_v, min_fract);
+	while (window->game_v->map[++mat_index])
+	{
+		minimap_printer(window, mat_index, ratio, img);
 	}
 	origins[1] = player->pos_x * ratio;
 	origins[0] = player->pos_y * ratio;
