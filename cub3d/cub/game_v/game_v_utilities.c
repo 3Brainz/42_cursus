@@ -62,3 +62,15 @@ void	free_game_v(t_game_v *game_v)
 	free_mat((void **)(game_v->map));
 	free_if_exists((void **)&game_v->map);
 }
+
+void	resize_to_screen_size(t_game_v *game_v, t_window *window)
+{
+	int max_x;
+	int max_y;
+
+	mlx_get_screen_size(window->mlx, &max_x, &max_y);
+	if (game_v->res_w_nu > max_x)
+		game_v->res_w_nu = max_x;
+	if (game_v->res_h_nu > max_y)
+		game_v->res_h_nu = max_y;
+}

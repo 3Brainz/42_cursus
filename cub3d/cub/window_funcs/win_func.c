@@ -14,16 +14,13 @@
 
 void		start_win(t_window *window, t_game_v *game_v)
 {
-	int res_w;
-	int res_h;
-
-	res_w = ft_atoi(game_v->res_w);
-	res_h = ft_atoi(game_v->res_h);
 	window->game_v = game_v;
 	where_is_the_player(window->game_v->map, window->player);
 	clean_keys(window->keys);
 	window->mlx = mlx_init();
-	window->mlx_win = mlx_new_window(window->mlx, res_w, res_h, "ROOM");
+	resize_to_screen_size(window->game_v, window);
+	window->mlx_win = mlx_new_window(window->mlx, game_v->res_w_nu,
+										game_v->res_h_nu, "ROOM");
 }
 
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color)

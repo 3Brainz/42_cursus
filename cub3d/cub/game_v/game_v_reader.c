@@ -103,6 +103,6 @@ int			game_v_filler(t_game_v *game_v, char *file_path)
 		return (1);
 	}
 	free_game_v(game_v);
-	printf("something_not_turned_in");
+	printf("Error\nsomething_not_turned_in");
 	return (0);
 }

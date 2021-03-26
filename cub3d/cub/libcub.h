@@ -16,7 +16,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <stdarg.h>
-# include <mlx.h>
+# include "minilibx/mlx.h"
 # include <math.h>
 # define MAP_SPACE_VAL 0
 
@@ -253,6 +253,7 @@ int				check_suffix(char *str, char *suffix);
 char			*take_value_s_cub_parser(char **str, int offset);
 void			fill_color(char **str, int offset, t_color *color);
 void			free_game_v(t_game_v *game_v);
+void			resize_to_screen_size(t_game_v *game_v, t_window *window);
 
 /*
 ** Game_v_checks
@@ -323,7 +324,6 @@ int				close_game(t_window *window);
 */
 
 int				mouse_click(int button, int pos_x, int pos_y, t_window *window);
-void			mouse_click_print(t_mouse_ck *click);
 int				mouse_pos_mov(int x, int y, t_window *window);
 
 /*

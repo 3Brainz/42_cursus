@@ -16,6 +16,8 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror -c -g
 
+CMLXFLAGS = -Werror -Wextra -Wall -lmlx -framework OpenGL -framework AppKit -g
+
 AR = ar -rc
 
 RAN = ranlib
@@ -118,19 +120,23 @@ $(NAME): ${OBJS} ${LIBFT_OBJS}
 	@${AR} ${NAME} ${OBJS} ${LIBFT_OBJS}
 	@${RAN} ${NAME}
 	@mv ${NAME} cub
-	@gcc -Werror -Wextra -Wall -lmlx -framework OpenGL -framework AppKit -g ./cub/${NAME} main.c -o cub3D
+	@make -C cub/minilibx
+	@mv cub/minilibx/libmlx.dylib .
+	@${CC} ${CMLXFLAGS} ./cub/${NAME} main.c libmlx.dylib -o cub3D
 
 bonus: ${OBJS} ${LIBFT_OBJS} ${BNS_OBJS}
 	@${AR} ${NAME} ${OBJS} ${LIBFT_OBJS} ${BNS_OBJS}
 	@${RAN} ${NAME}
 	@mv ${NAME} cub
-	@gcc -Werror -Wextra -Wall -lmlx -framework OpenGL -framework AppKit -g ./cub/${NAME} cub/bonus/main_bonus.c -o cub3D
+	@${CC} ${CMLXFLAGS} ./cub/${NAME} cub/bonus/main_bonus.c libmlx.dylib -o cub3D
 
 clean:
 	@${RM} ${OBJS} $(BNS_OBJS) ${LIBFT_OBJS}
+	@make clean -C cub/minilibx
 
 fclean: clean
 	@${RM} ./cub/${NAME}
+	@${RM} ./cub/libmlx.dylib
 	@${RM} cub3d
 
 re: fclean all
