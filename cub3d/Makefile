@@ -136,7 +136,7 @@ clean:
 
 fclean: clean
 	@${RM} ./cub/${NAME}
-	@${RM} ./cub/libmlx.dylib
+	@${RM} libmlx.dylib
 	@${RM} cub3d
 
 re: fclean all
