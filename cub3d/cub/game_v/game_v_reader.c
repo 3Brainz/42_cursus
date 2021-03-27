@@ -15,6 +15,8 @@
 static void	line_texture_analizer(char *str, t_game_v *game_v)
 {
 	ft_jump_spaces(&str);
+	if(!str)
+		return ;
 	if (*str == 'N' && str[1] == 'O')
 		game_v->no_texture = take_value_s_cub_parser(&str, 2);
 	else if (*str == 'S' && str[1] == 'O')
@@ -32,6 +34,8 @@ static void	line_texture_analizer(char *str, t_game_v *game_v)
 static void	line_measures_analizer(char *str, t_game_v *game_v)
 {
 	ft_jump_spaces(&str);
+	if(!str)
+		return ;
 	if (*str == 'R')
 	{
 		str++;
@@ -56,6 +60,8 @@ static void	line_measures_analizer(char *str, t_game_v *game_v)
 
 static void	line_colors_analizer(char *str, t_game_v *game_v)
 {
+	if(!str)
+		return ;
 	ft_jump_spaces(&str);
 	if (*str == 'C')
 		fill_color(&str, 1, game_v->ceiling_color);

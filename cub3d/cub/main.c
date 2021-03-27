@@ -64,13 +64,10 @@ int		main(int argc, char **argv)
 	t_game_v	game_v[1];
 	t_window	window;
 
-	if (argc > 1 && argc <= 3)
+	if (argc > 1)
 	{
 		game_v_cleaner(game_v);
-		if (argc == 3 && !ft_strncmp(argv[2], "---save", ft_strlen(argv[2])))
-			return (ret_error());
-		else if (argc == 3 && ft_strncmp(argv[2], "---save",
-				ft_strlen(argv[2])))
+		if (argc > 2 && check_string(argv[2], "--save"))
 			game_v->save = 1;
 		if (check_suffix(argv[1], ".cub"))
 		{

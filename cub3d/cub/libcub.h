@@ -236,6 +236,7 @@ void			ft_jump_spaces(char **str);
 char			*ft_strjoin_new_line(char const *s1, char const *s2);
 void			change_char_in_s(char *str, char dest, char substitute);
 int				is_in_cset(char c, char *c_set);
+int				check_string(char *to_check, char *checker);
 
 /*
 **Gen_utils

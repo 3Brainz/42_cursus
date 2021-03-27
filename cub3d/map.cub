@@ -1,10 +1,11 @@
-R 1080 1020
+R 1080 720
 C 255,200,160
 F 122,122,122
 SO srcs/stain1.xpm
 NO srcs/stain2.xpm
 EA srcs/stain3.xpm
 WE srcs/stain4.xpm
+B srcs/skybox-2.xpm
 S srcs/kaganawa.xpm
 
                                                         111111
@@ -123,5 +124,3 @@ S srcs/kaganawa.xpm
 10200000200002001
 10000000000000001
 11111111111111111
-
-

@@ -122,15 +122,15 @@ $(NAME): ${OBJS} ${LIBFT_OBJS}
 	@${RAN} ${NAME}
 	@mv ${NAME} cub
 	@make -C cub/minilibx
-	@mv cub/minilibx/libmlx.dylib .
+	@cp cub/minilibx/libmlx.dylib .
 	@${CC} ${CMLXFLAGS} ./cub/${NAME} cub/main.c libmlx.dylib -o cub3D
 
-bonus: ${OBJS} ${LIBFT_OBJS} ${BNS_OBJS} fclean
+bonus: fclean ${OBJS} ${LIBFT_OBJS} ${BNS_OBJS}
 	@${AR} ${NAME} ${OBJS} ${LIBFT_OBJS} ${BNS_OBJS}
 	@${RAN} ${NAME}
 	@mv ${NAME} cub
 	@make -C cub/minilibx
-	@mv cub/minilibx/libmlx.dylib .
+	@cp cub/minilibx/libmlx.dylib .
 	@${CC} ${CMLXFLAGS} ./cub/${NAME} cub/bonus/main_bonus.c libmlx.dylib -o cub3D
 
 clean:

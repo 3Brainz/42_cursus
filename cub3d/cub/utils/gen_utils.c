@@ -54,3 +54,22 @@ int		check_suffix(char *str, char *suffix)
 	}
 	return (0);
 }
+
+int		check_string(char *to_check, char *checker)
+{
+	int checker_len;
+	int to_check_index;
+
+	checker_len = ft_strlen(checker);
+	to_check_index = ft_strlen(to_check);
+	if (checker_len != to_check_index)
+		return (0);
+	to_check_index = 0;
+	while (to_check_index < checker_len)
+	{
+		if (to_check[to_check_index] != checker[to_check_index])
+			return (0);
+		to_check_index++;
+	}
+	return (1);
+}

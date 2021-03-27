@@ -69,7 +69,7 @@ static void	minimap_printer(t_window *window, int mat_index, int ratio,
 					my_mlx_pixel_put(img, x, y, 0x000000FF);
 				else if (window->game_v->map[mat_index][index] == '2')
 					my_mlx_pixel_put(img, x, y, 0x0000FF00);
-				else
+				else if (window->game_v->map[mat_index][index] == '0')
 					my_mlx_pixel_put(img, x, y, 0x00FF0000);
 			}
 		}
