@@ -288,11 +288,8 @@ void			where_is_the_player(char **map, t_player *player);
 **Map_c
 */
 
-int				first_last_row(char *row);
-int				zero_after_end(char *prev, char *curr, char *next);
 int				check_around_walkables(int index, char *prev, char *curr,
 										char *next);
-int				check_zeroes(char *prev, char *curr, char *next);
 int				intermidiate_row(char *prev, char *curr, char *next);
 int				is_map_valid(char **map);
 

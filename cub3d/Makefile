@@ -100,6 +100,7 @@ LIBFT_SRCS =ft_memset.c \
 BNS_DIR = cub/bonus/
 
 BNS_SRCS = 	mini_map.c \
+			player_mov_bonus.c \
 			mouse_rotation.c
 
 CUB_DIRSRCS = $(addprefix ${CUB_DIR}, ${CUB_SRCS})
@@ -124,7 +125,7 @@ $(NAME): ${OBJS} ${LIBFT_OBJS}
 	@mv cub/minilibx/libmlx.dylib .
 	@${CC} ${CMLXFLAGS} ./cub/${NAME} cub/main.c libmlx.dylib -o cub3D
 
-bonus: ${OBJS} ${LIBFT_OBJS} ${BNS_OBJS}
+bonus: ${OBJS} ${LIBFT_OBJS} ${BNS_OBJS} fclean
 	@${AR} ${NAME} ${OBJS} ${LIBFT_OBJS} ${BNS_OBJS}
 	@${RAN} ${NAME}
 	@mv ${NAME} cub

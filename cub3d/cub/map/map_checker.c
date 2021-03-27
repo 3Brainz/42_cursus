@@ -39,7 +39,7 @@ int	check_map(char **map)
 	y_index = 0;
 	if (mat_len(map) < 3)
 		return (0);
-	if (first_last_row(map[y_index]))
+	if (intermidiate_row("", map[y_index], map[y_index + 1]))
 	{
 		y_index++;
 		while (y_index < (int)mat_len(map) - 1)
@@ -49,7 +49,7 @@ int	check_map(char **map)
 				return (0);
 			y_index++;
 		}
-		if (first_last_row(map[y_index]))
+		if (intermidiate_row("", map[y_index], map[y_index + -1]))
 			return (1);
 	}
 	return (0);

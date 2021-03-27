@@ -87,7 +87,8 @@ int		validator(t_game_v *game_v)
 
 int		are_game_v_ok(t_game_v *game_v)
 {
-	if (is_map_moment(game_v) && is_map_valid(game_v->map) &&
+	if (is_map_moment(game_v) &&
+		is_map_valid(game_v->map) &&
 		validator(game_v))
 	{
 		mat_size(game_v);
