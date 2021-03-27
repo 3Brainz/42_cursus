@@ -1,12 +1,12 @@
 R 1080 720
-C 255,200,160
-F 122,122,122
+C 255,255,255
+F 0,0,0
 SO srcs/stain1.xpm
 NO srcs/stain2.xpm
 EA srcs/stain3.xpm
 WE srcs/stain4.xpm
 B srcs/skybox-2.xpm
-S srcs/kaganawa.xpm
+S srcs/rubin_vase.xpm
 
                                                         111111
                                                         11020111111111
