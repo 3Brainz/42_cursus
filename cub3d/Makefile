@@ -14,9 +14,9 @@ NAME = libcub.a
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -c -g
+CFLAGS = -Wall -Wextra -Werror -c
 
-CMLXFLAGS = -Werror -Wextra -Wall -lmlx -framework OpenGL -framework AppKit -g
+CMLXFLAGS = -Werror -Wextra -Wall -lmlx -framework OpenGL -framework AppKit
 
 AR = ar -rc
 
@@ -50,9 +50,9 @@ CUB_SRCS =	event_handling/mouse_hooks.c \
 			window_funcs/textures.c \
 			window_funcs/win_func.c \
 
-LIBFT_DIR = libft/
+LIBUTILS_DIR = libutils/
 
-LIBFT_SRCS =ft_memset.c \
+LIBUTILS_SRCS =ft_memset.c \
 			ft_bzero.c \
 			ft_memcpy.c \
 			ft_memccpy.c \
@@ -72,8 +72,6 @@ LIBFT_SRCS =ft_memset.c \
 			ft_isalnum.c \
 			ft_isascii.c \
 			ft_isprint.c \
-			ft_toupper.c \
-			ft_tolower.c \
 			ft_calloc.c \
 			ft_strdup.c \
 			ft_substr.c \
@@ -82,20 +80,7 @@ LIBFT_SRCS =ft_memset.c \
 			ft_split.c \
 			ft_itoa.c \
 			ft_strmapi.c \
-			ft_putchar_fd.c \
-			ft_putendl_fd.c \
-			ft_putstr_fd.c \
-			ft_putnbr_fd.c \
-			ft_lstnew.c \
-			ft_lstadd_front.c \
-			ft_lstsize.c \
-			ft_lstlast.c \
-			ft_lstadd_back.c \
-			ft_lstdelone.c \
-			ft_lstclear.c \
-			ft_lstiter.c \
-			get_next_line.c \
-			ft_lstmap.c
+			get_next_line.c 
 
 BNS_DIR = cub/bonus/
 
@@ -109,24 +94,24 @@ BNS_DIRSRCS = $(addprefix ${BNS_DIR}, ${BNS_SRCS})
 
 OBJS = ${CUB_DIRSRCS:.c=.o}
 
-LIBFT_DIRSRCS = $(addprefix ${LIBFT_DIR}, ${LIBFT_SRCS})
+LIBUTILS_DIRSRCS = $(addprefix ${LIBUTILS_DIR}, ${LIBUTILS_SRCS})
 
-LIBFT_OBJS = ${LIBFT_DIRSRCS:.c=.o}
+LIBUTILS_OBJS = ${LIBUTILS_DIRSRCS:.c=.o}
 
 BNS_OBJS = $(BNS_DIRSRCS:.c=.o)
 
 all: ${NAME}
 
-$(NAME): ${OBJS} ${LIBFT_OBJS}
-	@${AR} ${NAME} ${OBJS} ${LIBFT_OBJS}
+$(NAME): ${OBJS} ${LIBUTILS_OBJS}
+	@${AR} ${NAME} ${OBJS} ${LIBUTILS_OBJS}
 	@${RAN} ${NAME}
 	@mv ${NAME} cub
 	@make -C cub/minilibx
 	@cp cub/minilibx/libmlx.dylib .
 	@${CC} ${CMLXFLAGS} ./cub/${NAME} cub/main.c libmlx.dylib -o cub3D
 
-bonus: fclean ${OBJS} ${LIBFT_OBJS} ${BNS_OBJS}
-	@${AR} ${NAME} ${OBJS} ${LIBFT_OBJS} ${BNS_OBJS}
+bonus: fclean ${OBJS} ${LIBUTILS_OBJS} ${BNS_OBJS}
+	@${AR} ${NAME} ${OBJS} ${LIBUTILS_OBJS} ${BNS_OBJS}
 	@${RAN} ${NAME}
 	@mv ${NAME} cub
 	@make -C cub/minilibx
@@ -134,7 +119,7 @@ bonus: fclean ${OBJS} ${LIBFT_OBJS} ${BNS_OBJS}
 	@${CC} ${CMLXFLAGS} ./cub/${NAME} cub/bonus/main_bonus.c libmlx.dylib -o cub3D
 
 clean:
-	@${RM} ${OBJS} $(BNS_OBJS) ${LIBFT_OBJS}
+	@${RM} ${OBJS} $(BNS_OBJS) ${LIBUTILS_OBJS}
 	@make clean -C cub/minilibx
 
 fclean: clean

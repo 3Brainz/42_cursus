@@ -42,7 +42,7 @@ void		print_rect(t_data *img, float *origins, t_window *window,
 		{
 			if (x > 0 && x < window->game_v->res_w_nu &&
 				y > 0 && y < window->game_v->res_h_nu)
-				my_mlx_pixel_put(img, x, y, 0x000000FF);
+				my_mlx_pixel_put(img, x, y, 0x00FF0000);
 			x++;
 		}
 		y++;
@@ -66,11 +66,11 @@ static void	minimap_printer(t_window *window, int mat_index, int ratio,
 			while (++y < ratio * (mat_index + 1))
 			{
 				if (window->game_v->map[mat_index][index] == '1')
-					my_mlx_pixel_put(img, x, y, 0x000000FF);
+					my_mlx_pixel_put(img, x, y, 0x00000000);
 				else if (window->game_v->map[mat_index][index] == '2')
 					my_mlx_pixel_put(img, x, y, 0x0000FF00);
 				else if (window->game_v->map[mat_index][index] == '0')
-					my_mlx_pixel_put(img, x, y, 0x00FF0000);
+					my_mlx_pixel_put(img, x, y, 0x00FFFFFF);
 			}
 		}
 	}

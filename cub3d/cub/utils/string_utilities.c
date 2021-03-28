@@ -27,7 +27,7 @@ int		ft_numlen(char **str)
 
 void	ft_jump_spaces(char **str)
 {
-	while (*str && **str == ' ')
+	while (*str && is_in_cset(**str, " \t\v\f\r"))
 		*str += 1;
 }
 

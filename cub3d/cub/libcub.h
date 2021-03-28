@@ -12,7 +12,7 @@
 
 #ifndef LIBCUB_H
 # define LIBCUB_H
-# include "../libft/libft.h"
+# include "../libutils/libutils.h"
 # include <stdio.h>
 # include <fcntl.h>
 # include <stdarg.h>

@@ -61,7 +61,7 @@ int		is_texture_valid(char *text_name)
 			return (1);
 		}
 	}
-	printf("Error, texture %s not valid", text_name);
+	printf("Error\ntexture %s not valid\n", text_name);
 	return (0);
 }
 

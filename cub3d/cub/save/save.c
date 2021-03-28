@@ -77,8 +77,9 @@ void		screenshot(t_window *window, t_data *img)
 {
 	int fd;
 
-	if ((fd = open("screenshot.bmp", O_WRONLY | O_APPEND | O_CREAT | O_TRUNC,
-	S_IRWXU)) <= 0)
+	if ((fd = open("what_do_you_see.bmp",
+			O_WRONLY | O_APPEND | O_CREAT | O_TRUNC,
+			S_IRWXU)) <= 0)
 		close_game(window);
 	write_header(window, fd, img);
 	write_pixels(window, img, fd);
