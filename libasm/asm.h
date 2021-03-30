@@ -7,11 +7,11 @@
 # include <unistd.h>
 # include <fcntl.h>
 
-extern	int		ft_strlen(char *);
-extern	char	*ft_strcpy(char *, char *);
-extern	int		ft_strcmp(char *, char *);
-extern	int		ft_write(int, char *, int);
-extern	int		ft_read(int, void *, size_t);
-extern	char	*ft_strdup(char *);
+int		ft_strlen(char *);
+char	*ft_strcpy(char *, char *);
+int		ft_strcmp(char *, char *);
+int		ft_write(int, char *, int);
+int		ft_read(int, void *, size_t);
+char	*ft_strdup(char *);
 
 #endif
