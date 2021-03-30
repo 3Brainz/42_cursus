@@ -1,4 +1,3 @@
-
 global		_ft_strdup
 extern		_ft_strcpy
 extern		_ft_strlen
@@ -14,10 +13,16 @@ _ft_strdup:
 	push	rax
 	pop		rdi
 	call	_malloc
+	jc		_err
 	pop		rsi
 	push	rax
 	pop		rdi
 	call	_ft_strcpy
+	jmp		_exit
+
+_err:
+	pop		rax
+	mov		rax, 0
 	jmp		_exit
 
 _exit:

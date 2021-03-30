@@ -15,5 +15,5 @@ _copy :
 	jmp			_copy
 
 _exit :
-	mov			rax, rsi
+	mov			rax, rdi
 	ret

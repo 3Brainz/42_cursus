@@ -52,3 +52,12 @@ test : compile
 	@make fclean
 
 re : fclean all
+
+test_tripouille: 
+	make
+	git clone https://github.com/Tripouille/libasmTester.git
+	cd libasmTester && make m
+	rm -rf libasmTester
+	make fclean
+
+.PHONY: all clean fclean compile test test_tripouille
