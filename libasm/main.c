@@ -168,7 +168,8 @@ int		main(void)
 	printf("origin: %-50s | dest: %-50s", string, ft_strdup(string));
 	printf("\033[0;32mdiff : %i\n\033[0m", strcmp(string, ft_strdup(string)));
 	print_line(210, '-', 'y');
-	print_string("┌─┐┌─┐┬ ┬┌┐┌┌─┐┌─┐   ┬─┐┌─┐┌┐", 108, 'r');
-	print_string("├─┘├─┘│ ││││┌─┘│ │───├┬┘│ │├┴┐", 108, 'r');
-	print_string("┴  ┴  └─┘┘└┘└─┘└─┘   ┴└─└─┘└─┘", 100, 'r');
+	print_string("┌─┐┌─┐┬ ┬┌┐┌┌─┐┌─┐   ┬─┐┌─┐┌┐", 260, 'r');
+	print_string("├─┘├─┘│ ││││┌─┘│ │───├┬┘│ │├┴┐", 265, 'r');
+	print_string("┴  ┴  └─┘┘└┘└─┘└─┘   ┴└─└─┘└─┘", 257, 'r');
+	print_line(210, '-', 'y');
 }
