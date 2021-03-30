@@ -85,6 +85,8 @@ int		main(void)
 	system("clear");
 	//header
 	print_line(210, '-', 'y');
+	print_string("┌┐┌┌─┐┌┬┐  ┌┬┐┬ ┬┌─┐  ┌┐ ┌─┐┌─┐┌┬┐  ┌┬┐┌─┐┌─┐┌┬┐┌─┐┬─┐\n││││ │ │    │ ├─┤├┤   ├┴┐├┤ └─┐ │    │ ├┤ └─┐ │ ├┤ ├┬┘\n┘└┘└─┘ ┴    ┴ ┴ ┴└─┘  └─┘└─┘└─┘ ┴    ┴ └─┘└─┘ ┴ └─┘┴└─", 0, 'r');
+	print_line(210, '-', 'y');
 	printf("\033[0;36m%-20s%-50s\033[0;35m%-50s\n\033[0m", "", "system", "mine");
 	rand_string(string, 49);
 	//strlen
@@ -166,4 +168,7 @@ int		main(void)
 	printf("origin: %-50s | dest: %-50s", string, ft_strdup(string));
 	printf("\033[0;32mdiff : %i\n\033[0m", strcmp(string, ft_strdup(string)));
 	print_line(210, '-', 'y');
+	print_string("┌─┐┌─┐┬ ┬┌┐┌┌─┐┌─┐   ┬─┐┌─┐┌┐", 108, 'r');
+	print_string("├─┘├─┘│ ││││┌─┘│ │───├┬┘│ │├┴┐", 108, 'r');
+	print_string("┴  ┴  └─┘┘└┘└─┘└─┘   ┴└─└─┘└─┘", 100, 'r');
 }
