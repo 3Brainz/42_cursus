@@ -12,5 +12,6 @@ extern	char	*ft_strcpy(char *, char *);
 extern	int		ft_strcmp(char *, char *);
 extern	int		ft_write(int, char *, int);
 extern	int		ft_read(int, void *, size_t);
+extern	char	*ft_strdup(char *);
 
 #endif

@@ -105,4 +105,16 @@ int		main(void)
 	close(fd_s[1]);
 	close(fd_s[2]);
 	printf("\n%.210d\n",0);
+	printf("%s\n", "Strdup:");
+	printf("%-20s\n", "system:");
+	printf("origin: %-50s | dest: %-50s", "ciao_come_va", strdup("ciao_come_va"));
+	printf("diff : %i\n", strcmp("ciao_come_va", strdup("ciao_come_va")));
+	printf("origin: %-50s | dest: %-50s", string, strdup(string));
+	printf("diff : %i\n", strcmp(string, strdup(string)));
+	printf("%-20s\n", "mine:");
+	printf("origin: %-50s | dest: %-50s", "ciao_come_va", ft_strdup("ciao_come_va"));
+	printf("diff : %i\n", strcmp("ciao come va", ft_strdup("ciao come va")));
+	printf("origin: %-50s | dest: %-50s", string, ft_strdup(string));
+	printf("diff : %i\n", strcmp(string, ft_strdup(string)));
+	printf("\n%.210d\n",0);
 }
